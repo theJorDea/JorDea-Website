@@ -1,0 +1,1456 @@
+/* CSS Variables for Themes */
+:root {
+    /* Light Theme Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f6f3;
+    --bg-card: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --accent: #e8d5c4;
+    --accent-hover: #dcc4b0;
+    --border: #e6e6e6;
+    --shadow: rgba(0, 0, 0, 0.05);
+    --shadow-hover: rgba(0, 0, 0, 0.1);
+    
+    /* Typography */
+    --font-family: 'Inter', sans-serif;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    --font-size-5xl: 3rem;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    --spacing-4xl: 6rem;
+    
+    /* Animation */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* New Custom Card for Hero Section */
+    --bg-card-hero-custom: rgba(180, 180, 180, 0.25);
+    --border-hero-custom-bottom: rgba(255, 255, 255, 0.3);
+    --border-hero-custom-left: rgba(255, 255, 255, 0.35);
+    --shadow-hero-custom: rgba(0, 0, 0, 0.15);
+    --shadow-hero-custom-hover: rgba(0, 0, 0, 0.25);
+    --text-primary-on-hero-card: #ffffff;
+    --text-secondary-on-hero-card: #e0e0e0;
+
+    /* Spotify Widget */
+    --spotify-green: #1DB954;
+    --bg-card-spotify: rgba(255, 255, 255, 0.75);
+    --border-spotify: rgba(255, 255, 255, 0.15);
+    --shadow-spotify: rgba(0, 0, 0, 0.06);
+    --shadow-spotify-hover: rgba(0, 0, 0, 0.1);
+    --spotify-album-art-bg: #f0f0f0;
+    --spotify-album-art-icon: #c0c0c0;
+    --spotify-playback-bar-bg: #e0e0e0;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #1a1a1a;
+    --bg-card: #222222;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #888888;
+    --accent: #2d2d2d;
+    --accent-hover: #3a3a3a;
+    --border: #333333;
+    --shadow: rgba(255, 255, 255, 0.05);
+    --shadow-hover: rgba(255, 255, 255, 0.1);
+
+    /* New Custom Card for Hero Section */
+    --bg-card-hero-custom: rgba(50, 50, 50, 0.35);
+    --border-hero-custom-bottom: rgba(255, 255, 255, 0.15);
+    --border-hero-custom-left: rgba(255, 255, 255, 0.2);
+    --shadow-hero-custom: rgba(0, 0, 0, 0.25);
+    --shadow-hero-custom-hover: rgba(0, 0, 0, 0.35);
+    --text-primary-on-hero-card: #f0f0f0;
+    --text-secondary-on-hero-card: #c0c0c0;
+
+    /* Spotify Widget */
+    --bg-card-spotify: rgba(40, 40, 40, 0.75);
+    --border-spotify: rgba(255, 255, 255, 0.08);
+    --shadow-spotify: rgba(0, 0, 0, 0.18);
+    --shadow-spotify-hover: rgba(0, 0, 0, 0.28);
+    --spotify-album-art-bg: #303030;
+    --spotify-album-art-icon: #555555;
+    --spotify-playback-bar-bg: #454545;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-family);
+    background: linear-gradient(45deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+    background-attachment: fixed;
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: var(--transition);
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Dark theme background adjustments */
+[data-theme="dark"] body {
+    background: linear-gradient(45deg, var(--bg-primary) 0%, var(--bg-secondary) 30%, #1f1f1f 70%, var(--bg-primary) 100%);
+    background-attachment: fixed;
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+}
+
+p {
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+    line-height: 1.7;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(25px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+[data-theme="dark"] .navbar {
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(25px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-lg) 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+}
+
+.nav-logo a {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: var(--spacing-xl);
+    align-items: center;
+}
+
+.nav-link {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    position: relative;
+    text-align: center;
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--text-primary);
+    transition: var(--transition);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.theme-toggle {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: var(--spacing-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-primary);
+}
+
+.theme-toggle:hover {
+    background: var(--accent);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+}
+
+.hamburger span {
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    transition: var(--transition);
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    position: relative;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-4xl);
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.hero-text {
+    text-align: left;
+}
+
+.hero-title {
+    font-size: var(--font-size-5xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.1;
+    text-align: left;
+}
+
+.title-main {
+    display: block;
+    color: var(--text-primary);
+}
+
+.title-sub {
+    display: block;
+    color: var(--text-secondary);
+    font-size: var(--font-size-3xl);
+    font-weight: 400;
+}
+
+.hero-description {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xl);
+    max-width: 500px;
+    text-align: left;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: flex-start;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: 8px;
+    font-weight: 500;
+    transition: var(--transition);
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--shadow-hover);
+}
+
+.btn-secondary {
+    background: var(--accent);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+.hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.floating-card { /* This style is currently not used in HTML, but keeping it for potential future use */
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    box-shadow: 0 20px 40px var(--shadow);
+    animation: float 6s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.card-content { /* Also not used directly, but might be related to floating-card */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+}
+
+.status-indicator { /* Also not used directly, but might be related to floating-card */
+    width: 12px;
+    height: 12px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: var(--spacing-xl);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    text-align: center;
+}
+
+.scroll-arrow {
+    animation: bounce 2s infinite;
+    color: var(--text-secondary);
+}
+
+/* Sections */
+section {
+    padding: var(--spacing-4xl) 0;
+}
+
+.section-header {
+    text-align: left;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.section-title {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+}
+
+.section-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    text-align: left;
+}
+
+/* Explicitly align .projects section-header to the left for consistency */
+/* This reinforces the default behavior and ensures it matches .skills header */
+.projects .section-header {
+    text-align: left;
+}
+
+/* About Section */
+.about {
+    background: rgba(248, 246, 243, 0.6);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(232, 213, 196, 0.4);
+    border-bottom: 1px solid rgba(232, 213, 196, 0.4);
+    position: relative;
+}
+
+.about::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(232, 213, 196, 0.1) 50%, 
+        transparent 100%);
+    z-index: 0;
+}
+
+.about .container {
+    position: relative;
+    z-index: 1;
+}
+
+.about .section-header {
+    text-align: left;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-4xl);
+    align-items: start;
+    position: relative;
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: auto;
+}
+
+.about-description {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+    text-align: left;
+    line-height: 1.7;
+}
+
+.about-stats {
+    display: flex;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+    justify-content: space-between;
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1;
+}
+
+.stat-number {
+    display: block;
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.about-image {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: auto;
+    position: relative;
+}
+
+.image-container {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px var(--shadow);
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    aspect-ratio: 3/4;
+    border-radius: 16px;
+    transition: var(--transition);
+    background-color: var(--accent);
+    min-height: 200px;
+}
+
+/* Image loading states */
+.image-container img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-container img[loading="lazy"].loaded,
+.image-container img:not([loading="lazy"]) {
+    opacity: 1;
+}
+
+/* Image error handling */
+.image-container img::before {
+    content: "Изображение загружается...";
+    display: block;
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--text-secondary);
+    background: var(--accent);
+    border-radius: 16px;
+}
+
+.image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, rgba(0,0,0,0.1) 0%, transparent 50%);
+}
+
+/* Skills Section */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Default to 3 columns for desktop */
+    gap: var(--spacing-xl);
+}
+
+.skill-category {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    transition: var(--transition);
+    text-align: left;
+}
+
+.skill-category:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px var(--shadow-hover);
+}
+
+.category-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+    text-align: left;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    justify-content: flex-start;
+}
+
+.skill-tag {
+    background: var(--accent);
+    color: var(--text-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 20px;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.skill-tag:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+/* Projects Section */
+.projects {
+    background: rgba(248, 246, 243, 0.4);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .projects {
+    background: rgba(26, 26, 26, 0.5);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.projects-content {
+    display: grid;
+    grid-template-columns: minmax(auto, 460px) 1fr; /* Adjusted column proportions */
+    gap: var(--spacing-4xl);
+    align-items: start;
+}
+
+.github-showcase {
+    display: flex;
+    justify-content: flex-start; /* Changed from center to flex-start */
+    width: 100%;
+}
+
+.github-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    text-align: center;
+    transition: var(--transition);
+    width: 100%;
+    max-width: 420px;
+}
+
+.github-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px var(--shadow-hover);
+}
+
+.github-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.github-header h3 {
+    text-align: center;
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+.github-header i {
+    font-size: var(--font-size-xl);
+}
+
+.github-card p {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+}
+
+.github-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: 8px;
+    font-weight: 500;
+    margin: var(--spacing-lg) 0;
+    transition: var(--transition);
+    text-decoration: none;
+    border: 1px solid var(--border);
+}
+
+.github-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--shadow-hover);
+}
+
+.github-btn i {
+    color: inherit;
+}
+
+.github-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: var(--spacing-lg);
+}
+
+.stat { /* This class is used in GitHub stats */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: var(--font-size-sm);
+}
+
+.stat i {
+    font-size: var(--font-size-lg); /* Icon size within stat */
+    margin-bottom: var(--spacing-xs);
+}
+
+.project-highlights .highlight-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg); /* Spacing between highlight items */
+}
+
+.highlight-item {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px); /* Consistent blur */
+    border: 1px solid var(--border);
+    display: flex;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl); /* Consistent padding */
+    border-radius: 16px; /* Consistent border-radius */
+    transition: var(--transition);
+    align-items: center;
+}
+
+.highlight-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px var(--shadow-hover); /* Consistent hover shadow */
+}
+
+[data-theme="dark"] .highlight-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+}
+
+.highlight-icon {
+    font-size: var(--font-size-xl); /* Ensure icon size is appropriate */
+    color: var(--text-primary); /* Or a specific accent color if desired */
+    width: 30px; /* Fixed width for alignment */
+    text-align: center;
+}
+
+.highlight-content h4 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+    text-align: left;
+}
+
+.highlight-content p {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    text-align: left;
+    line-height: 1.5;
+}
+
+
+/* Contact Section */
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-4xl);
+    align-items: start;
+}
+
+.contact-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+}
+
+.contact-card h3 {
+    text-align: left;
+    margin-bottom: var(--spacing-md);
+}
+
+.contact-card p {
+    text-align: left;
+    line-height: 1.7;
+}
+
+.contact-details {
+    margin-top: var(--spacing-lg);
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-secondary);
+}
+
+.contact-item i {
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    color: var(--text-primary);
+}
+
+.contact-item span {
+    flex: 1;
+    text-align: left;
+}
+
+.social-links h3 {
+    text-align: left;
+    margin-bottom: var(--spacing-lg);
+}
+
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.social-link {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    border-radius: 12px;
+    transition: var(--transition);
+    font-weight: 500;
+    text-align: center;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--shadow-hover);
+}
+
+.social-link.github:hover {
+    background: #24292e;
+    color: white;
+    border-color: #24292e;
+}
+
+.social-link.telegram:hover {
+    background: #0088cc;
+    color: white;
+    border-color: #0088cc;
+}
+
+.social-link.spotify:hover {
+    background: #1db954;
+    color: white;
+    border-color: #1db954;
+}
+
+.social-link.linkedin:hover {
+    background: #0077b5;
+    color: white;
+    border-color: #0077b5;
+}
+
+/* Footer */
+.footer {
+    background: rgba(248, 246, 243, 0.6);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: var(--spacing-xl) 0;
+    position: relative;
+}
+
+[data-theme="dark"] .footer {
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.footer-left,
+.footer-right {
+    text-align: left;
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading Animation */
+.loading {
+    overflow: hidden;
+}
+
+.loading * {
+    animation-play-state: paused !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-content,
+    .projects-content,
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+    }
+    
+    .hero-content {
+        text-align: center;
+    }
+    
+    .hero-text {
+        text-align: center;
+    }
+    
+    .hero-title {
+        text-align: center;
+    }
+    
+    .hero-description {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    .about-description {
+        text-align: left;
+    }
+    
+    /* Reset image position on tablets and mobile */
+    .about-image {
+        margin-top: 0;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .image-container {
+        width: 80%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .image-container img {
+        aspect-ratio: 1/1;
+    }
+    
+    .section-header {
+        text-align: center;
+    }
+    
+    .section-title {
+        text-align: center;
+    }
+    
+    .section-subtitle {
+        text-align: center;
+    }
+    
+    .project-highlights h3,
+    .contact-card h3,
+    .social-links h3 {
+        text-align: center;
+    }
+}
+
+@media (max-width: 992px) { /* Mid-size tablets for skills grid and projects grid */
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .projects-content { /* Adjust projects for tablets */
+        grid-template-columns: 1fr; /* Stack GitHub card and highlights */
+        gap: var(--spacing-2xl);
+    }
+    .github-card {
+        margin: 0 auto; /* Center GitHub card when stacked */
+    }
+}
+
+
+@media (max-width: 768px) { /* Small tablets and mobile */
+    .nav-menu {
+        position: fixed;
+        top: 80px; /* Assuming navbar height */
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background: var(--bg-primary);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 2rem;
+        transition: left 0.3s ease;
+        border-top: 1px solid var(--border);
+        z-index: 999;
+    }
+    
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    .hamburger {
+        display: flex;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+    
+    .hero-title {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .section-title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .about-content { /* Stack about text and image */
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+    }
+    .about-image {
+        margin-top: var(--spacing-xl);
+        width: 100%; /* Ensure it doesn't overflow */
+    }
+    .about-stats {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .social-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+    
+    .footer-left,
+    .footer-right {
+        text-align: center;
+    }
+    
+    .skill-category {
+        text-align: center;
+    }
+    
+    .category-title {
+        text-align: center;
+    }
+    
+    .skills-list {
+        justify-content: center;
+    }
+    .project-highlights h3 { /* Center project highlights titles */
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) { /* Specific for skills grid on mobile */
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) { /* Small mobile devices */
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+    
+    section {
+        padding: var(--spacing-2xl) 0;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        align-items: center;
+    }
+    
+    .about-stats {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        align-items: center;
+    }
+    
+    .image-container {
+        width: 100%;
+        max-width: 280px;
+        margin: var(--spacing-lg) auto;
+    }
+    
+    .image-container img {
+        aspect-ratio: 4/5;
+        min-height: 280px;
+    }
+        
+    .projects-content {
+        gap: var(--spacing-xl);
+    }
+        
+    .highlight-item {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-md);
+    }
+    
+    .highlight-content h4,
+    .highlight-content p {
+        text-align: center;
+    }
+    
+    .contact-card p { /* Center contact card paragraph on small mobile */
+        text-align: center;
+    }
+}
+
+/* Active Navigation Link */
+.nav-link.active {
+    color: var(--text-primary);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Focus styles for accessibility */
+.btn:focus,
+.theme-toggle:focus,
+.nav-link:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Smooth performance improvements */
+.fade-in,
+.floating-card,
+.skill-category,
+.social-link,
+.highlight-item {
+    will-change: transform;
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .scroll-indicator {
+        display: none;
+    }
+    
+    .hero {
+        min-height: auto;
+        padding-top: 0;
+    }
+}
+
+/* Ensure card backgrounds for skill-category and contact-card are consistent with original design */
+/* This is mostly redundant as they use --bg-card, but keeping for explicitness if needed */
+.skill-category,
+.contact-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .skill-category,
+[data-theme="dark"] .contact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+}
+
+
+[data-theme="dark"] .about {
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(45, 45, 45, 0.6);
+    border-bottom: 1px solid rgba(45, 45, 45, 0.6);
+}
+
+[data-theme="dark"] .about::before {
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(45, 45, 45, 0.2) 50%, 
+        transparent 100%);
+}
+
+/* Spotify Now Playing Widget FOR HERO SECTION */
+.hero-image .spotify-now-playing-card {
+    background: var(--bg-card-spotify);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--border-spotify);
+    border-radius: 16px;
+    padding: var(--spacing-lg);
+    box-shadow: 0 10px 25px var(--shadow-spotify);
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    transition: var(--transition);
+}
+
+.hero-image .spotify-now-playing-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 30px var(--shadow-spotify-hover);
+}
+
+.hero-image .spotify-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.hero-image .spotify-card-header .spotify-icon {
+    font-size: var(--font-size-xl);
+    color: var(--spotify-green);
+}
+
+.hero-image .spotify-card-header h3 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+.hero-image .spotify-track-details {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.hero-image .spotify-album-art {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: var(--spotify-album-art-bg);
+}
+
+.hero-image .spotify-album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-image .spotify-album-art-placeholder {
+    display: none;
+}
+
+.hero-image .spotify-song-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+/* Styles for the new line containing song title and album name */
+.hero-image .spotify-title-album-line {
+    display: flex;
+    align-items: baseline; /* Align text nicely */
+    width: 100%;
+    overflow: hidden; /* Hide overflow for the entire line */
+    margin:0; /* Remove any default p margin if it were a p tag */
+}
+
+.hero-image .spotify-song-title-text {
+    font-size: var(--font-size-base);
+    font-weight: 500; /* Regular/medium weight for song title */
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0; /* Helps with flex shrinking and ellipsis */
+    flex-shrink: 1; /* Allow title to shrink but prioritize it a bit */
+}
+
+.hero-image .spotify-title-separator {
+    margin: 0 0.35em; /* Space around separator */
+    color: var(--text-muted);
+    flex-shrink: 0; /* Separator should not shrink */
+}
+
+.hero-image .spotify-album-name-text {
+    font-size: var(--font-size-base); /* Same size as song title */
+    font-weight: 600; /* Bolder as requested */
+    color: var(--text-secondary); /* Darker, not transparent */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0; /* Helps with flex shrinking and ellipsis */
+    flex-shrink: 2; /* Allow album name to shrink more readily */
+}
+
+.hero-image .spotify-artist-name {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.hero-image .spotify-playback-bar-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.hero-image .spotify-time-display {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.hero-image .spotify-playback-bar {
+    height: 5px;
+    background: var(--spotify-playback-bar-bg);
+    border-radius: 2.5px;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.hero-image .spotify-playback-progress {
+    height: 100%;
+    background: var(--spotify-green);
+    border-radius: 2.5px;
+    transition: width 0.3s ease;
+}
+
+.hero-image .spotify-widget-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    padding-top: var(--spacing-sm);
+}
+
+.hero-image .spotify-widget-footer i {
+    font-size: var(--font-size-sm);
+}
+
+[data-theme="dark"] .social-link {
+    background: rgba(34, 34, 34, 0.8); /* Original dark background */
+    color: var(--text-primary); /* Ensuring light text for dark background */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Original light border */
+    backdrop-filter: blur(15px); /* Restoring original blur value */
+    /* Other properties like display, padding, border-radius, transition, font-weight, text-align inherited or defined in base .social-link */
+}
+
+/* Removing the empty hover rule added previously, default hover effects will apply */
+/*
+[data-theme="dark"] .social-link:hover {
+    Keep existing brand-specific hover styles, but ensure text remains readable if background becomes dark
+    Example for GitHub, others would be similar
+    The existing hover styles already set specific background and color, which should be fine.
+}
+*/

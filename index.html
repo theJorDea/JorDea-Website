@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JorDea - Developer Portfolio</title>
+    <meta name="description" content="Портфолио разработчика JorDea - создание современных веб-приложений и цифровых решений">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Critical CSS first -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Async load external fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Defer Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
+    <!-- Fallback fonts for faster initial render -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        /* Critical CSS for immediate render */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                #ffffff 0%, 
+                #f8f6f3 25%, 
+                #f0ebe5 50%, 
+                #e8d5c4 75%, 
+                #ffffff 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        
+        [data-theme="dark"] .loading-screen {
+            background: linear-gradient(45deg, 
+                #0f0f0f 0%, 
+                #1f1f1f 25%, 
+                #1a1a1a 50%, 
+                #2d2d2d 75%, 
+                #0f0f0f 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e8d5c4;
+            border-top: 3px solid #1a1a1a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        [data-theme="dark"] .loading-spinner {
+            border: 3px solid #2d2d2d;
+            border-top: 3px solid #ffffff;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 25%; }
+            50% { background-position: 50% 100%; }
+            75% { background-position: 25% 75%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#home">JD</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Главная</a></li>
+                <li><a href="#about" class="nav-link">Обо мне</a></li>
+                <li><a href="#skills" class="nav-link">Навыки</a></li>
+                <li><a href="#projects" class="nav-link">Проекты</a></li>
+                <li><a href="#contact" class="nav-link">Контакты</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="hamburger" id="hamburger" aria-label="Меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in">
+                    <h1 class="hero-title">
+                        <span class="title-main">JorDea</span>
+                        <span class="title-sub">Developer</span>
+                    </h1>
+                    <p class="hero-description">
+                        Создаю современные веб-приложения и цифровые решения, 
+                        которые объединяют функциональность с отличным пользовательским опытом.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">Мои проекты</a>
+                        <a href="#contact" class="btn btn-secondary">Связаться</a>
+                    </div>
+                </div>
+                <div class="hero-image fade-in">
+                    <!-- Spotify "Now Playing" Widget - Moved to Hero Section -->
+                    <div class="spotify-now-playing-card">
+                        <div class="spotify-card-header">
+                            <i class="fab fa-spotify spotify-icon"></i>
+                            <h3>Currently Listening</h3>
+                        </div>
+                        <div class="spotify-track-details">
+                            <div class="spotify-album-art">
+                                <img src="images/TPAB.png" alt="Album Art">
+                            </div>
+                            <div class="spotify-song-info">
+                                <div class="spotify-title-album-line">
+                                    <span class="spotify-song-title-text">Alright</span>
+                                    <span class="spotify-title-separator">•</span>
+                                    <span class="spotify-album-name-text">To Pimp a Butterfly</span>
+                                </div>
+                                <p class="spotify-artist-name">Kendrick Lamar</p>
+                            </div>
+                        </div>
+                        <div class="spotify-playback-bar-container">
+                            <span class="spotify-time-display" id="spotifyCurrentTime">1:23</span>
+                            <div class="spotify-playback-bar">
+                                <div class="spotify-playback-progress" style="width: 65%;" id="spotifyProgress"></div>
+                            </div>
+                            <span class="spotify-time-display" id="spotifyTotalTime">3:45</span>
+                        </div>
+                        <div class="spotify-widget-footer">
+                             <i class="fas fa-headphones-alt"></i>
+                            <span>JorDea is vibing...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="scroll-arrow">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Обо мне</h2>
+                <p class="section-subtitle">Знакомство с разработчиком</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <p class="about-description">
+                        Привет! Я JorDea, увлеченный разработчик с опытом создания современных 
+                        веб-приложений. Специализируюсь на frontend и fullstack разработке, 
+                        всегда стремлюсь к совершенству в каждом проекте.
+                    </p>
+                    <p class="about-description">
+                        Люблю работать с новыми технологиями и решать сложные задачи. 
+                        В свободное время изучаю новые фреймворки и слушаю музыку на Spotify.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">2+</span>
+                            <span class="stat-label">Года опыта</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">15+</span>
+                            <span class="stat-label">Проектов</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            
+                            <span class="stat-label">Увлеченность</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image fade-in">
+                    <div class="image-container">
+                        <img src="images/pretty_cat.png" alt="JorDea Developer" loading="lazy">
+                        <div class="image-overlay"></div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Навыки</h2>
+                <p class="section-subtitle">Технологии, с которыми я работаю</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category fade-in">
+                    <h3 class="category-title">Frontend</h3>
+                    <div class="skills-list">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Vue.js</span>
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">Sass</span>
+                    </div>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3 class="category-title">Backend</h3>
+                    <div class="skills-list">
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Express</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Django</span>
+                        <span class="skill-tag">Aiogram</span>
+                        <span class="skill-tag">Telegram Bots</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">MongoDB</span>
+                    </div>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3 class="category-title">Инструменты</h3>
+                    <div class="skills-list">
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Webpack</span>
+                        <span class="skill-tag">Vite</span>
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">VS Code</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Проекты</h2>
+                <p class="section-subtitle">Ключевые проекты</p>
+            </div>
+            <div class="projects-content">
+                <div class="github-showcase fade-in">
+                    <div class="github-card">
+                        <div class="github-header">
+                            <i class="fab fa-github"></i>
+                            <h3>GitHub Repository</h3>
+                        </div>
+                        <p>Посмотрите все мои проекты и вклад в открытый код</p>
+                        <a href="https://github.com/theJorDea" target="_blank" class="github-btn" rel="noopener">
+                            <i class="fab fa-github"></i>
+                            Посетить GitHub
+                        </a>
+                        <div class="github-stats">
+                            <div class="stat">
+                                <i class="fas fa-code"></i>
+                                <span>Активные проекты</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>Открытый код</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-highlights fade-in">
+                    <div class="highlight-list">
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <h4>Веб-приложения</h4>
+                                <p>Современные SPA с React и Vue.js</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fab fa-telegram"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <h4>Telegram боты</h4>
+                                <p>Автоматизация и боты на Python с Aiogram</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <h4>Мобильные решения</h4>
+                                <p>Адаптивные и PWA приложения</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <h4>Backend API</h4>
+                                <p>Масштабируемые серверные решения</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Связаться со мной</h2>
+                <p class="section-subtitle">Готов к новым проектам</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info fade-in">
+                    <div class="contact-card">
+                        <h3>Давайте работать вместе</h3>
+                        <p>
+                            Ищете разработчика для вашего проекта? 
+                            Напишите мне, и мы обсудим, как я могу помочь.
+                        </p>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>klevin3701@gmail.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Санкт-Петербург, Россия</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Доступен для проектов</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="social-links fade-in">
+                    <h3>Социальные сети</h3>
+                    <div class="social-grid">
+                        <a href="https://github.com/theJorDea" target="_blank" class="social-link github" rel="noopener">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://t.me/@stupidassniga" target="_blank" class="social-link telegram" rel="noopener">
+                            <i class="fab fa-telegram"></i>
+                            <span>Telegram</span>
+                        </a>
+                        <a href="https://open.spotify.com/user/31z2yekltow74h72q6wvdzwiyzbm" target="_blank" class="social-link spotify" rel="noopener">
+                            <i class="fab fa-spotify"></i>
+                            <span>Spotify</span>
+                        </a>
+                        <a href="https://linkedin.com/in/yourusername" target="_blank" class="social-link linkedin" rel="noopener">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>&copy; 2024 JorDea. Все права защищены.</p>
+                </div>
+                <div class="footer-right">
+                    <p>Сделано с ❤️ и ☕</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load JavaScript asynchronously -->
+    <script src="script.js" defer></script>
+</body>
+</html> 
