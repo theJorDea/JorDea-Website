@@ -251,6 +251,11 @@ a {
     cursor: pointer;
     transition: var(--transition);
     color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
 }
 
 .theme-toggle:hover {
@@ -304,8 +309,21 @@ a {
 }
 
 .title-main {
-    display: block;
+    display: inline-flex;
+    align-items: center;
     color: var(--text-primary);
+}
+
+.hero-online-indicator {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-color: #0c8a61;
+    border-radius: 50%;
+    margin-left: 12px;
+    margin-top: 16px;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
 }
 
 .title-sub {
@@ -935,6 +953,22 @@ section {
 .footer-left,
 .footer-right {
     text-align: left;
+}
+
+.footer-name {
+    position: relative; /* To position the indicator relative to the name */
+    display: inline-block; /* Ensure it wraps content correctly */
+}
+
+.online-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #10b981; /* Green color */
+    border-radius: 50%;
+    margin-left: 6px; /* Space between name and dot */
+    vertical-align: middle; /* Helps align with text */
+    animation: pulse 2s infinite; /* Applying the pulse animation */
 }
 
 /* Animations */

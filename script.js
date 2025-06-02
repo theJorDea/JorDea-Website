@@ -9,11 +9,16 @@ const PERFORMANCE_CONFIG = {
 // Theme Management
 class ThemeManager {
     constructor() {
+        this.themeToggle = document.getElementById('themeToggle');
         this.theme = localStorage.getItem('theme') || 'light';
         this.init();
     }
 
     init() {
+        if (!this.themeToggle) {
+            // console.warn('Theme toggle button not found with ID: themeToggle');
+            return;
+        }
         this.setTheme(this.theme);
         this.bindEvents();
     }
@@ -31,19 +36,17 @@ class ThemeManager {
     }
 
     updateThemeIcon() {
-        const themeToggle = document.getElementById('themeToggle');
-        if (!themeToggle) return;
+        if (!this.themeToggle) return;
         
-        const icon = themeToggle.querySelector('i');
+        const icon = this.themeToggle.querySelector('i');
         if (icon) {
             icon.className = this.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         }
     }
 
     bindEvents() {
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => this.toggleTheme());
+        if (this.themeToggle) {
+            this.themeToggle.addEventListener('click', () => this.toggleTheme());
         }
     }
 }
