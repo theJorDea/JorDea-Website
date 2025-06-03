@@ -549,6 +549,13 @@ function initializeApp() {
     const scrollAnimationManager = new ScrollAnimationManager();
     const navigationManager = new NavigationManager();
     
+    // Initialize Spotify widget manager
+    let spotifyWidgetManager;
+    const spotifyWidget = document.querySelector('.spotify-now-playing-card');
+    if (spotifyWidget) {
+        spotifyWidgetManager = new SpotifyWidgetManager();
+    }
+    
     // Initialize image loading handlers
     initializeImageLoading();
     
@@ -707,6 +714,7 @@ function initializeApp() {
     window.addEventListener('beforeunload', () => {
         if (typingAnimation) typingAnimation.destroy();
         if (particleBackground) particleBackground.destroy();
+        if (spotifyWidgetManager) spotifyWidgetManager.destroy();
     });
 }
 
@@ -768,4 +776,201 @@ const additionalStyles = `
 // Inject additional styles
 const styleSheet = document.createElement('style');
 styleSheet.textContent = additionalStyles;
-document.head.appendChild(styleSheet); 
+document.head.appendChild(styleSheet);
+
+// Spotify Widget Manager for dynamic song updates
+class SpotifyWidgetManager {
+    constructor() {
+        this.currentSongIndex = 0;
+        this.isAnimating = false;
+        this.updateInterval = null;
+        this.progressInterval = null;
+        this.currentProgress = 0;
+        this.songs = [
+            {
+                title: "Alright",
+                artist: "Kendrick Lamar",
+                album: "To Pimp a Butterfly",
+                albumArt: "images/TPAB.png",
+                duration: "3:45",
+                currentTime: "1:23",
+                progress: 65
+            },
+            {
+                title: "Blinding Lights",
+                artist: "The Weeknd",
+                album: "After Hours",
+                albumArt: "images/after-hours.jpg",
+                duration: "3:20",
+                currentTime: "0:45",
+                progress: 22
+            },
+            {
+                title: "Danza Kuduro",
+                artist: "Don Omar ft. Lucenzo",
+                album: "Meet the Orphans",
+                albumArt: "images/danza-kuduro.jpg",
+                duration: "3:16",
+                currentTime: "2:10",
+                progress: 80
+            },
+            {
+                title: "Bohemian Rhapsody",
+                artist: "Queen",
+                album: "A Night at the Opera",
+                albumArt: "images/queen-opera.jpg",
+                duration: "5:55",
+                currentTime: "3:45",
+                progress: 63
+            },
+            {
+                title: "Shape of You",
+                artist: "Ed Sheeran",
+                album: "÷ (Divide)",
+                albumArt: "images/divide.jpg",
+                duration: "3:53",
+                currentTime: "1:56",
+                progress: 50
+            }
+        ];
+        this.init();
+    }
+
+    init() {
+        this.startAutoUpdate();
+        this.startProgressAnimation();
+    }
+
+    getCurrentSong() {
+        return this.songs[this.currentSongIndex];
+    }
+
+    updateWidget() {
+        if (this.isAnimating) return;
+        
+        const song = this.getCurrentSong();
+        
+        // Get widget elements
+        const titleElement = document.querySelector('.spotify-song-title-text');
+        const artistElement = document.querySelector('.spotify-artist-name');
+        const albumElement = document.querySelector('.spotify-album-name-text');
+        const albumArtElement = document.querySelector('.spotify-album-art img');
+        const currentTimeElement = document.getElementById('spotifyCurrentTime');
+        const totalTimeElement = document.getElementById('spotifyTotalTime');
+        const progressElement = document.getElementById('spotifyProgress');
+
+        if (!titleElement || !artistElement || !albumElement) {
+            console.warn('Spotify widget elements not found');
+            return;
+        }
+
+        this.isAnimating = true;
+
+        // Fade out animation
+        const card = document.querySelector('.spotify-now-playing-card');
+        if (card) {
+            card.style.transition = 'opacity 0.3s ease';
+            card.style.opacity = '0.7';
+        }
+
+        setTimeout(() => {
+            // Update content
+            titleElement.textContent = song.title;
+            artistElement.textContent = song.artist;
+            albumElement.textContent = song.album;
+            
+            if (albumArtElement) {
+                albumArtElement.src = song.albumArt;
+                albumArtElement.alt = `${song.album} - ${song.artist}`;
+                // Fallback for missing images
+                albumArtElement.onerror = () => {
+                    albumArtElement.src = 'images/default-album.png';
+                };
+            }
+            
+            if (currentTimeElement) currentTimeElement.textContent = song.currentTime;
+            if (totalTimeElement) totalTimeElement.textContent = song.duration;
+            if (progressElement) {
+                progressElement.style.width = `${song.progress}%`;
+                this.currentProgress = song.progress;
+            }
+
+            // Fade in animation
+            if (card) {
+                card.style.opacity = '1';
+            }
+
+            this.isAnimating = false;
+        }, 300);
+    }
+
+    startAutoUpdate() {
+        // Update song every 15 seconds
+        this.updateInterval = setInterval(() => {
+            this.nextSong();
+        }, 15000);
+    }
+
+    startProgressAnimation() {
+        // Animate progress bar every second
+        this.progressInterval = setInterval(() => {
+            const progressElement = document.getElementById('spotifyProgress');
+            const currentTimeElement = document.getElementById('spotifyCurrentTime');
+            
+            if (progressElement && !this.isAnimating) {
+                // Increase progress by small amount
+                this.currentProgress = Math.min(this.currentProgress + 0.5, 95);
+                progressElement.style.width = `${this.currentProgress}%`;
+                
+                // Update current time (simplified)
+                if (currentTimeElement) {
+                    const song = this.getCurrentSong();
+                    const [minutes, seconds] = song.currentTime.split(':').map(Number);
+                    let totalSeconds = minutes * 60 + seconds + Math.floor(this.currentProgress / 10);
+                    
+                    const newMinutes = Math.floor(totalSeconds / 60);
+                    const newSeconds = totalSeconds % 60;
+                    currentTimeElement.textContent = `${newMinutes}:${newSeconds.toString().padStart(2, '0')}`;
+                }
+            }
+        }, 1000);
+    }
+
+    nextSong() {
+        this.currentSongIndex = (this.currentSongIndex + 1) % this.songs.length;
+        this.updateWidget();
+    }
+
+    previousSong() {
+        this.currentSongIndex = (this.currentSongIndex - 1 + this.songs.length) % this.songs.length;
+        this.updateWidget();
+    }
+
+    addSong(songData) {
+        this.songs.push(songData);
+    }
+
+    pauseAutoUpdate() {
+        if (this.updateInterval) {
+            clearInterval(this.updateInterval);
+            this.updateInterval = null;
+        }
+        if (this.progressInterval) {
+            clearInterval(this.progressInterval);
+            this.progressInterval = null;
+        }
+    }
+
+    resumeAutoUpdate() {
+        if (!this.updateInterval) {
+            this.startAutoUpdate();
+        }
+        if (!this.progressInterval) {
+            this.startProgressAnimation();
+        }
+    }
+
+    destroy() {
+        this.pauseAutoUpdate();
+    }
+} 
