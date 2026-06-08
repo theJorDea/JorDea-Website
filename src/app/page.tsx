@@ -197,34 +197,6 @@ export default function Home() {
               </a>
             </Reveal>
           </div>
-
-          <Reveal delay={0.1}>
-            <HoverLift className="hero-card" ariaLabel="Профиль JorDea">
-              <div className="hero-card-top">
-                <span>open to</span>
-                <strong>internships / junior roles</strong>
-              </div>
-              <div className="signal-board">
-                <div className="signal-cell">
-                  <Brain size={24} weight="duotone" />
-                  <span>PyTorch</span>
-                </div>
-                <div className="signal-cell">
-                  <Network size={24} weight="duotone" />
-                  <span>RAG</span>
-                </div>
-                <div className="signal-cell">
-                  <Waveform size={24} weight="duotone" />
-                  <span>Audio ML</span>
-                </div>
-                <div className="signal-cell">
-                  <Database size={24} weight="duotone" />
-                  <span>Data</span>
-                </div>
-              </div>
-              <p>Открыт к стажировкам и junior-позициям в ML / NLP / Audio ML.</p>
-            </HoverLift>
-          </Reveal>
         </PolyHero>
 
         <Reveal delay={0.18} className="page-shell hero-stats">

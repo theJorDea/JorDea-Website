@@ -1,7 +1,7 @@
 "use client";
 
 import { List, X } from "@phosphor-icons/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navItems = [
   { href: "#home", label: "Главная" },
@@ -13,19 +13,31 @@ const navItems = [
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    function handleScroll() {
+      setVisible(window.scrollY > window.innerHeight * 0.75);
+    }
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   function closeMenu() {
     setMenuOpen(false);
   }
 
   return (
-    <header className="site-header">
+    <header className={visible ? "site-header is-visible" : "site-header"}>
       <a className="skip-link" href="#main">
         Перейти к содержанию
       </a>
+
       <nav className="nav-shell" aria-label="Основная навигация">
         <a className="brand-lockup" href="#home" onClick={closeMenu}>
-          {/* Кастомный минималистичный логотип-блок, повторяющий стилистику скрина 1 */}
           <svg className="brand-mark-svg" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
             <rect x="0" y="0" width="16" height="6" />
             <rect x="18" y="0" width="6" height="6" />
@@ -46,6 +58,7 @@ export function SiteHeader() {
           <a className="nav-mail" href="mailto:klevin3701@gmail.com">
             Контакты
           </a>
+
           <button
             className="menu-button"
             type="button"
@@ -59,4 +72,4 @@ export function SiteHeader() {
       </nav>
     </header>
   );
-}
+}

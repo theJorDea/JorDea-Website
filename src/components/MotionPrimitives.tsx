@@ -95,8 +95,8 @@ export function CustomCursor() {
     return () => window.removeEventListener("pointermove", handlePointerMove);
   }, [reduceMotion, x, y]);
 
-  const springX = useSpring(x, { stiffness: 500, damping: 28, mass: 0.2 });
-  const springY = useSpring(y, { stiffness: 500, damping: 28, mass: 0.2 });
+  const springX = useSpring(x, { stiffness: 260, damping: 32, mass: 0.45 });
+  const springY = useSpring(y, { stiffness: 260, damping: 32, mass: 0.45 });
 
   if (reduceMotion) {
     return null;
@@ -186,22 +186,101 @@ export function HoverLift({ children, className = "", ariaLabel, tabIndex }: Hov
 /* --- POLY-BLOCK STYLE HERO ANIMATION --- */
 export function PolyHero({ children }: { children: ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"],
+    offset: ["start start", "end end"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 0.6], [0, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const blurValue = useTransform(scrollYProgress, [0, 0.5], [0, 15]);
-  const filter = useMotionTemplate`blur(${blurValue}px)`;
+  const heroX = useTransform(scrollYProgress, [0, 0.45, 0.75], [0, -120, -520]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.45, 0.7], [1, 0.55, 0]);
+  const heroBlur = useTransform(scrollYProgress, [0, 0.55, 0.8], [0, 8, 24]);
+  const heroFilter = useMotionTemplate`blur(${heroBlur}px)`;
+
+  const introHeaderOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const introHeaderY = useTransform(scrollYProgress, [0, 0.35], [0, -24]);
+
+  const centerOpacity = useTransform(scrollYProgress, [0.2, 0.48, 0.82], [0, 1, 1]);
+  const centerY = useTransform(scrollYProgress, [0.2, 0.55, 0.9], [40, 0, -24]);
+  const centerBlur = useTransform(scrollYProgress, [0.2, 0.55, 0.9], [22, 0, 0]);
+  const centerFilter = useMotionTemplate`blur(${centerBlur}px)`;
+  const centerScale = useTransform(scrollYProgress, [0.25, 0.6], [0.96, 1]);
+
+  const visualScale = useTransform(scrollYProgress, [0, 0.65], [1, 1.45]);
+  const visualOpacity = useTransform(scrollYProgress, [0, 0.6, 0.85], [0.9, 0.45, 0]);
+  const visualBlur = useTransform(scrollYProgress, [0, 0.65], [0, 12]);
+  const visualFilter = useMotionTemplate`blur(${visualBlur}px)`;
 
   return (
-    <div ref={containerRef} className="hero-section" id="home">
-      <motion.div style={{ x, opacity, filter }} className="page-shell hero-container-poly">
-        {children}
-      </motion.div>
-    </div>
+    <section ref={containerRef} className="hero-scroll-scene" id="home">
+      <div className="hero-sticky-stage">
+        <motion.header
+          className="intro-header"
+          style={{ opacity: introHeaderOpacity, y: introHeaderY }}
+        >
+          <a className="intro-brand" href="#home">
+            <svg className="intro-brand-mark" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="7" height="7" />
+              <rect x="9" y="0" width="7" height="7" />
+              <rect x="0" y="9" width="7" height="7" />
+              <rect x="9" y="9" width="7" height="7" />
+            </svg>
+            <span>JorDea</span>
+          </a>
+
+          <button className="intro-burger" type="button" aria-label="Меню">
+            <span />
+            <span />
+            <span />
+          </button>
+        </motion.header>
+
+        <motion.div
+          className="hero-visual-orbit"
+          style={{
+            scale: visualScale,
+            opacity: visualOpacity,
+            filter: visualFilter,
+          }}
+          aria-hidden="true"
+        >
+          <div className="glass-cube glass-cube-large" />
+          <div className="glass-cube glass-cube-small" />
+        </motion.div>
+
+        <motion.div
+          className="page-shell hero-container-poly"
+          style={{
+            x: heroX,
+            opacity: heroOpacity,
+            filter: heroFilter,
+          }}
+        >
+          {children}
+        </motion.div>
+
+        <motion.div
+          className="intro-center-copy"
+          style={{
+            opacity: centerOpacity,
+            y: centerY,
+            scale: centerScale,
+            filter: centerFilter,
+          }}
+        >
+          <p className="plain-kicker">ML systems / text / audio</p>
+          <h2>Модели должны быть не только обучены, но и доведены до понятного продукта.</h2>
+          <p>
+            Я собираю ML-прототипы для NLP, Deep Learning и Audio ML: от данных и метрик
+            до интерфейса, API и демонстрационного сервиса.
+          </p>
+        </motion.div>
+
+        <motion.div className="scroll-hint" style={{ opacity: introHeaderOpacity }}>
+          Scroll to explore
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
