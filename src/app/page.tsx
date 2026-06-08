@@ -19,12 +19,15 @@ import {
   Waveform,
 } from "@phosphor-icons/react/ssr";
 import {
-  CursorTrail,
+  CustomCursor,
   HoverLift,
   MagneticLink,
   PinnedFocus,
   Reveal,
   ScrollProgress,
+  SmoothScroll,
+  PolyHero,
+  VilmarShowcase,
 } from "@/components/MotionPrimitives";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -159,78 +162,79 @@ const socialLinks = [
 export default function Home() {
   return (
     <>
+      <SmoothScroll />
       <ScrollProgress />
-      <CursorTrail />
+      <CustomCursor />
       <SiteHeader />
       <main id="main">
-        <section className="hero-section" id="home">
-          <div className="page-shell hero-grid">
-            <div className="hero-copy">
-              <Reveal>
-                <p className="plain-kicker">ML / NLP / Deep Learning / Audio</p>
-              </Reveal>
-              <Reveal delay={0.06}>
-                <h1>JorDea - Junior ML/NLP Engineer.</h1>
-              </Reveal>
-              <Reveal delay={0.12}>
-                <p className="hero-lead">
-                  Собираю ML-прототипы для задач с текстом, последовательностями и аудиоданными.
-                  Фокусируюсь на PyTorch, Deep Learning, NLP, Transformers, RAG-системах и Audio ML.
-                </p>
-              </Reveal>
-              <Reveal delay={0.18} className="hero-actions">
-                <a className="primary-link" href="#projects">
-                  Смотреть проекты
-                  <ArrowUpRight size={18} weight="bold" />
-                </a>
-                <a className="quiet-link" href="mailto:klevin3701@gmail.com">
-                  <At size={18} weight="bold" />
-                  Связаться
-                </a>
-                <a className="quiet-link" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
-                  <GithubLogo size={18} weight="bold" />
-                  GitHub
-                </a>
-              </Reveal>
-            </div>
-
-            <Reveal delay={0.1}>
-              <HoverLift className="hero-card" ariaLabel="Профиль JorDea">
-                <div className="hero-card-top">
-                  <span>open to</span>
-                  <strong>internships / junior roles</strong>
-                </div>
-                <div className="signal-board">
-                  <HoverLift className="signal-cell">
-                    <Brain size={28} weight="duotone" />
-                    <span>PyTorch</span>
-                  </HoverLift>
-                  <HoverLift className="signal-cell">
-                    <Network size={28} weight="duotone" />
-                    <span>RAG</span>
-                  </HoverLift>
-                  <HoverLift className="signal-cell">
-                    <Waveform size={28} weight="duotone" />
-                    <span>Audio ML</span>
-                  </HoverLift>
-                  <HoverLift className="signal-cell">
-                    <Database size={28} weight="duotone" />
-                    <span>Data</span>
-                  </HoverLift>
-                </div>
-                <p>Открыт к стажировкам и junior-позициям в ML / NLP / Audio ML.</p>
-              </HoverLift>
+        {/* Использование PolyHero для анимации при скролле (Poly-block стиль) */}
+        <PolyHero>
+          <div className="hero-copy">
+            <Reveal>
+              <p className="plain-kicker">ML / NLP / Deep Learning / Audio</p>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <h1>JorDea — Junior ML/NLP Engineer.</h1>
+            </Reveal>
+            <Reveal delay={0.12}>
+              <p className="hero-lead">
+                Собираю ML-прототипы для задач с текстом, последовательностями и аудиоданными.
+                Фокусируюсь на PyTorch, Deep Learning, NLP, Transformers, RAG-системах и Audio ML.
+              </p>
+            </Reveal>
+            <Reveal delay={0.18} className="hero-actions">
+              <a className="primary-link" href="#projects">
+                Смотреть проекты
+                <ArrowUpRight size={18} weight="bold" />
+              </a>
+              <a className="quiet-link" href="mailto:klevin3701@gmail.com">
+                <At size={18} weight="bold" />
+                Связаться
+              </a>
+              <a className="quiet-link" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
+                <GithubLogo size={18} weight="bold" />
+                GitHub
+              </a>
             </Reveal>
           </div>
-          <Reveal delay={0.18} className="page-shell hero-stats">
-            {heroStats.map((stat) => (
-              <div className="hero-stat" key={stat.label}>
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
+
+          <Reveal delay={0.1}>
+            <HoverLift className="hero-card" ariaLabel="Профиль JorDea">
+              <div className="hero-card-top">
+                <span>open to</span>
+                <strong>internships / junior roles</strong>
               </div>
-            ))}
+              <div className="signal-board">
+                <div className="signal-cell">
+                  <Brain size={24} weight="duotone" />
+                  <span>PyTorch</span>
+                </div>
+                <div className="signal-cell">
+                  <Network size={24} weight="duotone" />
+                  <span>RAG</span>
+                </div>
+                <div className="signal-cell">
+                  <Waveform size={24} weight="duotone" />
+                  <span>Audio ML</span>
+                </div>
+                <div className="signal-cell">
+                  <Database size={24} weight="duotone" />
+                  <span>Data</span>
+                </div>
+              </div>
+              <p>Открыт к стажировкам и junior-позициям в ML / NLP / Audio ML.</p>
+            </HoverLift>
           </Reveal>
-        </section>
+        </PolyHero>
+
+        <Reveal delay={0.18} className="page-shell hero-stats">
+          {heroStats.map((stat) => (
+            <div className="hero-stat" key={stat.label}>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </div>
+          ))}
+        </Reveal>
 
         <section className="section page-shell about-section" id="about">
           <Reveal className="section-intro about-heading">
@@ -256,18 +260,18 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.08}>
               <div className="profile-facts">
-                <HoverLift className="profile-fact">
+                <div className="profile-fact">
                   <Student size={24} weight="duotone" />
                   <span>education</span>
                   <strong>ИТМО</strong>
                   <p>Фокус обучения - Machine Learning, Deep Learning, NLP, PyTorch и математическая база ML.</p>
-                </HoverLift>
-                <HoverLift className="profile-fact">
+                </div>
+                <div className="profile-fact">
                   <Target size={24} weight="duotone" />
                   <span>goal</span>
                   <strong>ML / NLP / Audio ML</strong>
                   <p>Ищу стажировку или junior-позицию в команде, которая работает с прикладными DL-продуктами.</p>
-                </HoverLift>
+                </div>
               </div>
             </Reveal>
           </div>
@@ -286,25 +290,20 @@ export default function Home() {
                 const Icon = item.icon;
                 return (
                   <Reveal delay={index * 0.08} key={item.title}>
-                    <HoverLift
-                      ariaLabel={`${item.title}: ${item.text}`}
-                      className="capability-row"
-                      tabIndex={0}
-                    >
-                    <div className="capability-icon">
-                      <Icon size={28} weight="duotone" />
+                    <div className="capability-row" tabIndex={0}>
+                      <div className="capability-icon">
+                        <Icon size={24} weight="duotone" />
+                      </div>
+                      <div>
+                        <h3>{item.title}</h3>
+                        <p>{item.text}</p>
+                      </div>
+                      <div className="stack-tags">
+                        {item.stack.map((tag) => (
+                          <span key={tag}>{tag}</span>
+                        ))}
+                      </div>
                     </div>
-                    <div>
-                      <h3>{item.title}</h3>
-                      <p>{item.text}</p>
-                      <p className="capability-detail">{item.detail}</p>
-                    </div>
-                    <div className="stack-tags">
-                      {item.stack.map((tag) => (
-                        <span key={tag}>{tag}</span>
-                      ))}
-                    </div>
-                    </HoverLift>
                   </Reveal>
                 );
               })}
@@ -312,49 +311,29 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Секция проектов с эффектом сплит-фокуса (Vilmar Fernandes стиль) */}
         <section className="section page-shell" id="projects">
-          <Reveal className="project-heading">
-            <div>
-              <p className="plain-kicker">Проекты</p>
-              <h2>ML-проекты, которые показывают не только интерес, но и инженерную сторону.</h2>
+          <Reveal className="project-heading" style={{ marginBottom: "64px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", flexWrap: "wrap", gap: "24px" }}>
+              <div>
+                <p className="plain-kicker">Проекты</p>
+                <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700 }}>ML-разработки</h2>
+              </div>
+              <a className="inline-github" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
+                <GithubLogo size={20} weight="duotone" />
+                GitHub
+                <ArrowUpRight size={14} weight="bold" />
+              </a>
             </div>
-            <a className="inline-github" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
-              <GithubLogo size={22} weight="duotone" />
-              GitHub
-              <ArrowUpRight size={16} weight="bold" />
-            </a>
           </Reveal>
 
-          <div className="project-stack">
-            {projects.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <Reveal className="project-item" delay={index * 0.05} key={item.title}>
-                  <HoverLift className="project-card" tabIndex={0}>
-                    <div className="project-card-meta">
-                      <Icon size={28} weight="duotone" />
-                      <span>{item.status}</span>
-                    </div>
-                    <div className="project-card-body">
-                      <h3>{item.title}</h3>
-                      <p>{item.text}</p>
-                    </div>
-                    <div className="stack-tags compact-tags">
-                      {item.stack.map((tag) => (
-                        <span key={tag}>{tag}</span>
-                      ))}
-                    </div>
-                  </HoverLift>
-                </Reveal>
-              );
-            })}
-          </div>
+          <VilmarShowcase items={projects} />
         </section>
 
         <section className="section education-section">
           <div className="page-shell education-grid">
             <Reveal className="education-card">
-              <GraduationCap size={30} weight="duotone" />
+              <GraduationCap size={32} weight="duotone" />
               <p className="plain-kicker">Образование</p>
               <h2>ИТМО и самостоятельная ML-база.</h2>
               <p>
@@ -365,10 +344,10 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.08} className="tech-matrix">
               {techGroups.map(([group, ...items]) => (
-                <HoverLift className="tech-row" key={group}>
+                <div className="tech-row" key={group}>
                   <strong>{group}</strong>
                   <p>{items.join(" / ")}</p>
-                </HoverLift>
+                </div>
               ))}
             </Reveal>
           </div>
@@ -382,7 +361,7 @@ export default function Home() {
               Особенно интересны NLP, LLM/RAG-системы, Audio ML, sequence modeling, прикладные DL-прототипы и
               ML-инструменты, которые можно довести до сервиса.
             </p>
-            <MagneticLink className="primary-link large" href="mailto:klevin3701@gmail.com">
+            <MagneticLink className="primary-link" href="mailto:klevin3701@gmail.com">
               Написать на почту
               <ArrowUpRight size={18} weight="bold" />
             </MagneticLink>
@@ -394,10 +373,12 @@ export default function Home() {
               return (
                 <Reveal delay={index * 0.06} key={link.label}>
                   <a href={link.href} target="_blank" rel="noreferrer">
-                    <Icon size={24} weight="duotone" />
-                    <strong>{link.label}</strong>
-                    <span>{link.note}</span>
-                    <ArrowUpRight size={16} weight="bold" />
+                    <div className="social-list-left">
+                      <Icon size={22} weight="duotone" />
+                      <strong>{link.label}</strong>
+                      <span>{link.note}</span>
+                    </div>
+                    <ArrowUpRight size={14} weight="bold" />
                   </a>
                 </Reveal>
               );
@@ -405,19 +386,20 @@ export default function Home() {
           </div>
         </section>
       </main>
+
       <footer className="site-footer">
         <div className="page-shell footer-inner">
           <span>© 2026 JorDea</span>
           <span>
-            <Brain size={16} weight="duotone" />
+            <Brain size={14} weight="duotone" />
             Junior ML/NLP Engineer
           </span>
           <span>
-            <Cpu size={16} weight="duotone" />
+            <Cpu size={14} weight="duotone" />
             PyTorch / NLP / Audio ML
           </span>
         </div>
       </footer>
     </>
   );
-}
+}

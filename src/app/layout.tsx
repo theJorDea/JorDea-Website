@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Unbounded } from "next/font/google";
 import "./globals.css";
 
@@ -34,14 +34,24 @@ export const metadata: Metadata = {
   },
 };
 
+// Настройка цвета статус-бара для мобильных устройств в темной теме
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  colorScheme: "dark",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${geistSans.variable} ${geistMono.variable} ${unbounded.variable}`}>
+    <html
+      lang="ru"
+      className={`${geistSans.variable} ${geistMono.variable} ${unbounded.variable}`}
+      style={{ backgroundColor: "#000000" }} // Предотвращает белую вспышку при инициализации
+    >
       <body>{children}</body>
     </html>
   );
-}
+}

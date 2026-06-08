@@ -25,11 +25,13 @@ export function SiteHeader() {
       </a>
       <nav className="nav-shell" aria-label="Основная навигация">
         <a className="brand-lockup" href="#home" onClick={closeMenu}>
-          <span className="brand-mark">jordea</span>
-          <span className="brand-text">
-            <strong>Junior ML/NLP Engineer</strong>
-            <span>PyTorch / RAG / Audio ML</span>
-          </span>
+          {/* Кастомный минималистичный логотип-блок, повторяющий стилистику скрина 1 */}
+          <svg className="brand-mark-svg" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="16" height="6" />
+            <rect x="18" y="0" width="6" height="6" />
+            <rect x="0" y="10" width="8" height="6" />
+          </svg>
+          <span className="brand-text-mini">JorDea</span>
         </a>
 
         <div className={menuOpen ? "nav-links is-open" : "nav-links"}>
@@ -42,7 +44,7 @@ export function SiteHeader() {
 
         <div className="nav-actions">
           <a className="nav-mail" href="mailto:klevin3701@gmail.com">
-            Написать
+            Контакты
           </a>
           <button
             className="menu-button"
@@ -57,4 +59,4 @@ export function SiteHeader() {
       </nav>
     </header>
   );
-}
+}
