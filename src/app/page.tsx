@@ -1,241 +1,319 @@
 import Image from "next/image";
+import {
+  ArrowUpRight,
+  At,
+  BracketsCurly,
+  Browsers,
+  CloudArrowUp,
+  Code,
+  Database,
+  DeviceMobile,
+  GithubLogo,
+  Lightning,
+  Robot,
+  SpotifyLogo,
+  Stack,
+  TelegramLogo,
+  TerminalWindow,
+} from "@phosphor-icons/react/ssr";
+import { MagneticLink, Reveal, ScrollProgress, TiltFrame } from "@/components/MotionPrimitives";
 import { SiteHeader } from "@/components/SiteHeader";
 
-const skillGroups = [
+const principles = [
   {
-    title: "Frontend",
-    summary: "Интерфейсы, которые быстро грузятся и не разваливаются на мобильных.",
-    skills: ["TypeScript", "React", "Next.js", "Vue.js", "CSS", "Sass"],
+    value: "01",
+    title: "Страница должна объяснять себя сама",
+    text: "Сначала смысл и структура. Декор появляется только там, где помогает прочитать работу быстрее.",
   },
   {
-    title: "Backend",
-    summary: "API, боты и серверная логика с понятной структурой.",
-    skills: ["Node.js", "Express", "Python", "Django", "Aiogram", "PostgreSQL"],
+    value: "02",
+    title: "Интерфейс не спорит с контентом",
+    text: "Меньше одинаковых карточек, больше воздуха, ритма и точных акцентов в местах принятия решения.",
   },
   {
-    title: "Delivery",
-    summary: "Сборка, деплой и поддержка проекта после релиза.",
-    skills: ["Vercel", "Git", "Docker", "Vite", "Figma", "CI/CD"],
+    value: "03",
+    title: "Деплой - часть дизайна",
+    text: "Сайт собирается как статический Next.js route, поэтому Vercel быстро отдает страницу и preview для каждой ветки.",
   },
 ];
 
-const projectTypes = [
+const capabilities = [
   {
-    title: "Веб-приложения",
-    text: "SPA и публичные сайты на React, Vue и современном CSS.",
-    label: "web",
+    icon: Browsers,
+    title: "Веб-интерфейсы",
+    text: "React, Next.js и Vue для лендингов, личных кабинетов и небольших продуктовых поверхностей.",
+    stack: ["React", "Next.js", "Vue", "CSS"],
   },
   {
-    title: "Telegram-боты",
-    text: "Автоматизация сценариев на Python и Aiogram.",
-    label: "bot",
+    icon: Robot,
+    title: "Боты и автоматизация",
+    text: "Telegram-сценарии, API-интеграции и backend-логика на Python без лишней инфраструктуры.",
+    stack: ["Python", "Aiogram", "Node", "API"],
   },
   {
-    title: "PWA и адаптив",
-    text: "Интерфейсы, которые удобно использовать с телефона.",
-    label: "pwa",
+    icon: CloudArrowUp,
+    title: "Публикация и поддержка",
+    text: "Сборка, деплой, базовая оптимизация и понятная структура проекта для следующих изменений.",
+    stack: ["Vercel", "Git", "CI", "Docker"],
+  },
+];
+
+const projectIndex = [
+  {
+    icon: Code,
+    type: "web",
+    title: "Публичные сайты",
+    detail: "Минималистичные страницы, где важны скорость, типографика и мобильная версия.",
   },
   {
-    title: "Backend API",
-    text: "Серверные части для продуктов, интеграций и админок.",
-    label: "api",
+    icon: DeviceMobile,
+    type: "pwa",
+    title: "Адаптивные продукты",
+    detail: "Интерфейсы, которые не теряют смысл на узком экране и не требуют объяснений.",
+  },
+  {
+    icon: Database,
+    type: "api",
+    title: "Серверные части",
+    detail: "Небольшие API, интеграции и хранение данных без тяжелой архитектуры ради архитектуры.",
+  },
+  {
+    icon: TerminalWindow,
+    type: "ops",
+    title: "Сборка и релиз",
+    detail: "Next.js, линт, production build, GitHub workflow и Vercel deploy без ручных шагов.",
   },
 ];
 
 const socialLinks = [
-  { href: "https://github.com/theJorDea", label: "GitHub", note: "код и проекты" },
-  { href: "https://t.me/theJorDea", label: "Telegram", note: "быстрый контакт" },
+  {
+    href: "https://github.com/theJorDea",
+    label: "GitHub",
+    note: "репозитории и код",
+    icon: GithubLogo,
+  },
+  {
+    href: "https://t.me/theJorDea",
+    label: "Telegram",
+    note: "быстрый контакт",
+    icon: TelegramLogo,
+  },
   {
     href: "https://open.spotify.com/playlist/1DjVihxAR3yUnrNIireZmP?si=0575d1eabe374547",
     label: "Spotify",
-    note: "музыка в работе",
+    note: "что играет в фоне",
+    icon: SpotifyLogo,
   },
 ];
 
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
       <SiteHeader />
       <main id="main">
         <section className="hero-section" id="home">
-          <div className="hero-grid page-shell">
+          <div className="page-shell hero-grid">
             <div className="hero-copy">
-              <p className="eyebrow">Frontend / Fullstack / Vercel</p>
-              <h1>JorDea делает веб-продукты, которые выглядят спокойно и работают быстро.</h1>
-              <p className="hero-lead">
-                Перенес старое GitHub Pages портфолио на стек Next.js + React под Vercel:
-                статический рендер, оптимизированные изображения, нормальная мета-разметка и
-                структура, которую проще развивать.
-              </p>
-              <div className="hero-actions">
+              <Reveal>
+                <p className="plain-kicker">JorDea / frontend / bots / deploy</p>
+              </Reveal>
+              <Reveal delay={0.06}>
+                <h1>
+                  Сайты, боты и интерфейсы с чистой логикой и тихой визуальной системой.
+                </h1>
+              </Reveal>
+              <Reveal delay={0.12}>
+                <p className="hero-lead">
+                  Я собираю веб-продукты на Next.js и React, подключаю backend-сценарии и довожу
+                  проекты до Vercel без ручной рутины.
+                </p>
+              </Reveal>
+              <Reveal delay={0.18} className="hero-actions">
                 <a className="primary-link" href="#projects">
-                  Смотреть проекты
+                  Смотреть работу
+                  <ArrowUpRight size={18} weight="bold" />
                 </a>
-                <a className="text-link" href="mailto:klevin3701@gmail.com">
+                <a className="quiet-link" href="mailto:klevin3701@gmail.com">
+                  <At size={18} weight="bold" />
                   klevin3701@gmail.com
                 </a>
-              </div>
+              </Reveal>
             </div>
 
-            <div className="hero-panel" aria-label="Профиль JorDea">
-              <div className="status-row">
-                <span className="status-dot" />
-                <span>Доступен для проектов</span>
-              </div>
-              <div className="profile-shot">
-                <Image
-                  src="/images/pretty_cat.png"
-                  alt="Визуальный образ JorDea"
-                  width={720}
-                  height={900}
-                  priority
-                />
-              </div>
-              <div className="stack-strip">
-                <span>Next.js</span>
-                <span>React</span>
-                <span>TypeScript</span>
-                <span>Vercel</span>
-              </div>
-            </div>
+            <Reveal delay={0.1}>
+              <TiltFrame className="hero-art">
+                <div className="portrait-frame">
+                  <Image
+                    src="/images/pretty_cat.png"
+                    alt="Визуальный образ JorDea"
+                    width={720}
+                    height={900}
+                    priority
+                  />
+                </div>
+                <div className="art-caption">
+                  <span>available</span>
+                  <strong>Санкт-Петербург</strong>
+                </div>
+              </TiltFrame>
+            </Reveal>
           </div>
         </section>
 
         <section className="section page-shell" id="about">
-          <div className="section-heading">
-            <p className="eyebrow">Обо мне</p>
-            <h2>Разработка без лишнего шума: понятная архитектура, аккуратный UI, быстрый деплой.</h2>
-          </div>
-          <div className="about-layout">
-            <div className="about-copy">
-              <p>
-                Привет, я JorDea. Специализируюсь на frontend и fullstack-разработке:
-                собираю интерфейсы, подключаю серверную логику и довожу проекты до публикации.
-              </p>
-              <p>
-                Люблю новые технологии, но выбираю их по задаче. Для этого сайта стек стал
-                проще для Vercel: App Router, статическая страница, локальные ассеты и минимум
-                клиентского JavaScript.
-              </p>
-            </div>
-            <div className="metrics-grid" aria-label="Ключевые показатели">
-              <div>
-                <strong>2+</strong>
-                <span>года опыта</span>
-              </div>
-              <div>
-                <strong>15+</strong>
-                <span>проектов</span>
-              </div>
-              <div>
-                <strong>100%</strong>
-                <span>вовлеченность</span>
-              </div>
-            </div>
+          <Reveal className="section-intro">
+            <p className="plain-kicker">Обо мне</p>
+            <h2>Не пытаюсь впечатлить количеством эффектов. Делаю так, чтобы сайт было легко читать и менять.</h2>
+          </Reveal>
+          <div className="principle-grid">
+            {principles.map((item, index) => (
+              <Reveal className="principle" delay={index * 0.08} key={item.value}>
+                <span>{item.value}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </Reveal>
+            ))}
           </div>
         </section>
 
-        <section className="section muted-section" id="skills">
+        <section className="section skill-section" id="skills">
           <div className="page-shell">
-            <div className="section-heading narrow">
-              <p className="eyebrow">Навыки</p>
-              <h2>Стек под реальные задачи, а не под красивый список технологий.</h2>
-            </div>
-            <div className="skills-layout">
-              {skillGroups.map((group) => (
-                <article className="skill-block" key={group.title}>
-                  <div>
-                    <h3>{group.title}</h3>
-                    <p>{group.summary}</p>
-                  </div>
-                  <div className="tag-row">
-                    {group.skills.map((skill) => (
-                      <span key={skill}>{skill}</span>
-                    ))}
-                  </div>
-                </article>
-              ))}
+            <Reveal className="section-intro compact">
+              <p className="plain-kicker">Навыки</p>
+              <h2>Стек держится вокруг результата: интерфейс, сценарий, публикация.</h2>
+            </Reveal>
+            <div className="capability-list">
+              {capabilities.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <Reveal className="capability-row" delay={index * 0.08} key={item.title}>
+                    <div className="capability-icon">
+                      <Icon size={28} weight="duotone" />
+                    </div>
+                    <div>
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                    </div>
+                    <div className="stack-tags">
+                      {item.stack.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                  </Reveal>
+                );
+              })}
             </div>
           </div>
         </section>
 
         <section className="section page-shell" id="projects">
-          <div className="section-heading">
-            <p className="eyebrow">Проекты</p>
-            <h2>Основной фокус - веб-продукты, автоматизация и интерфейсы для повторного использования.</h2>
-          </div>
-          <div className="projects-layout">
-            <a className="github-feature" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
-              <span className="feature-kicker">GitHub</span>
-              <strong>theJorDea</strong>
-              <p>Репозитории, эксперименты и открытый код. Vercel будет автоматически делать preview для веток и production для main.</p>
-              <span className="feature-link">Открыть профиль</span>
-            </a>
-            <div className="project-list">
-              {projectTypes.map((project) => (
-                <article className="project-row" key={project.title}>
-                  <span>{project.label}</span>
-                  <div>
-                    <h3>{project.title}</h3>
-                    <p>{project.text}</p>
-                  </div>
-                </article>
-              ))}
+          <Reveal className="project-heading">
+            <div>
+              <p className="plain-kicker">Проекты</p>
+              <h2>Рабочие направления вместо витрины с одинаковыми плитками.</h2>
             </div>
+            <a className="inline-github" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
+              <GithubLogo size={22} weight="duotone" />
+              GitHub
+              <ArrowUpRight size={16} weight="bold" />
+            </a>
+          </Reveal>
+
+          <div className="project-index">
+            {projectIndex.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <Reveal className="project-item" delay={index * 0.06} key={item.title}>
+                  <span className="project-type">{item.type}</span>
+                  <Icon size={28} weight="duotone" />
+                  <h3>{item.title}</h3>
+                  <p>{item.detail}</p>
+                </Reveal>
+              );
+            })}
           </div>
         </section>
 
-        <section className="section listening-section">
-          <div className="page-shell listening-card">
-            <div>
-              <p className="eyebrow">Currently listening</p>
-              <h2>Alright - Kendrick Lamar</h2>
-              <p>
-                Старый Spotify-блок сохранен как компактный визуальный акцент, без лишнего
-                скрипта и внешних библиотек.
-              </p>
-            </div>
-            <div className="album-widget" aria-label="Музыкальный виджет">
-              <Image src="/images/TPAB.png" alt="Обложка To Pimp a Butterfly" width={220} height={220} />
-              <div>
-                <strong>To Pimp a Butterfly</strong>
-                <span>1:23 / 3:45</span>
-                <div className="progress-bar">
-                  <span />
+        <section className="section media-section">
+          <div className="page-shell media-grid">
+            <Reveal>
+              <div className="code-panel" aria-label="Технический стек">
+                <div className="code-topline">
+                  <BracketsCurly size={20} weight="bold" />
+                  <span>site.config.ts</span>
+                </div>
+                <pre>{`const site = {
+  framework: "Next.js",
+  render: "static",
+  motion: "measured",
+  deploy: "Vercel"
+}`}</pre>
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="music-panel">
+                <Image src="/images/TPAB.png" alt="Обложка To Pimp a Butterfly" width={420} height={420} />
+                <div>
+                  <span>currently listening</span>
+                  <h2>Alright</h2>
+                  <p>Kendrick Lamar / To Pimp a Butterfly</p>
+                  <div className="sound-line" aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                  </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </section>
 
-        <section className="section page-shell" id="contact">
-          <div className="contact-layout">
-            <div>
-              <p className="eyebrow">Контакты</p>
-              <h2>Готов обсудить проект, задачу или идею.</h2>
-              <p>
-                Напишите на почту или откройте один из профилей. Лучше сразу прислать цель,
-                сроки и пару примеров того, что нравится по качеству.
-              </p>
-              <a className="primary-link" href="mailto:klevin3701@gmail.com">
-                Написать на почту
-              </a>
-            </div>
-            <div className="social-list">
-              {socialLinks.map((link) => (
-                <a key={link.label} href={link.href} target="_blank" rel="noreferrer">
-                  <strong>{link.label}</strong>
-                  <span>{link.note}</span>
-                </a>
-              ))}
-            </div>
+        <section className="section contact-section page-shell" id="contact">
+          <Reveal className="contact-copy">
+            <p className="plain-kicker">Контакты</p>
+            <h2>Если задача понятная, можно сразу писать.</h2>
+            <p>
+              Лучше прислать цель, срок и текущие материалы. Если материалов нет, начнем с
+              короткой структуры и соберем первую версию.
+            </p>
+            <MagneticLink className="primary-link large" href="mailto:klevin3701@gmail.com">
+              Написать на почту
+              <ArrowUpRight size={18} weight="bold" />
+            </MagneticLink>
+          </Reveal>
+
+          <div className="social-list">
+            {socialLinks.map((link, index) => {
+              const Icon = link.icon;
+              return (
+                <Reveal delay={index * 0.06} key={link.label}>
+                  <a href={link.href} target="_blank" rel="noreferrer">
+                    <Icon size={24} weight="duotone" />
+                    <strong>{link.label}</strong>
+                    <span>{link.note}</span>
+                    <ArrowUpRight size={16} weight="bold" />
+                  </a>
+                </Reveal>
+              );
+            })}
           </div>
         </section>
       </main>
       <footer className="site-footer">
         <div className="page-shell footer-inner">
           <span>© 2026 JorDea</span>
-          <span>Next.js + Vercel ready</span>
+          <span>
+            <Stack size={16} weight="duotone" />
+            Next.js / Motion / Vercel
+          </span>
+          <span>
+            <Lightning size={16} weight="duotone" />
+            static route
+          </span>
         </div>
       </footer>
     </>

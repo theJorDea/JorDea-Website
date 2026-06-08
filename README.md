@@ -8,6 +8,8 @@ Personal developer portfolio migrated from a static GitHub Pages site to a Verce
 - React
 - TypeScript
 - CSS custom properties
+- Motion for measured UI animation
+- Phosphor Icons for a single icon family
 - `next/image` for local assets
 
 ## Local commands

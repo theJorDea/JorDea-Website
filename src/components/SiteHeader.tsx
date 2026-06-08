@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { List, X } from "@phosphor-icons/react";
+import { useState } from "react";
 
 const navItems = [
   { href: "#home", label: "Главная" },
@@ -12,19 +13,6 @@ const navItems = [
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = window.localStorage.getItem("theme");
-    const nextTheme = savedTheme === "light" ? "light" : "dark";
-    document.documentElement.dataset.theme = nextTheme;
-  }, []);
-
-  function toggleTheme() {
-    const currentTheme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
-    const nextTheme = currentTheme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = nextTheme;
-    window.localStorage.setItem("theme", nextTheme);
-  }
 
   function closeMenu() {
     setMenuOpen(false);
@@ -40,7 +28,7 @@ export function SiteHeader() {
           <span className="brand-mark">JD</span>
           <span className="brand-text">
             <strong>JorDea</strong>
-            <span>developer portfolio</span>
+            <span>frontend and bots</span>
           </span>
         </a>
 
@@ -53,14 +41,9 @@ export function SiteHeader() {
         </div>
 
         <div className="nav-actions">
-          <button
-            className="icon-button"
-            type="button"
-            aria-label="Переключить тему"
-            onClick={toggleTheme}
-          >
-            Тема
-          </button>
+          <a className="nav-mail" href="mailto:klevin3701@gmail.com">
+            Написать
+          </a>
           <button
             className="menu-button"
             type="button"
@@ -68,8 +51,7 @@ export function SiteHeader() {
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((current) => !current)}
           >
-            <span />
-            <span />
+            {menuOpen ? <X size={20} weight="bold" /> : <List size={20} weight="bold" />}
           </button>
         </div>
       </nav>
