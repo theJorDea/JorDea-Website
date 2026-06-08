@@ -12,6 +12,8 @@ import {
   Network,
   Rows,
   SpotifyLogo,
+  Student,
+  Target,
   TelegramLogo,
   TreeStructure,
   Waveform,
@@ -24,13 +26,6 @@ import {
   ScrollProgress,
 } from "@/components/MotionPrimitives";
 import { SiteHeader } from "@/components/SiteHeader";
-
-const metrics = [
-  ["4", "focus areas"],
-  ["5", "project directions"],
-  ["ITMO", "education"],
-  ["ML", "internship target"],
-];
 
 const focusAreas = [
   {
@@ -67,39 +62,21 @@ const focusAreas = [
   },
 ];
 
-const problemCards = [
-  {
-    title: "Модель должна быть понятной глубже API.",
-    text: "Я разбираю tensor shapes, градиенты, training dynamics и ограничения архитектуры, чтобы понимать, почему модель работает или ломается.",
-    action: "model thinking",
-  },
-  {
-    title: "Метрики начинаются с качества данных.",
-    text: "Смотрю на preprocessing, validation, class imbalance, ошибки разметки и failure cases до выводов о результате.",
-    action: "data quality",
-  },
-  {
-    title: "Прототип нужно довести до демонстрации.",
-    text: "Мне важно упаковать модель в понятную структуру, API или небольшой сервис, который можно показать и проверить.",
-    action: "product shape",
-  },
-];
-
 const scrollStatements = [
   {
-    label: "model thinking",
+    label: "01 / models",
     title: "Понимать модель глубже, чем вызов готового API.",
-    text: "Tensor shapes, gradients, training dynamics, data quality and architecture limits matter before any polished demo.",
+    text: "Я разбираю tensor shapes, градиенты, training dynamics и ограничения архитектуры, чтобы понимать, почему модель работает или ломается.",
   },
   {
-    label: "data first",
+    label: "02 / data",
     title: "Смотреть на данные раньше, чем спорить о метриках.",
-    text: "A clean ML pipeline starts with validation, labels, distributions, class balance and failure analysis.",
+    text: "Качество пайплайна начинается с preprocessing, валидации, class imbalance, ошибок разметки и понятного анализа failure cases.",
   },
   {
-    label: "ship the prototype",
-    title: "Доводить идею до формы, которую можно показать.",
-    text: "The target is not just a notebook. It is a readable project, a working path and a clear next experiment.",
+    label: "03 / product",
+    title: "Доводить прототип до формы, которую можно показать.",
+    text: "Мне важно не только обучить модель, но и упаковать её в структуру, API или демонстрационный сервис.",
   },
 ];
 
@@ -110,7 +87,6 @@ const projects = [
     title: "RAG Assistant Prototype",
     text: "Ассистент по документам с retrieval pipeline, chunking, embeddings, semantic search и генерацией ответа на основе найденного контекста.",
     stack: ["Python", "Embeddings", "Vector Search", "LLM API", "RAG"],
-    result: "retrieval quality focus",
   },
   {
     icon: Rows,
@@ -118,7 +94,6 @@ const projects = [
     title: "NLP Classification Pipeline",
     text: "Пайплайн классификации текстов: preprocessing, baseline на TF-IDF, сравнение с нейросетевым подходом, метрики и анализ ошибок.",
     stack: ["scikit-learn", "PyTorch", "NLP", "Metrics"],
-    result: "error analysis",
   },
   {
     icon: TreeStructure,
@@ -126,7 +101,6 @@ const projects = [
     title: "Transformer From Scratch",
     text: "Учебная реализация positional encoding, self-attention, multi-head attention, feed-forward block и residual connections.",
     stack: ["PyTorch", "Attention", "Transformers", "Tensor Shapes"],
-    result: "architecture basics",
   },
   {
     icon: Waveform,
@@ -134,7 +108,6 @@ const projects = [
     title: "Audio Classification Prototype",
     text: "Прототип классификации аудиофрагментов через spectrogram/MFCC-признаки и DL-модель для коротких сигналов.",
     stack: ["torchaudio", "librosa", "CNN", "Signal Processing"],
-    result: "signal pipeline",
   },
   {
     icon: ChartLine,
@@ -142,7 +115,6 @@ const projects = [
     title: "Freshness Detection with YOLO",
     text: "Computer Vision-проект для определения состояния продуктов с фокусом на датасет, class imbalance, precision/recall/mAP и error analysis.",
     stack: ["YOLO", "Object Detection", "Dataset Quality", "mAP"],
-    result: "dataset quality",
   },
 ];
 
@@ -183,88 +155,104 @@ export default function Home() {
       <SiteHeader />
       <main id="main">
         <section className="hero-section" id="home">
-          <div className="page-shell hero-wrap">
+          <div className="page-shell hero-grid">
             <div className="hero-copy">
               <Reveal>
-                <p className="plain-kicker">Junior ML / NLP Engineer</p>
+                <p className="plain-kicker">ML / NLP / Deep Learning / Audio</p>
               </Reveal>
               <Reveal delay={0.06}>
-                <h1>
-                  I build ML prototypes for text, sequence and audio tasks.
-                </h1>
+                <h1>JorDea - Junior ML/NLP Engineer.</h1>
               </Reveal>
               <Reveal delay={0.12}>
                 <p className="hero-lead">
-                  Фокусируюсь на PyTorch, NLP, Transformers, RAG-системах и прикладных DL-проектах, где важны данные, метрики и понятная инженерная реализация.
+                  Собираю ML-прототипы для задач с текстом, последовательностями и аудиоданными.
+                  Фокусируюсь на PyTorch, Deep Learning, NLP, Transformers, RAG-системах и Audio ML.
                 </p>
               </Reveal>
               <Reveal delay={0.18} className="hero-actions">
                 <a className="primary-link" href="#projects">
-                  View cases
+                  Смотреть проекты
                   <ArrowUpRight size={18} weight="bold" />
                 </a>
                 <a className="quiet-link" href="mailto:klevin3701@gmail.com">
                   <At size={18} weight="bold" />
-                  Let&apos;s talk
+                  Связаться
+                </a>
+                <a className="quiet-link" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
+                  <GithubLogo size={18} weight="bold" />
+                  GitHub
                 </a>
               </Reveal>
             </div>
 
-            <Reveal delay={0.14}>
-              <HoverLift className="hero-visual" ariaLabel="ML profile visual">
-                <div className="showreel-card">
-                  <span>research log 25/26</span>
-                  <strong>PyTorch / RAG / Audio ML</strong>
+            <Reveal delay={0.1}>
+              <HoverLift className="hero-card" ariaLabel="Профиль JorDea">
+                <div className="hero-card-top">
+                  <span>open to</span>
+                  <strong>internships / junior roles</strong>
                 </div>
-                <div className="visual-board">
-                  <div className="visual-chip primary">
-                    <Brain size={32} weight="duotone" />
-                    <span>model</span>
-                  </div>
-                  <div className="visual-chip">
-                    <Network size={30} weight="duotone" />
-                    <span>retrieval</span>
-                  </div>
-                  <div className="visual-chip">
-                    <Database size={30} weight="duotone" />
-                    <span>data</span>
-                  </div>
-                  <div className="visual-chip">
-                    <Waveform size={30} weight="duotone" />
-                    <span>audio</span>
-                  </div>
+                <div className="signal-board">
+                  <HoverLift className="signal-cell">
+                    <Brain size={28} weight="duotone" />
+                    <span>PyTorch</span>
+                  </HoverLift>
+                  <HoverLift className="signal-cell">
+                    <Network size={28} weight="duotone" />
+                    <span>RAG</span>
+                  </HoverLift>
+                  <HoverLift className="signal-cell">
+                    <Waveform size={28} weight="duotone" />
+                    <span>Audio ML</span>
+                  </HoverLift>
+                  <HoverLift className="signal-cell">
+                    <Database size={28} weight="duotone" />
+                    <span>Data</span>
+                  </HoverLift>
                 </div>
-                <p>Open to internships and junior roles in ML / NLP / Audio ML.</p>
+                <p>Открыт к стажировкам и junior-позициям в ML / NLP / Audio ML.</p>
               </HoverLift>
-            </Reveal>
-
-            <Reveal delay={0.22} className="metrics-strip" aria-label="Profile metrics">
-              {metrics.map(([value, label]) => (
-                <div key={label}>
-                  <strong>{value}</strong>
-                  <span>{label}</span>
-                </div>
-              ))}
             </Reveal>
           </div>
         </section>
 
         <section className="section page-shell about-section" id="about">
-          <Reveal className="split-heading">
-            <p className="plain-kicker">About</p>
-            <h2>Студент ИТМО, который растёт в ML через практику, математику и инженерную аккуратность.</h2>
+          <Reveal className="section-intro about-heading">
+            <p className="plain-kicker">Обо мне</p>
+            <h2>Студент ИТМО, начинающий ML-разработчик с фокусом на Deep Learning и NLP.</h2>
           </Reveal>
-
-          <div className="problem-grid">
-            {problemCards.map((item, index) => (
-              <Reveal delay={index * 0.06} key={item.title}>
-                <HoverLift className="problem-card">
-                  <span>{item.action}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
+          <div className="about-layout">
+            <Reveal className="about-copy">
+              <p>
+                Основной фокус - Deep Learning, NLP и модели для последовательностей: тексты, временные ряды,
+                аудио и мультимодальные данные.
+              </p>
+              <p>
+                Сейчас углубляюсь в PyTorch, RNN/LSTM, attention, Transformers, BERT/SBERT и практические
+                NLP-пайплайны. Мне важно понимать модели не только на уровне API, но и на уровне математики,
+                тензорных форм, обучения и анализа ошибок.
+              </p>
+              <p>
+                В проектах стараюсь соединять исследовательский подход и инженерную реализацию: строить понятные
+                пайплайны, проверять метрики, контролировать качество данных и доводить прототип до работающего
+                сервиса.
+              </p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="profile-facts">
+                <HoverLift className="profile-fact">
+                  <Student size={24} weight="duotone" />
+                  <span>education</span>
+                  <strong>ИТМО</strong>
+                  <p>Фокус обучения - Machine Learning, Deep Learning, NLP, PyTorch и математическая база ML.</p>
                 </HoverLift>
-              </Reveal>
-            ))}
+                <HoverLift className="profile-fact">
+                  <Target size={24} weight="duotone" />
+                  <span>goal</span>
+                  <strong>ML / NLP / Audio ML</strong>
+                  <p>Ищу стажировку или junior-позицию в команде, которая работает с прикладными DL-продуктами.</p>
+                </HoverLift>
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -272,9 +260,9 @@ export default function Home() {
 
         <section className="section skill-section" id="skills">
           <div className="page-shell">
-            <Reveal className="section-intro">
+            <Reveal className="section-intro compact">
               <p className="plain-kicker">Focus areas</p>
-              <h2>Направления, где я сейчас собираю практику.</h2>
+              <h2>Направления, где я сейчас расту и собираю практику.</h2>
             </Reveal>
             <div className="capability-list">
               {focusAreas.map((item, index) => {
@@ -286,20 +274,19 @@ export default function Home() {
                       className="capability-row"
                       tabIndex={0}
                     >
-                      <div className="capability-number">{String(index + 1).padStart(2, "0")}</div>
-                      <div className="capability-icon">
-                        <Icon size={30} weight="duotone" />
-                      </div>
-                      <div className="capability-copy">
-                        <h3>{item.title}</h3>
-                        <p>{item.text}</p>
-                        <p className="capability-detail">{item.detail}</p>
-                      </div>
-                      <div className="stack-tags">
-                        {item.stack.map((tag) => (
-                          <span key={tag}>{tag}</span>
-                        ))}
-                      </div>
+                    <div className="capability-icon">
+                      <Icon size={28} weight="duotone" />
+                    </div>
+                    <div>
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                      <p className="capability-detail">{item.detail}</p>
+                    </div>
+                    <div className="stack-tags">
+                      {item.stack.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
                     </HoverLift>
                   </Reveal>
                 );
@@ -310,9 +297,12 @@ export default function Home() {
 
         <section className="section page-shell" id="projects">
           <Reveal className="project-heading">
-            <p className="plain-kicker">Featured cases</p>
-            <h2>ML-проекты, оформленные как case studies.</h2>
+            <div>
+              <p className="plain-kicker">Проекты</p>
+              <h2>ML-проекты, которые показывают не только интерес, но и инженерную сторону.</h2>
+            </div>
             <a className="inline-github" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
+              <GithubLogo size={22} weight="duotone" />
               GitHub
               <ArrowUpRight size={16} weight="bold" />
             </a>
@@ -322,26 +312,19 @@ export default function Home() {
             {projects.map((item, index) => {
               const Icon = item.icon;
               return (
-                <Reveal
-                  className={index === 0 ? "project-item project-item-large" : "project-item"}
-                  delay={index * 0.05}
-                  key={item.title}
-                >
-                  <HoverLift className={index === 0 ? "project-card featured" : "project-card"}>
-                    <div className="project-card-top">
-                      <div>
-                        <Icon size={30} weight="duotone" />
-                        <span>{item.status}</span>
-                      </div>
-                      <strong>{item.result}</strong>
-                    </div>
-                    <h3>{item.title}</h3>
-                    <p>{item.text}</p>
-                    <div className="stack-tags compact-tags">
-                      {item.stack.map((tag) => (
-                        <span key={tag}>{tag}</span>
-                      ))}
-                    </div>
+                <Reveal delay={index * 0.05} key={item.title}>
+                  <HoverLift className="project-card">
+                  <div className="project-card-meta">
+                    <Icon size={28} weight="duotone" />
+                    <span>{item.status}</span>
+                  </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <div className="stack-tags compact-tags">
+                    {item.stack.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
                   </HoverLift>
                 </Reveal>
               );
@@ -352,11 +335,13 @@ export default function Home() {
         <section className="section education-section">
           <div className="page-shell education-grid">
             <Reveal className="education-card">
-              <GraduationCap size={34} weight="duotone" />
-              <p className="plain-kicker">Education</p>
+              <GraduationCap size={30} weight="duotone" />
+              <p className="plain-kicker">Образование</p>
               <h2>ИТМО и самостоятельная ML-база.</h2>
               <p>
-                Изучаю машинное обучение, Deep Learning, NLP и математическую базу: линейную алгебру, математический анализ, вероятность, статистику и оптимизацию. Параллельно развиваю инженерные навыки: Python, Git, Linux, Docker, backend/API и деплой ML-прототипов.
+                Изучаю машинное обучение, Deep Learning, NLP и математическую базу: линейную алгебру,
+                математический анализ, вероятность, статистику и оптимизацию. Параллельно развиваю инженерные
+                навыки: Python, Git, Linux, Docker, backend/API и деплой ML-прототипов.
               </p>
             </Reveal>
             <Reveal delay={0.08} className="tech-matrix">
@@ -372,10 +357,11 @@ export default function Home() {
 
         <section className="section contact-section page-shell" id="contact">
           <Reveal className="contact-copy">
-            <p className="plain-kicker">Contact</p>
+            <p className="plain-kicker">Контакты</p>
             <h2>Ищу стажировку или junior-позицию в ML/DL-команде.</h2>
             <p>
-              Особенно интересны NLP, LLM/RAG-системы, Audio ML, sequence modeling, прикладные DL-прототипы и ML-инструменты, которые можно довести до сервиса.
+              Особенно интересны NLP, LLM/RAG-системы, Audio ML, sequence modeling, прикладные DL-прототипы и
+              ML-инструменты, которые можно довести до сервиса.
             </p>
             <MagneticLink className="primary-link large" href="mailto:klevin3701@gmail.com">
               Написать на почту
@@ -402,7 +388,7 @@ export default function Home() {
       </main>
       <footer className="site-footer">
         <div className="page-shell footer-inner">
-          <span>(c) 2026 JorDea</span>
+          <span>© 2026 JorDea</span>
           <span>
             <Brain size={16} weight="duotone" />
             Junior ML/NLP Engineer
