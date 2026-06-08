@@ -1,7 +1,9 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import type { MotionValue } from "motion/react";
 import type { ReactNode } from "react";
+import { useRef } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -67,5 +69,87 @@ export function MagneticLink({
     >
       {children}
     </motion.a>
+  );
+}
+
+type PinnedStatement = {
+  label: string;
+  title: string;
+  text: string;
+};
+
+export function PinnedFocus({ items }: { items: PinnedStatement[] }) {
+  const ref = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+
+  if (reduceMotion) {
+    return (
+      <section className="pinned-focus reduced page-shell" ref={ref}>
+        {items.map((item) => (
+          <article className="pinned-card-static" key={item.title}>
+            <span>{item.label}</span>
+            <h2>{item.title}</h2>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </section>
+    );
+  }
+
+  return (
+    <section className="pinned-focus" ref={ref}>
+      <div className="pinned-stage page-shell">
+        <div className="pinned-counter">
+          <span>scroll focus</span>
+          <i>{items.length.toString().padStart(2, "0")}</i>
+        </div>
+        {items.map((item, index) => (
+          <PinnedFrame
+            index={index}
+            item={item}
+            key={item.title}
+            progress={scrollYProgress}
+            total={items.length}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PinnedFrame({
+  index,
+  item,
+  progress,
+  total,
+}: {
+  index: number;
+  item: PinnedStatement;
+  progress: MotionValue<number>;
+  total: number;
+}) {
+  const step = 1 / total;
+  const center = index * step + step / 2;
+  const opacity = useTransform(
+    progress,
+    [Math.max(0, center - step * 0.72), center, Math.min(1, center + step * 0.72)],
+    [0, 1, 0],
+  );
+  const y = useTransform(
+    progress,
+    [Math.max(0, center - step * 0.72), center, Math.min(1, center + step * 0.72)],
+    [34, 0, -34],
+  );
+
+  return (
+    <motion.article className="pinned-frame" style={{ opacity, y }}>
+      <span>{item.label}</span>
+      <h2>{item.title}</h2>
+      <p>{item.text}</p>
+    </motion.article>
   );
 }

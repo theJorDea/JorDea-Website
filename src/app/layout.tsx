@@ -23,22 +23,14 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "JorDea - developer portfolio",
+  title: "JorDea - Junior ML/NLP Engineer",
   description:
-    "Портфолио разработчика JorDea: веб-приложения, fullstack-разработка, Telegram-боты и цифровые продукты.",
+    "Портфолио JorDea: начинающий ML/NLP Engineer с фокусом на PyTorch, Deep Learning, RAG-системы и Audio ML.",
   openGraph: {
-    title: "JorDea - developer portfolio",
+    title: "JorDea - Junior ML/NLP Engineer",
     description:
-      "Современное портфолио frontend/fullstack-разработчика, собранное на Next.js для Vercel.",
+      "Минималистичное портфолио про ML-прототипы для текста, последовательностей и аудиоданных.",
     type: "website",
-    images: [
-      {
-        url: "/images/pretty_cat.png",
-        width: 1200,
-        height: 1200,
-        alt: "JorDea portfolio visual",
-      },
-    ],
   },
 };
 

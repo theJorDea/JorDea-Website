@@ -6,7 +6,7 @@ import { useState } from "react";
 const navItems = [
   { href: "#home", label: "Главная" },
   { href: "#about", label: "Обо мне" },
-  { href: "#skills", label: "Навыки" },
+  { href: "#skills", label: "Фокус" },
   { href: "#projects", label: "Проекты" },
   { href: "#contact", label: "Контакты" },
 ];
@@ -25,10 +25,10 @@ export function SiteHeader() {
       </a>
       <nav className="nav-shell" aria-label="Основная навигация">
         <a className="brand-lockup" href="#home" onClick={closeMenu}>
-          <span className="brand-mark">JD</span>
+          <span className="brand-mark">jordea</span>
           <span className="brand-text">
-            <strong>JorDea</strong>
-            <span>frontend and bots</span>
+            <strong>Junior ML/NLP Engineer</strong>
+            <span>PyTorch / RAG / Audio ML</span>
           </span>
         </a>
 

@@ -1,6 +1,6 @@
 # JorDea Website
 
-Personal developer portfolio migrated from a static GitHub Pages site to a Vercel-ready Next.js app.
+Minimal personal portfolio for JorDea, focused on Junior ML/NLP engineering, PyTorch, RAG systems, Deep Learning and Audio ML.
 
 ## Stack
 
