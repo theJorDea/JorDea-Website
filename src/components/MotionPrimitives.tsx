@@ -11,6 +11,13 @@ type RevealProps = {
   className?: string;
 };
 
+type HoverLiftProps = {
+  children: ReactNode;
+  className?: string;
+  ariaLabel?: string;
+  tabIndex?: number;
+};
+
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -69,6 +76,23 @@ export function MagneticLink({
     >
       {children}
     </motion.a>
+  );
+}
+
+export function HoverLift({ children, className = "", ariaLabel, tabIndex }: HoverLiftProps) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      aria-label={ariaLabel}
+      className={className}
+      tabIndex={tabIndex}
+      whileHover={reduceMotion ? undefined : { y: -5, scale: 1.018 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.992 }}
+      transition={{ type: "spring", stiffness: 260, damping: 26, mass: 0.7 }}
+    >
+      {children}
+    </motion.div>
   );
 }
 

@@ -1,8 +1,6 @@
-import Image from "next/image";
 import {
   ArrowUpRight,
   At,
-  BookOpen,
   Brain,
   ChartLine,
   Cpu,
@@ -18,10 +16,10 @@ import {
   Target,
   TelegramLogo,
   TreeStructure,
-  VinylRecord,
   Waveform,
 } from "@phosphor-icons/react/ssr";
 import {
+  HoverLift,
   MagneticLink,
   PinnedFocus,
   Reveal,
@@ -34,24 +32,32 @@ const focusAreas = [
     icon: MagnifyingGlass,
     title: "NLP & LLM Systems",
     text: "Embeddings, semantic search, RAG, classification, summarization and LLM agents.",
+    detail:
+      "Практический интерес - пайплайны, где можно проверить retrieval quality, увидеть ошибки поиска и объяснить, почему ответ привязан к контексту.",
     stack: ["NLP", "BERT", "SBERT", "RAG", "Vector Search"],
   },
   {
     icon: Brain,
     title: "Deep Learning",
     text: "PyTorch training loops, tensor shapes, CNN, RNN/LSTM, attention and Transformer blocks.",
+    detail:
+      "Разбираю обучение не как черный ящик: loss, optimizer, regularization, gradients, формы тензоров и то, как архитектура влияет на ошибку.",
     stack: ["PyTorch", "Backprop", "RNN", "LSTM", "Transformers"],
   },
   {
     icon: Waveform,
     title: "Audio ML",
     text: "Spectrograms, MFCC, signal processing basics, audio classification and sequence modeling.",
+    detail:
+      "Смотрю на аудио как на сигнал и последовательность: признаки, окна, спектрограммы, короткие фрагменты и ограничения датасета.",
     stack: ["Audio ML", "MFCC", "Spectrograms", "Speech", "Sequences"],
   },
   {
     icon: Cpu,
     title: "ML Engineering",
     text: "FastAPI, Docker, Git, Linux, PostgreSQL and deployment of ML prototypes as usable services.",
+    detail:
+      "Цель - не только notebook, а понятная структура проекта: API, конфигурация, воспроизводимый запуск, базовый деплой и место для метрик.",
     stack: ["FastAPI", "Docker", "Linux", "SQL", "API"],
   },
 ];
@@ -180,31 +186,31 @@ export default function Home() {
             </div>
 
             <Reveal delay={0.1}>
-              <aside className="hero-card" aria-label="Профиль JorDea">
+              <HoverLift className="hero-card" ariaLabel="Профиль JorDea">
                 <div className="hero-card-top">
                   <span>open to</span>
                   <strong>internships / junior roles</strong>
                 </div>
                 <div className="signal-board">
-                  <div>
+                  <HoverLift className="signal-cell">
                     <Brain size={28} weight="duotone" />
                     <span>PyTorch</span>
-                  </div>
-                  <div>
+                  </HoverLift>
+                  <HoverLift className="signal-cell">
                     <Network size={28} weight="duotone" />
                     <span>RAG</span>
-                  </div>
-                  <div>
+                  </HoverLift>
+                  <HoverLift className="signal-cell">
                     <Waveform size={28} weight="duotone" />
                     <span>Audio ML</span>
-                  </div>
-                  <div>
+                  </HoverLift>
+                  <HoverLift className="signal-cell">
                     <Database size={28} weight="duotone" />
                     <span>Data</span>
-                  </div>
+                  </HoverLift>
                 </div>
                 <p>Открыт к стажировкам и junior-позициям в ML / NLP / Audio ML.</p>
-              </aside>
+              </HoverLift>
             </Reveal>
           </div>
         </section>
@@ -233,18 +239,18 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.08}>
               <div className="profile-facts">
-                <div>
+                <HoverLift className="profile-fact">
                   <Student size={24} weight="duotone" />
                   <span>education</span>
                   <strong>ИТМО</strong>
                   <p>Фокус обучения - Machine Learning, Deep Learning, NLP, PyTorch и математическая база ML.</p>
-                </div>
-                <div>
+                </HoverLift>
+                <HoverLift className="profile-fact">
                   <Target size={24} weight="duotone" />
                   <span>goal</span>
                   <strong>ML / NLP / Audio ML</strong>
                   <p>Ищу стажировку или junior-позицию в команде, которая работает с прикладными DL-продуктами.</p>
-                </div>
+                </HoverLift>
               </div>
             </Reveal>
           </div>
@@ -262,19 +268,26 @@ export default function Home() {
               {focusAreas.map((item, index) => {
                 const Icon = item.icon;
                 return (
-                  <Reveal className="capability-row" delay={index * 0.08} key={item.title}>
+                  <Reveal delay={index * 0.08} key={item.title}>
+                    <HoverLift
+                      ariaLabel={`${item.title}: ${item.text}`}
+                      className="capability-row"
+                      tabIndex={0}
+                    >
                     <div className="capability-icon">
                       <Icon size={28} weight="duotone" />
                     </div>
                     <div>
                       <h3>{item.title}</h3>
                       <p>{item.text}</p>
+                      <p className="capability-detail">{item.detail}</p>
                     </div>
                     <div className="stack-tags">
                       {item.stack.map((tag) => (
                         <span key={tag}>{tag}</span>
                       ))}
                     </div>
+                    </HoverLift>
                   </Reveal>
                 );
               })}
@@ -299,7 +312,8 @@ export default function Home() {
             {projects.map((item, index) => {
               const Icon = item.icon;
               return (
-                <Reveal className="project-card" delay={index * 0.05} key={item.title}>
+                <Reveal delay={index * 0.05} key={item.title}>
+                  <HoverLift className="project-card">
                   <div className="project-card-meta">
                     <Icon size={28} weight="duotone" />
                     <span>{item.status}</span>
@@ -311,6 +325,7 @@ export default function Home() {
                       <span key={tag}>{tag}</span>
                     ))}
                   </div>
+                  </HoverLift>
                 </Reveal>
               );
             })}
@@ -331,46 +346,11 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.08} className="tech-matrix">
               {techGroups.map(([group, ...items]) => (
-                <div key={group}>
+                <HoverLift className="tech-row" key={group}>
                   <strong>{group}</strong>
                   <p>{items.join(" / ")}</p>
-                </div>
+                </HoverLift>
               ))}
-            </Reveal>
-          </div>
-        </section>
-
-        <section className="section media-section">
-          <div className="page-shell media-grid">
-            <Reveal>
-              <div className="code-panel" aria-label="ML profile card">
-                <div className="code-topline">
-                  <BookOpen size={20} weight="bold" />
-                  <span>profile.md</span>
-                </div>
-                <pre>{`role: Junior ML/NLP Engineer
-focus: PyTorch, NLP, RAG, Audio ML
-learning: tensor shapes, gradients, metrics
-goal: internship or junior ML role`}</pre>
-              </div>
-            </Reveal>
-            <Reveal delay={0.08}>
-              <div className="music-panel">
-                <Image src="/images/TPAB.png" alt="Обложка To Pimp a Butterfly" width={420} height={420} />
-                <div>
-                  <span>after hours</span>
-                  <h2>Alright</h2>
-                  <p>Kendrick Lamar / To Pimp a Butterfly</p>
-                  <div className="sound-line" aria-hidden="true">
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                  </div>
-                </div>
-              </div>
             </Reveal>
           </div>
         </section>
@@ -414,7 +394,7 @@ goal: internship or junior ML role`}</pre>
             Junior ML/NLP Engineer
           </span>
           <span>
-            <VinylRecord size={16} weight="duotone" />
+            <Cpu size={16} weight="duotone" />
             PyTorch / NLP / Audio ML
           </span>
         </div>
