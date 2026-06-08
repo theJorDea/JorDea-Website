@@ -88,12 +88,12 @@ export function CustomCursor() {
     return () => window.removeEventListener("pointermove", handlePointerMove);
   }, [reduceMotion, x, y]);
 
+  const springX = useSpring(x, { stiffness: 500, damping: 28, mass: 0.2 });
+  const springY = useSpring(y, { stiffness: 500, damping: 28, mass: 0.2 });
+
   if (reduceMotion) {
     return null;
   }
-
-  const springX = useSpring(x, { stiffness: 500, damping: 28, mass: 0.2 });
-  const springY = useSpring(y, { stiffness: 500, damping: 28, mass: 0.2 });
 
   return (
     <motion.div
@@ -204,7 +204,7 @@ type ProjectData = {
   status: string;
   text: string;
   stack: string[];
-  icon: React.ComponentType<any>;
+  icon: React.ElementType;
 };
 
 export function VilmarShowcase({ items }: { items: ProjectData[] }) {
@@ -363,4 +363,4 @@ function PinnedFrame({
       <p>{item.text}</p>
     </motion.article>
   );
-}
+}

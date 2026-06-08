@@ -1,5 +1,6 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Unbounded } from "next/font/google";
+import { Analytics } from '@vercel/analytics/next';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,7 +35,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Настройка цвета статус-бара для мобильных устройств в темной теме
 export const viewport: Viewport = {
   themeColor: "#000000",
   colorScheme: "dark",
@@ -46,12 +46,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ru"
-      className={`${geistSans.variable} ${geistMono.variable} ${unbounded.variable}`}
-      style={{ backgroundColor: "#000000" }} // Предотвращает белую вспышку при инициализации
-    >
-      <body>{children}</body>
+    <html lang="ru" className={`${geistSans.variable} ${geistMono.variable} ${unbounded.variable}`} style={{ backgroundColor: "#000000" }}>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
-}
+}
