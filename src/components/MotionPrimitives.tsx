@@ -303,6 +303,9 @@ const projectIcons = {
   chartLine: ChartLine,
 };
 
+const smoothScrollSpring = { stiffness: 150, damping: 34, mass: 0.42 };
+const softOpacitySpring = { stiffness: 180, damping: 36, mass: 0.36 };
+
 export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -420,13 +423,17 @@ function ProjectTitleItem({
   const opacity = useTransform(progress, inputRange, opacityRange);
   const scale = useTransform(progress, inputRange, scaleRange);
   const blurValue = useTransform(progress, inputRange, blurRange);
-  const filter = useMotionTemplate`blur(${blurValue}px)`;
+  const smoothY = useSpring(y, smoothScrollSpring);
+  const smoothOpacity = useSpring(opacity, softOpacitySpring);
+  const smoothScale = useSpring(scale, smoothScrollSpring);
+  const smoothBlur = useSpring(blurValue, smoothScrollSpring);
+  const filter = useMotionTemplate`blur(${smoothBlur}px)`;
 
   return (
     <div className={isActive ? "project-title-slot is-active" : "project-title-slot"}>
       <motion.button
         className={isActive ? "project-title-item is-active" : "project-title-item"}
-        style={{ y, opacity, scale, filter }}
+        style={{ y: smoothY, opacity: smoothOpacity, scale: smoothScale, filter }}
         type="button"
       >
         <span>{item.status}</span>
@@ -448,13 +455,14 @@ function ProjectDetailPanel({
   total: number;
 }) {
   const Icon = projectIcons[item.icon];
+  const reduceMotion = useReducedMotion();
 
   const step = 1 / total;
   const start = index * step;
-  const enterStart = start + step * 0.24;
-  const enterEnd = start + step * 0.42;
-  const holdEnd = start + step * 0.72;
-  const exitEnd = start + step * 0.9;
+  const enterStart = start + step * 0.2;
+  const enterEnd = start + step * 0.38;
+  const holdEnd = start + step * 0.68;
+  const exitEnd = start + step * 0.86;
 
   const isFirst = index === 0;
   const isLast = index === total - 1;
@@ -468,33 +476,47 @@ function ProjectDetailPanel({
   if (isFirst) {
     inputRange = [0, enterStart, enterEnd, holdEnd, exitEnd];
     opacityRange = [0, 0, 1, 1, 0];
-    yRange = [170, 170, 0, 0, -170];
-    scaleRange = [0.96, 0.96, 1, 1, 0.96];
-    blurRange = [18, 18, 0, 0, 18];
+    yRange = [260, 260, 0, 0, -260];
+    scaleRange = [0.985, 0.985, 1, 1, 0.985];
+    blurRange = [14, 14, 0, 0, 14];
   } else if (isLast) {
     inputRange = [enterStart, enterEnd, 1];
     opacityRange = [0, 1, 1];
-    yRange = [170, 0, 0];
-    scaleRange = [0.96, 1, 1];
-    blurRange = [18, 0, 0];
+    yRange = [260, 0, 0];
+    scaleRange = [0.985, 1, 1];
+    blurRange = [14, 0, 0];
   } else {
     inputRange = [enterStart, enterEnd, holdEnd, exitEnd];
     opacityRange = [0, 1, 1, 0];
-    yRange = [170, 0, 0, -170];
-    scaleRange = [0.96, 1, 1, 0.96];
-    blurRange = [18, 0, 0, 18];
+    yRange = [260, 0, 0, -260];
+    scaleRange = [0.985, 1, 1, 0.985];
+    blurRange = [14, 0, 0, 14];
   }
 
   const opacity = useTransform(progress, inputRange, opacityRange);
   const y = useTransform(progress, inputRange, yRange);
   const scale = useTransform(progress, inputRange, scaleRange);
   const blurValue = useTransform(progress, inputRange, blurRange);
-  const filter = useMotionTemplate`blur(${blurValue}px)`;
+  const smoothOpacity = useSpring(opacity, softOpacitySpring);
+  const smoothY = useSpring(y, smoothScrollSpring);
+  const smoothScale = useSpring(scale, smoothScrollSpring);
+  const smoothBlur = useSpring(blurValue, smoothScrollSpring);
+  const filter = useMotionTemplate`blur(${smoothBlur}px)`;
 
   return (
-    <motion.article className="project-detail-panel" style={{ opacity, y, scale, filter }}>
+    <motion.article
+      className="project-detail-panel"
+      style={{ opacity: smoothOpacity, y: smoothY, scale: smoothScale, filter }}
+    >
       <div className="project-row-top">
-        <Icon size={30} weight="duotone" />
+        <motion.div
+          className="project-icon-motion"
+          initial={false}
+          animate={reduceMotion ? undefined : { rotate: [0, -5, 0], y: [0, -3, 0] }}
+          transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Icon size={30} weight="duotone" />
+        </motion.div>
         <span className="project-row-status">{item.status}</span>
       </div>
 
@@ -601,10 +623,13 @@ function PinnedFrame({
   const opacity = useTransform(progress, inputRange, opacityRange);
   const y = useTransform(progress, inputRange, yRange);
   const blurValue = useTransform(progress, inputRange, blurRange);
-  const filter = useMotionTemplate`blur(${blurValue}px)`;
+  const smoothOpacity = useSpring(opacity, softOpacitySpring);
+  const smoothY = useSpring(y, smoothScrollSpring);
+  const smoothBlur = useSpring(blurValue, smoothScrollSpring);
+  const filter = useMotionTemplate`blur(${smoothBlur}px)`;
 
   return (
-    <motion.article className="pinned-frame" style={{ opacity, y, filter }}>
+    <motion.article className="pinned-frame" style={{ opacity: smoothOpacity, y: smoothY, filter }}>
       <span className="plain-kicker">{item.label}</span>
       <h2>{item.title}</h2>
     </motion.article>
