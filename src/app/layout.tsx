@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "https://jordea-website.vercel.app";
+  : "https://jordea.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
