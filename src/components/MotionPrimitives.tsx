@@ -335,14 +335,50 @@ function ProjectDetailPanel({
   total: number;
 }) {
   const Icon = projectIcons[item.icon];
+
   const step = total > 1 ? 1 / (total - 1) : 1;
   const center = total > 1 ? index / (total - 1) : 0;
-  const start = center - step * 0.72;
-  const end = center + step * 0.72;
-  const opacity = useTransform(progress, [start, center, end], [0, 1, 0]);
-  const y = useTransform(progress, [start, center, end], [84, 0, -84]);
-  const scale = useTransform(progress, [start, center, end], [0.97, 1, 0.97]);
-  const blurValue = useTransform(progress, [start, center, end], [14, 0, 14]);
+
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
+
+  let inputRange: number[];
+  let opacityRange: number[];
+  let yRange: number[];
+  let scaleRange: number[];
+  let blurRange: number[];
+
+  if (isFirst) {
+    const end = Math.min(1, step * 0.72);
+
+    inputRange = [0, end];
+    opacityRange = [1, 0];
+    yRange = [0, -84];
+    scaleRange = [1, 0.97];
+    blurRange = [0, 14];
+  } else if (isLast) {
+    const start = Math.max(0, 1 - step * 0.72);
+
+    inputRange = [start, 1];
+    opacityRange = [0, 1];
+    yRange = [84, 0];
+    scaleRange = [0.97, 1];
+    blurRange = [14, 0];
+  } else {
+    const start = Math.max(0, center - step * 0.72);
+    const end = Math.min(1, center + step * 0.72);
+
+    inputRange = [start, center, end];
+    opacityRange = [0, 1, 0];
+    yRange = [84, 0, -84];
+    scaleRange = [0.97, 1, 0.97];
+    blurRange = [14, 0, 14];
+  }
+
+  const opacity = useTransform(progress, inputRange, opacityRange);
+  const y = useTransform(progress, inputRange, yRange);
+  const scale = useTransform(progress, inputRange, scaleRange);
+  const blurValue = useTransform(progress, inputRange, blurRange);
   const filter = useMotionTemplate`blur(${blurValue}px)`;
 
   return (
@@ -351,9 +387,11 @@ function ProjectDetailPanel({
         <Icon size={30} weight="duotone" />
         <span className="project-row-status">{item.status}</span>
       </div>
+
       <div className="project-row-body">
         <h3>{item.title}</h3>
         <p>{item.text}</p>
+
         <div className="stack-tags">
           {item.stack.map((tag) => (
             <span key={tag}>{tag}</span>
