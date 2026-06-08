@@ -3,9 +3,9 @@
 import {
   motion,
   useMotionValue,
+  useSpring,
   useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
   useMotionTemplate,
 } from "motion/react";
@@ -95,8 +95,8 @@ export function CustomCursor() {
     return () => window.removeEventListener("pointermove", handlePointerMove);
   }, [reduceMotion, x, y]);
 
-  const springX = useSpring(x, { stiffness: 260, damping: 32, mass: 0.45 });
-  const springY = useSpring(y, { stiffness: 260, damping: 32, mass: 0.45 });
+  const cursorX = useSpring(x, { stiffness: 720, damping: 42, mass: 0.18 });
+  const cursorY = useSpring(y, { stiffness: 720, damping: 42, mass: 0.18 });
 
   if (reduceMotion) {
     return null;
@@ -105,7 +105,7 @@ export function CustomCursor() {
   return (
     <motion.div
       className={`custom-cursor ${hovered ? "active" : ""}`}
-      style={{ left: springX, top: springY, x: "-50%", y: "-50%" }}
+      style={{ left: cursorX, top: cursorY, x: "-50%", y: "-50%" }}
       aria-hidden="true"
     />
   );
@@ -192,13 +192,29 @@ export function PolyHero({ children }: { children: ReactNode }) {
     offset: ["start start", "end end"],
   });
 
-  const heroX = useTransform(scrollYProgress, [0, 0.45, 0.75], [0, -120, -520]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.45, 0.7], [1, 0.55, 0]);
-  const heroBlur = useTransform(scrollYProgress, [0, 0.55, 0.8], [0, 8, 24]);
-  const heroFilter = useMotionTemplate`blur(${heroBlur}px)`;
+  const titleXValue = useTransform(scrollYProgress, [0, 0.42, 0.78], [0, -130, -860]);
+  const titleX = useMotionTemplate`${titleXValue}px`;
+  const titleScale = useTransform(scrollYProgress, [0, 0.45, 0.78], [1, 1.08, 1.58]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.5, 0.78], [1, 0.82, 0]);
 
-  const introHeaderOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
-  const introHeaderY = useTransform(scrollYProgress, [0, 0.35], [0, -24]);
+  const supportYValue = useTransform(scrollYProgress, [0, 0.42, 0.78], [0, 130, 620]);
+  const supportY = useMotionTemplate`${supportYValue}px`;
+  const supportScale = useTransform(scrollYProgress, [0, 0.45, 0.78], [1, 1.12, 1.56]);
+  const supportOpacity = useTransform(scrollYProgress, [0, 0.48, 0.78], [1, 0.72, 0]);
+
+  const kickerYValue = useTransform(scrollYProgress, [0, 0.42, 0.78], [0, -84, -360]);
+  const kickerY = useMotionTemplate`${kickerYValue}px`;
+  const kickerScale = useTransform(scrollYProgress, [0, 0.45, 0.78], [1, 1.08, 1.42]);
+  const kickerOpacity = useTransform(scrollYProgress, [0, 0.46, 0.78], [1, 0.68, 0]);
+
+  const rightX = useTransform(scrollYProgress, [0, 0.42, 0.78], [0, 150, 780]);
+  const rightScale = useTransform(scrollYProgress, [0, 0.45, 0.78], [1, 1.12, 1.58]);
+  const rightOpacity = useTransform(scrollYProgress, [0, 0.48, 0.78], [1, 0.78, 0]);
+  const rightBlur = useTransform(scrollYProgress, [0, 0.55, 0.82], [0, 5, 18]);
+  const rightFilter = useMotionTemplate`blur(${rightBlur}px)`;
+
+  const introHeaderOpacity = useTransform(scrollYProgress, [0, 0.32], [1, 0]);
+  const introHeaderY = useTransform(scrollYProgress, [0, 0.34], [0, -132]);
   return (
     <section ref={containerRef} className="hero-scroll-scene" id="home">
       <div className="hero-sticky-stage">
@@ -219,14 +235,40 @@ export function PolyHero({ children }: { children: ReactNode }) {
 
         <motion.div
           className="page-shell hero-container-poly"
-          style={{
-            x: heroX,
-            opacity: heroOpacity,
-            filter: heroFilter,
-          }}
+          style={
+            {
+              "--hero-title-x": titleX,
+              "--hero-title-scale": titleScale,
+              "--hero-title-opacity": titleOpacity,
+              "--hero-support-y": supportY,
+              "--hero-support-scale": supportScale,
+              "--hero-support-opacity": supportOpacity,
+              "--hero-kicker-y": kickerY,
+              "--hero-kicker-scale": kickerScale,
+              "--hero-kicker-opacity": kickerOpacity,
+            } as CSSProperties
+          }
         >
           {children}
         </motion.div>
+
+        <motion.aside
+          className="hero-side-copy"
+          style={{
+            x: rightX,
+            scale: rightScale,
+            opacity: rightOpacity,
+            filter: rightFilter,
+          }}
+        >
+          <span className="hero-side-kicker">ML workflow</span>
+          <h2>От данных до работающего демо</h2>
+          <p>
+            Учусь собирать ML-прототипы полностью: подготовка данных, обучение модели,
+            проверка метрик, разбор ошибок и аккуратный API для тестирования.
+          </p>
+          <p>Фокус: NLP, PyTorch, Deep Learning, RAG и Audio ML.</p>
+        </motion.aside>
 
         <motion.div className="scroll-hint" style={{ opacity: introHeaderOpacity }}>
           Scroll to explore
@@ -273,8 +315,9 @@ export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
   useEffect(() => {
     const handleScrollUpdate = (latest: number) => {
       const maxIndex = items.length - 1;
+      const segment = 1 / items.length;
       const index = Math.min(
-        Math.max(Math.round(latest * maxIndex), 0),
+        Math.max(Math.floor((latest + segment * 0.18) / segment), 0),
         maxIndex
       );
       setActiveIndex(index);
@@ -295,14 +338,14 @@ export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
           {items.map((item, idx) => {
             const isActive = idx === activeIndex;
             return (
-              <button
-                className={isActive ? "project-title-item is-active" : "project-title-item"}
+              <ProjectTitleItem
+                index={idx}
+                isActive={isActive}
+                item={item}
                 key={item.title}
-                type="button"
-              >
-                <span>{item.status}</span>
-                <strong>{item.title}</strong>
-              </button>
+                progress={scrollYProgress}
+                total={items.length}
+              />
             );
           })}
         </div>
@@ -323,6 +366,76 @@ export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
   );
 }
 
+function ProjectTitleItem({
+  index,
+  isActive,
+  item,
+  progress,
+  total,
+}: {
+  index: number;
+  isActive: boolean;
+  item: ProjectData;
+  progress: MotionValue<number>;
+  total: number;
+}) {
+  const step = 1 / total;
+  const titleGap = 168;
+  const inputRange: number[] = [];
+  const yRange: number[] = [];
+  const opacityRange: number[] = [];
+  const scaleRange: number[] = [];
+  const blurRange: number[] = [];
+
+  function addPoint(point: number, activeProjectIndex: number) {
+    const clampedPoint = Math.min(Math.max(point, 0), 1);
+    const distance = Math.abs(index - activeProjectIndex);
+
+    if (inputRange.length && clampedPoint <= inputRange[inputRange.length - 1]) {
+      return;
+    }
+
+    inputRange.push(clampedPoint);
+    yRange.push((index - activeProjectIndex) * titleGap);
+    opacityRange.push(distance === 0 ? 1 : distance === 1 ? 0.34 : 0.16);
+    scaleRange.push(distance === 0 ? 1 : 0.96);
+    blurRange.push(distance === 0 ? 0 : distance === 1 ? 5 : 8);
+  }
+
+  for (let projectIndex = 0; projectIndex < total; projectIndex += 1) {
+    const start = projectIndex * step;
+    const holdStart = projectIndex === 0 ? 0 : start + step * 0.08;
+    const holdEnd = start + step * 0.72;
+    const transitionEnd = start + step * 0.96;
+
+    addPoint(holdStart, projectIndex);
+    addPoint(holdEnd, projectIndex);
+
+    if (projectIndex < total - 1) {
+      addPoint(transitionEnd, projectIndex + 1);
+    }
+  }
+
+  const y = useTransform(progress, inputRange, yRange);
+  const opacity = useTransform(progress, inputRange, opacityRange);
+  const scale = useTransform(progress, inputRange, scaleRange);
+  const blurValue = useTransform(progress, inputRange, blurRange);
+  const filter = useMotionTemplate`blur(${blurValue}px)`;
+
+  return (
+    <div className={isActive ? "project-title-slot is-active" : "project-title-slot"}>
+      <motion.button
+        className={isActive ? "project-title-item is-active" : "project-title-item"}
+        style={{ y, opacity, scale, filter }}
+        type="button"
+      >
+        <span>{item.status}</span>
+        <strong>{item.title}</strong>
+      </motion.button>
+    </div>
+  );
+}
+
 function ProjectDetailPanel({
   index,
   item,
@@ -336,8 +449,12 @@ function ProjectDetailPanel({
 }) {
   const Icon = projectIcons[item.icon];
 
-  const step = total > 1 ? 1 / (total - 1) : 1;
-  const center = total > 1 ? index / (total - 1) : 0;
+  const step = 1 / total;
+  const start = index * step;
+  const enterStart = start + step * 0.24;
+  const enterEnd = start + step * 0.42;
+  const holdEnd = start + step * 0.72;
+  const exitEnd = start + step * 0.9;
 
   const isFirst = index === 0;
   const isLast = index === total - 1;
@@ -349,30 +466,23 @@ function ProjectDetailPanel({
   let blurRange: number[];
 
   if (isFirst) {
-    const end = Math.min(1, step * 0.72);
-
-    inputRange = [0, end];
-    opacityRange = [1, 0];
-    yRange = [0, -84];
-    scaleRange = [1, 0.97];
-    blurRange = [0, 14];
+    inputRange = [0, enterStart, enterEnd, holdEnd, exitEnd];
+    opacityRange = [0, 0, 1, 1, 0];
+    yRange = [170, 170, 0, 0, -170];
+    scaleRange = [0.96, 0.96, 1, 1, 0.96];
+    blurRange = [18, 18, 0, 0, 18];
   } else if (isLast) {
-    const start = Math.max(0, 1 - step * 0.72);
-
-    inputRange = [start, 1];
-    opacityRange = [0, 1];
-    yRange = [84, 0];
-    scaleRange = [0.97, 1];
-    blurRange = [14, 0];
+    inputRange = [enterStart, enterEnd, 1];
+    opacityRange = [0, 1, 1];
+    yRange = [170, 0, 0];
+    scaleRange = [0.96, 1, 1];
+    blurRange = [18, 0, 0];
   } else {
-    const start = Math.max(0, center - step * 0.72);
-    const end = Math.min(1, center + step * 0.72);
-
-    inputRange = [start, center, end];
-    opacityRange = [0, 1, 0];
-    yRange = [84, 0, -84];
-    scaleRange = [0.97, 1, 0.97];
-    blurRange = [14, 0, 14];
+    inputRange = [enterStart, enterEnd, holdEnd, exitEnd];
+    opacityRange = [0, 1, 1, 0];
+    yRange = [170, 0, 0, -170];
+    scaleRange = [0.96, 1, 1, 0.96];
+    blurRange = [18, 0, 0, 18];
   }
 
   const opacity = useTransform(progress, inputRange, opacityRange);
@@ -406,7 +516,6 @@ function ProjectDetailPanel({
 type PinnedStatement = {
   label: string;
   title: string;
-  text: string;
 };
 
 export function PinnedFocus({ items }: { items: PinnedStatement[] }) {
@@ -424,7 +533,6 @@ export function PinnedFocus({ items }: { items: PinnedStatement[] }) {
           <article className="pinned-card-static" key={item.title}>
             <span>{item.label}</span>
             <h2>{item.title}</h2>
-            <p>{item.text}</p>
           </article>
         ))}
       </section>
@@ -460,29 +568,45 @@ function PinnedFrame({
   total: number;
 }) {
   const step = 1 / total;
-  const center = index * step + step / 2;
-  const opacity = useTransform(
-    progress,
-    [Math.max(0, center - step * 0.5), center, Math.min(1, center + step * 0.5)],
-    [0, 1, 0]
-  );
-  const y = useTransform(
-    progress,
-    [Math.max(0, center - step * 0.5), center, Math.min(1, center + step * 0.5)],
-    [30, 0, -30]
-  );
-  const blurValue = useTransform(
-    progress,
-    [Math.max(0, center - step * 0.5), center, Math.min(1, center + step * 0.5)],
-    [10, 0, 10]
-  );
+  const start = index * step;
+  const enterStart = index === 0 ? 0 : start - step * 0.08;
+  const enterEnd = start + step * 0.08;
+  const holdEnd = start + step * 0.74;
+  const exitEnd = start + step * 0.92;
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
+
+  let inputRange: number[];
+  let opacityRange: number[];
+  let yRange: number[];
+  let blurRange: number[];
+
+  if (isFirst) {
+    inputRange = [0, holdEnd, exitEnd, 1];
+    opacityRange = [1, 1, 0, 0];
+    yRange = [0, 0, -96, -96];
+    blurRange = [0, 0, 18, 18];
+  } else if (isLast) {
+    inputRange = [0, enterStart, enterEnd, 1];
+    opacityRange = [0, 0, 1, 1];
+    yRange = [96, 96, 0, 0];
+    blurRange = [18, 18, 0, 0];
+  } else {
+    inputRange = [enterStart, enterEnd, holdEnd, exitEnd];
+    opacityRange = [0, 1, 1, 0];
+    yRange = [96, 0, 0, -96];
+    blurRange = [18, 0, 0, 18];
+  }
+
+  const opacity = useTransform(progress, inputRange, opacityRange);
+  const y = useTransform(progress, inputRange, yRange);
+  const blurValue = useTransform(progress, inputRange, blurRange);
   const filter = useMotionTemplate`blur(${blurValue}px)`;
 
   return (
     <motion.article className="pinned-frame" style={{ opacity, y, filter }}>
       <span className="plain-kicker">{item.label}</span>
       <h2>{item.title}</h2>
-      <p>{item.text}</p>
     </motion.article>
   );
 }

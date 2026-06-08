@@ -62,18 +62,11 @@ const focusAreas = [
 const scrollStatements = [
   {
     label: "01 / models",
-    title: "Понимать модель глубже, чем вызов готового API.",
-    text: "Я разбираю tensor shapes, градиенты, training dynamics и ограничения архитектуры, чтобы понимать, почему модель работает или ломается.",
+    title: "Модель должна быть понятной, а не просто запускаться.",
   },
   {
-    label: "02 / data",
-    title: "Смотреть на данные раньше, чем спорить о метриках.",
-    text: "Качество пайплайна начинается с preprocessing, валидации, class imbalance, ошибок разметки и понятного анализа failure cases.",
-  },
-  {
-    label: "03 / product",
-    title: "Доводить прототип до формы, которую можно показать.",
-    text: "Мне важно не только обучить модель, но и упаковать её в структуру, API или демонстрационный сервис.",
+    label: "02 / models",
+    title: "Сильный результат начинается с данных, метрик и ошибок.",
   },
 ];
 
@@ -163,19 +156,16 @@ export default function Home() {
         {/* Использование PolyHero для анимации при скролле (Poly-block стиль) */}
         <PolyHero>
           <div className="hero-copy">
-            <Reveal>
-              <p className="plain-kicker">ML / NLP / Deep Learning / Audio</p>
-            </Reveal>
-            <Reveal delay={0.06}>
+            <p className="plain-kicker hero-kicker-motion">ML / NLP / Deep Learning / Audio</p>
+            <div className="hero-title-motion">
               <h1>JorDea — Junior ML/NLP Engineer.</h1>
-            </Reveal>
-            <Reveal delay={0.12}>
+            </div>
+            <div className="hero-support-motion">
               <p className="hero-lead">
                 Собираю ML-прототипы для задач с текстом, последовательностями и аудиоданными.
                 Фокусируюсь на PyTorch, Deep Learning, NLP, Transformers, RAG-системах и Audio ML.
               </p>
-            </Reveal>
-            <Reveal delay={0.18} className="hero-actions">
+              <div className="hero-actions">
               <a className="primary-link" href="#projects">
                 Смотреть проекты
                 <ArrowUpRight size={18} weight="bold" />
@@ -188,7 +178,8 @@ export default function Home() {
                 <GithubLogo size={18} weight="bold" />
                 GitHub
               </a>
-            </Reveal>
+              </div>
+            </div>
           </div>
         </PolyHero>
 

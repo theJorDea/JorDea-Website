@@ -17,7 +17,7 @@ export function SiteHeader() {
 
   useEffect(() => {
     function handleScroll() {
-      setVisible(window.scrollY > window.innerHeight * 0.75);
+      setVisible(window.scrollY > window.innerHeight * 0.3);
     }
 
     handleScroll();

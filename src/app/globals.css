@@ -90,7 +90,6 @@ h1, h2, h3 {
 }
 
 /* --- CURSOR --- */
-/* --- CURSOR --- */
 @media (pointer: fine) {
   body,
   a,
@@ -100,7 +99,7 @@ h1, h2, h3 {
   .hover-lift-container,
   .project-detail-panel,
   .capability-row {
-    cursor: auto;
+    cursor: none;
   }
 
   a,
@@ -109,7 +108,7 @@ h1, h2, h3 {
   .hover-lift-container,
   .project-detail-panel,
   .capability-row {
-    cursor: pointer;
+    cursor: none;
   }
 }
 
@@ -117,31 +116,28 @@ h1, h2, h3 {
   position: fixed;
   top: 0;
   left: 0;
-  width: 18px;
-  height: 18px;
+  width: 64px;
+  height: 64px;
   border-radius: 999px;
   background: #ffffff;
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: difference;
-  filter: blur(0.4px);
-  opacity: 0.82;
-  box-shadow:
-    0 0 24px rgba(255, 255, 255, 0.24),
-    0 0 72px rgba(255, 255, 255, 0.1);
+  filter: none;
+  opacity: 0.86;
+  box-shadow: none;
   transition:
     width 180ms ease,
     height 180ms ease,
-    opacity 180ms ease,
-    filter 180ms ease;
-  will-change: transform, width, height, filter;
+    opacity 180ms ease;
+  will-change: transform, width, height;
 }
 
 .custom-cursor.active {
-  width: 42px;
-  height: 42px;
-  filter: blur(1px);
-  opacity: 1;
+  width: 54px;
+  height: 54px;
+  filter: none;
+  opacity: 0.92;
 }
 
 @media (pointer: coarse) {
@@ -178,7 +174,7 @@ h1, h2, h3 {
   gap: 6px;
   align-content: center;
   justify-items: stretch;
-  cursor: pointer;
+  cursor: none;
   color: #ffffff;
 }
 
@@ -299,7 +295,7 @@ h1, h2, h3 {
 .menu-button {
   display: none;
   color: var(--ink);
-  cursor: pointer;
+  cursor: none;
 }
 
 /* --- HERO SECTION --- */
@@ -346,6 +342,33 @@ h1, h2, h3 {
   max-width: 720px;
 }
 
+.hero-title-motion {
+  transform:
+    translate3d(var(--hero-title-x, 0px), 0, 0)
+    scale(var(--hero-title-scale, 1));
+  transform-origin: left center;
+  opacity: var(--hero-title-opacity, 1);
+  will-change: transform, opacity;
+}
+
+.hero-support-motion {
+  transform:
+    translate3d(0, var(--hero-support-y, 0px), 0)
+    scale(var(--hero-support-scale, 1));
+  transform-origin: left center;
+  opacity: var(--hero-support-opacity, 1);
+  will-change: transform, opacity;
+}
+
+.hero-kicker-motion {
+  transform:
+    translate3d(0, var(--hero-kicker-y, 0px), 0)
+    scale(var(--hero-kicker-scale, 1));
+  transform-origin: left center;
+  opacity: var(--hero-kicker-opacity, 1);
+  will-change: transform, opacity;
+}
+
 .hero-copy h1 {
   max-width: 720px;
   font-size: clamp(3.2rem, 6.2vw, 7.2rem);
@@ -353,6 +376,55 @@ h1, h2, h3 {
   font-weight: 390;
   letter-spacing: -0.07em;
   margin-bottom: 24px;
+}
+
+.hero-side-copy {
+  position: absolute;
+  right: clamp(32px, 7vw, 128px);
+  top: 48%;
+  z-index: 4;
+  width: min(430px, 34vw);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transform-origin: right center;
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+}
+
+.hero-side-kicker {
+  width: fit-content;
+  color: rgba(255, 255, 255, 0.54);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 560;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero-side-copy h2 {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: clamp(1.42rem, 2.05vw, 2.35rem);
+  line-height: 1.12;
+  font-weight: 360;
+  letter-spacing: -0.055em;
+}
+
+.hero-side-copy p {
+  max-width: 38rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(0.92rem, 0.98vw, 1rem);
+  line-height: 1.7;
+}
+
+.hero-side-copy p:last-child {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.76);
+  font-family: var(--font-mono);
+  font-size: clamp(0.78rem, 0.85vw, 0.9rem);
+  letter-spacing: -0.01em;
 }
 
 .hero-lead {
@@ -646,7 +718,7 @@ h1, h2, h3 {
 /* --- VILMAR PROJECT SHOWCASE --- */
 .project-showcase-container {
   --project-count: 5;
-  min-height: calc(var(--project-count) * 82vh);
+  min-height: calc(var(--project-count) * 112vh);
   position: relative;
 }
 
@@ -663,14 +735,23 @@ h1, h2, h3 {
   display: grid;
   grid-template-columns: minmax(260px, 0.9fr) minmax(420px, 1.18fr);
   gap: clamp(32px, 6vw, 86px);
-  align-items: center;
+  align-items: stretch;
   overflow: hidden;
 }
 
 .project-left-sticky {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(18px, 3.2vh, 30px);
+  min-height: 100dvh;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-title-slot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .project-title-item {
@@ -680,18 +761,15 @@ h1, h2, h3 {
   gap: 8px;
   text-align: left;
   color: rgba(255, 255, 255, 0.28);
-  filter: blur(4px);
-  transform: translateY(0);
+  pointer-events: auto;
   transition:
     color 360ms ease,
-    filter 360ms ease,
-    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    filter 360ms ease;
+  will-change: transform, opacity, filter;
 }
 
 .project-title-item.is-active {
   color: #ffffff;
-  filter: blur(0);
-  transform: translateY(-6px);
 }
 
 .project-title-item span {
@@ -713,6 +791,7 @@ h1, h2, h3 {
 
 .project-right-stage {
   position: relative;
+  align-self: center;
   height: min(66vh, 620px);
   min-height: 460px;
 }
@@ -918,7 +997,7 @@ h1, h2, h3 {
 /* --- STICKY / SCROLL OVERRIDES --- */
 .pinned-focus {
   position: relative;
-  height: 300dvh;
+  height: 220dvh;
 }
 
 .pinned-stage {
@@ -933,23 +1012,19 @@ h1, h2, h3 {
 
 .pinned-frame {
   position: absolute;
-  width: min(800px, calc(100% - 32px));
+  width: min(1040px, calc(100% - 32px));
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 22px;
 }
 
 .pinned-frame h2 {
-  font-size: clamp(1.55rem, 3vw, 2.6rem);
-  line-height: 1.1;
-  font-weight: 460;
-}
-
-.pinned-frame p {
-  color: var(--muted);
-  font-size: clamp(1rem, 1.3vw, 1.2rem);
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  font-size: clamp(3.1rem, 6.2vw, 7.2rem);
+  line-height: 0.96;
+  font-weight: 420;
+  letter-spacing: -0.065em;
 }
 
 /* --- UTILS --- */
@@ -1024,8 +1099,23 @@ h1, h2, h3 {
   }
 
   .project-left-sticky {
-    gap: 16px;
+    min-height: auto;
+    overflow: visible;
     margin-bottom: 32px;
+  }
+
+  .project-title-slot {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    display: none;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .project-title-slot.is-active {
+    display: block;
   }
 
   .project-right-stage {
@@ -1037,6 +1127,9 @@ h1, h2, h3 {
 
   .project-title-item {
     display: none;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 
   .project-title-item.is-active {
