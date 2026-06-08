@@ -313,7 +313,7 @@ export default function Home() {
 
         {/* Секция проектов с эффектом сплит-фокуса (Vilmar Fernandes стиль) */}
         <section className="section page-shell" id="projects">
-          <Reveal className="project-heading" style={{ marginBottom: "64px" }}>
+          <Reveal className="project-heading">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", flexWrap: "wrap", gap: "24px" }}>
               <div>
                 <p className="plain-kicker">Проекты</p>
@@ -402,4 +402,4 @@ export default function Home() {
       </footer>
     </>
   );
-}
+}
