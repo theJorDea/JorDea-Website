@@ -38,11 +38,6 @@ export function SiteHeader() {
 
       <nav className="nav-shell" aria-label="Основная навигация">
         <a className="brand-lockup" href="#home" onClick={closeMenu}>
-          <svg className="brand-mark-svg" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0" y="0" width="16" height="6" />
-            <rect x="18" y="0" width="6" height="6" />
-            <rect x="0" y="10" width="8" height="6" />
-          </svg>
           <span className="brand-text-mini">JorDea</span>
         </a>
 

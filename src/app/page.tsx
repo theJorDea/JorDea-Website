@@ -2,25 +2,18 @@ import {
   ArrowUpRight,
   At,
   Brain,
-  ChartLine,
   Cpu,
-  Database,
-  FileText,
   GithubLogo,
   GraduationCap,
   MagnifyingGlass,
-  Network,
-  Rows,
   SpotifyLogo,
   Student,
   Target,
   TelegramLogo,
-  TreeStructure,
   Waveform,
 } from "@phosphor-icons/react/ssr";
 import {
   CustomCursor,
-  HoverLift,
   MagneticLink,
   PinnedFocus,
   Reveal,
@@ -289,7 +282,7 @@ export default function Home() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", flexWrap: "wrap", gap: "24px" }}>
               <div>
                 <p className="plain-kicker">Проекты</p>
-                <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700 }}>ML-разработки</h2>
+                <h2 className="project-section-title">ML-разработки</h2>
               </div>
               <a className="inline-github" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
                 <GithubLogo size={20} weight="duotone" />

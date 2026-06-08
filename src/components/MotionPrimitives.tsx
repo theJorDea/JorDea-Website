@@ -17,7 +17,7 @@ import {
   Waveform,
 } from "@phosphor-icons/react";
 import type { MotionValue } from "motion/react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 
@@ -83,7 +83,7 @@ export function CustomCursor() {
         target.closest("a") !== null ||
         target.closest("button") !== null ||
         target.closest(".hover-lift-container") !== null ||
-        target.closest(".project-row-item") !== null;
+        target.closest(".project-detail-panel") !== null;
 
       if (isClickable !== isHovering.current) {
         isHovering.current = isClickable;
@@ -199,18 +199,6 @@ export function PolyHero({ children }: { children: ReactNode }) {
 
   const introHeaderOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
   const introHeaderY = useTransform(scrollYProgress, [0, 0.35], [0, -24]);
-
-  const centerOpacity = useTransform(scrollYProgress, [0.2, 0.48, 0.82], [0, 1, 1]);
-  const centerY = useTransform(scrollYProgress, [0.2, 0.55, 0.9], [40, 0, -24]);
-  const centerBlur = useTransform(scrollYProgress, [0.2, 0.55, 0.9], [22, 0, 0]);
-  const centerFilter = useMotionTemplate`blur(${centerBlur}px)`;
-  const centerScale = useTransform(scrollYProgress, [0.25, 0.6], [0.96, 1]);
-
-  const visualScale = useTransform(scrollYProgress, [0, 0.65], [1, 1.45]);
-  const visualOpacity = useTransform(scrollYProgress, [0, 0.6, 0.85], [0.9, 0.45, 0]);
-  const visualBlur = useTransform(scrollYProgress, [0, 0.65], [0, 12]);
-  const visualFilter = useMotionTemplate`blur(${visualBlur}px)`;
-
   return (
     <section ref={containerRef} className="hero-scroll-scene" id="home">
       <div className="hero-sticky-stage">
@@ -219,12 +207,6 @@ export function PolyHero({ children }: { children: ReactNode }) {
           style={{ opacity: introHeaderOpacity, y: introHeaderY }}
         >
           <a className="intro-brand" href="#home">
-            <svg className="intro-brand-mark" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0" y="0" width="7" height="7" />
-              <rect x="9" y="0" width="7" height="7" />
-              <rect x="0" y="9" width="7" height="7" />
-              <rect x="9" y="9" width="7" height="7" />
-            </svg>
             <span>JorDea</span>
           </a>
 
@@ -236,19 +218,6 @@ export function PolyHero({ children }: { children: ReactNode }) {
         </motion.header>
 
         <motion.div
-          className="hero-visual-orbit"
-          style={{
-            scale: visualScale,
-            opacity: visualOpacity,
-            filter: visualFilter,
-          }}
-          aria-hidden="true"
-        >
-          <div className="glass-cube glass-cube-large" />
-          <div className="glass-cube glass-cube-small" />
-        </motion.div>
-
-        <motion.div
           className="page-shell hero-container-poly"
           style={{
             x: heroX,
@@ -257,23 +226,6 @@ export function PolyHero({ children }: { children: ReactNode }) {
           }}
         >
           {children}
-        </motion.div>
-
-        <motion.div
-          className="intro-center-copy"
-          style={{
-            opacity: centerOpacity,
-            y: centerY,
-            scale: centerScale,
-            filter: centerFilter,
-          }}
-        >
-          <p className="plain-kicker">ML systems / text / audio</p>
-          <h2>Модели должны быть не только обучены, но и доведены до понятного продукта.</h2>
-          <p>
-            Я собираю ML-прототипы для NLP, Deep Learning и Audio ML: от данных и метрик
-            до интерфейса, API и демонстрационного сервиса.
-          </p>
         </motion.div>
 
         <motion.div className="scroll-hint" style={{ opacity: introHeaderOpacity }}>
@@ -315,18 +267,17 @@ export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end end"],
+    offset: ["start start", "end end"],
   });
 
   useEffect(() => {
     const handleScrollUpdate = (latest: number) => {
+      const maxIndex = items.length - 1;
       const index = Math.min(
-        Math.floor(latest * items.length),
-        items.length - 1
+        Math.max(Math.round(latest * maxIndex), 0),
+        maxIndex
       );
-      if (index >= 0) {
-        setActiveIndex(index);
-      }
+      setActiveIndex(index);
     };
 
     const unsubscribe = scrollYProgress.on("change", handleScrollUpdate);
@@ -334,51 +285,82 @@ export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
   }, [scrollYProgress, items.length]);
 
   return (
-    <div ref={containerRef} className="project-showcase-container">
-      {/* LEFT COLUMN: Sticky Titles */}
-      <div className="project-left-sticky">
-        {items.map((item, idx) => {
-          const isActive = idx === activeIndex;
-          return (
-            <div
-              key={item.title}
-              className={`project-title-item ${isActive ? "mobile-active" : ""}`}
-              style={{
-                opacity: isActive ? 1 : 0.15,
-                filter: isActive ? "blur(0px)" : "blur(4px)",
-                transform: isActive ? "scale(1.02) translateX(8px)" : "scale(1) translateX(0px)",
-              }}
-            >
-              <span className="plain-kicker">{item.status}</span>
-              <h3>{item.title}</h3>
-            </div>
-          );
-        })}
-      </div>
+    <div
+      ref={containerRef}
+      className="project-showcase-container"
+      style={{ "--project-count": items.length } as CSSProperties}
+    >
+      <div className="project-showcase-sticky">
+        <div className="project-left-sticky">
+          {items.map((item, idx) => {
+            const isActive = idx === activeIndex;
+            return (
+              <button
+                className={isActive ? "project-title-item is-active" : "project-title-item"}
+                key={item.title}
+                type="button"
+              >
+                <span>{item.status}</span>
+                <strong>{item.title}</strong>
+              </button>
+            );
+          })}
+        </div>
 
-      {/* RIGHT COLUMN: Scrolling details */}
-      <div className="project-right-scroll">
-        {items.map((item) => {
-          const Icon = projectIcons[item.icon];
-          return (
-            <div className="project-row-item" key={item.title}>
-              <div className="project-row-top">
-                <Icon size={32} weight="duotone" />
-                <span className="project-row-status">{item.status}</span>
-              </div>
-              <div className="project-row-body">
-                <p>{item.text}</p>
-                <div className="stack-tags">
-                  {item.stack.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        <div className="project-right-stage">
+          {items.map((item, index) => (
+            <ProjectDetailPanel
+              index={index}
+              item={item}
+              key={item.title}
+              progress={scrollYProgress}
+              total={items.length}
+            />
+          ))}
+        </div>
       </div>
     </div>
+  );
+}
+
+function ProjectDetailPanel({
+  index,
+  item,
+  progress,
+  total,
+}: {
+  index: number;
+  item: ProjectData;
+  progress: MotionValue<number>;
+  total: number;
+}) {
+  const Icon = projectIcons[item.icon];
+  const step = total > 1 ? 1 / (total - 1) : 1;
+  const center = total > 1 ? index / (total - 1) : 0;
+  const start = center - step * 0.72;
+  const end = center + step * 0.72;
+  const opacity = useTransform(progress, [start, center, end], [0, 1, 0]);
+  const y = useTransform(progress, [start, center, end], [84, 0, -84]);
+  const scale = useTransform(progress, [start, center, end], [0.97, 1, 0.97]);
+  const blurValue = useTransform(progress, [start, center, end], [14, 0, 14]);
+  const filter = useMotionTemplate`blur(${blurValue}px)`;
+
+  return (
+    <motion.article className="project-detail-panel" style={{ opacity, y, scale, filter }}>
+      <div className="project-row-top">
+        <Icon size={30} weight="duotone" />
+        <span className="project-row-status">{item.status}</span>
+      </div>
+      <div className="project-row-body">
+        <h3>{item.title}</h3>
+        <p>{item.text}</p>
+        <div className="stack-tags">
+          {item.stack.map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
+        </div>
+      </div>
+    </motion.article>
   );
 }
 
