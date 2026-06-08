@@ -93,35 +93,35 @@ const heroStats = [
 
 const projects = [
   {
-    icon: FileText,
+    icon: "fileText",
     status: "prototype",
     title: "RAG Assistant Prototype",
     text: "Ассистент по документам с retrieval pipeline, chunking, embeddings, semantic search и генерацией ответа на основе найденного контекста.",
     stack: ["Python", "Embeddings", "Vector Search", "LLM API", "RAG"],
   },
   {
-    icon: Rows,
+    icon: "rows",
     status: "study",
     title: "NLP Classification Pipeline",
     text: "Пайплайн классификации текстов: preprocessing, baseline на TF-IDF, сравнение с нейросетевым подходом, метрики и анализ ошибок.",
     stack: ["scikit-learn", "PyTorch", "NLP", "Metrics"],
   },
   {
-    icon: TreeStructure,
+    icon: "treeStructure",
     status: "study",
     title: "Transformer From Scratch",
     text: "Учебная реализация positional encoding, self-attention, multi-head attention, feed-forward block и residual connections.",
     stack: ["PyTorch", "Attention", "Transformers", "Tensor Shapes"],
   },
   {
-    icon: Waveform,
+    icon: "waveform",
     status: "in progress",
     title: "Audio Classification Prototype",
     text: "Прототип классификации аудиофрагментов через spectrogram/MFCC-признаки и DL-модель для коротких сигналов.",
     stack: ["torchaudio", "librosa", "CNN", "Signal Processing"],
   },
   {
-    icon: ChartLine,
+    icon: "chartLine",
     status: "cv",
     title: "Freshness Detection with YOLO",
     text: "Computer Vision-проект для определения состояния продуктов с фокусом на датасет, class imbalance, precision/recall/mAP и error analysis.",

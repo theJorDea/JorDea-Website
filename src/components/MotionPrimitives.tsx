@@ -9,6 +9,13 @@ import {
   useTransform,
   useMotionTemplate,
 } from "motion/react";
+import {
+  ChartLine,
+  FileText,
+  Rows,
+  TreeStructure,
+  Waveform,
+} from "@phosphor-icons/react";
 import type { MotionValue } from "motion/react";
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
@@ -198,13 +205,29 @@ export function PolyHero({ children }: { children: ReactNode }) {
   );
 }
 
+
 /* --- VILMAR FERNANDES STYLE PROJECT SHOWCASE --- */
+type ProjectIconName =
+  | "fileText"
+  | "rows"
+  | "treeStructure"
+  | "waveform"
+  | "chartLine";
+
 type ProjectData = {
   title: string;
   status: string;
   text: string;
   stack: string[];
-  icon: React.ElementType;
+  icon: ProjectIconName;
+};
+
+const projectIcons = {
+  fileText: FileText,
+  rows: Rows,
+  treeStructure: TreeStructure,
+  waveform: Waveform,
+  chartLine: ChartLine,
 };
 
 export function VilmarShowcase({ items }: { items: ProjectData[] }) {
@@ -257,7 +280,7 @@ export function VilmarShowcase({ items }: { items: ProjectData[] }) {
       {/* RIGHT COLUMN: Scrolling details */}
       <div className="project-right-scroll">
         {items.map((item) => {
-          const Icon = item.icon;
+          const Icon = projectIcons[item.icon];
           return (
             <div className="project-row-item" key={item.title}>
               <div className="project-row-top">
