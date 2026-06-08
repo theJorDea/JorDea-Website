@@ -1,9 +1,16 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import type { MotionValue } from "motion/react";
 import type { ReactNode } from "react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -23,6 +30,61 @@ export function ScrollProgress() {
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return <motion.div className="scroll-progress" style={{ scaleX }} aria-hidden="true" />;
+}
+
+export function CursorTrail() {
+  const reduceMotion = useReducedMotion();
+  const x = useMotionValue(-120);
+  const y = useMotionValue(-120);
+
+  useEffect(() => {
+    if (reduceMotion || window.matchMedia("(pointer: coarse)").matches) {
+      return;
+    }
+
+    function handlePointerMove(event: PointerEvent) {
+      x.set(event.clientX);
+      y.set(event.clientY);
+    }
+
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    return () => window.removeEventListener("pointermove", handlePointerMove);
+  }, [reduceMotion, x, y]);
+
+  if (reduceMotion) {
+    return null;
+  }
+
+  return (
+    <div className="cursor-trail" aria-hidden="true">
+      {[0, 1, 2, 3, 4].map((index) => (
+        <CursorDot index={index} key={index} x={x} y={y} />
+      ))}
+    </div>
+  );
+}
+
+function CursorDot({
+  index,
+  x,
+  y,
+}: {
+  index: number;
+  x: MotionValue<number>;
+  y: MotionValue<number>;
+}) {
+  const springX = useSpring(x, {
+    stiffness: 460 - index * 54,
+    damping: 34 + index * 5,
+    mass: 0.24 + index * 0.1,
+  });
+  const springY = useSpring(y, {
+    stiffness: 460 - index * 54,
+    damping: 34 + index * 5,
+    mass: 0.24 + index * 0.1,
+  });
+
+  return <motion.span style={{ x: springX, y: springY }} />;
 }
 
 export function Reveal({ children, delay = 0, className = "" }: RevealProps) {
@@ -87,9 +149,9 @@ export function HoverLift({ children, className = "", ariaLabel, tabIndex }: Hov
       aria-label={ariaLabel}
       className={className}
       tabIndex={tabIndex}
-      whileHover={reduceMotion ? undefined : { y: -5, scale: 1.018 }}
-      whileTap={reduceMotion ? undefined : { scale: 0.992 }}
-      transition={{ type: "spring", stiffness: 260, damping: 26, mass: 0.7 }}
+      whileHover={reduceMotion ? undefined : { y: -4 }}
+      whileTap={reduceMotion ? undefined : { y: -1 }}
+      transition={{ type: "spring", stiffness: 320, damping: 30, mass: 0.72 }}
     >
       {children}
     </motion.div>

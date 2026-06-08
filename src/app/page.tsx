@@ -19,6 +19,7 @@ import {
   Waveform,
 } from "@phosphor-icons/react/ssr";
 import {
+  CursorTrail,
   HoverLift,
   MagneticLink,
   PinnedFocus,
@@ -78,6 +79,13 @@ const scrollStatements = [
     title: "Доводить прототип до формы, которую можно показать.",
     text: "Мне важно не только обучить модель, но и упаковать её в структуру, API или демонстрационный сервис.",
   },
+];
+
+const heroStats = [
+  { value: "4", label: "focus areas" },
+  { value: "5", label: "project directions" },
+  { value: "ITMO", label: "education" },
+  { value: "ML", label: "internship target" },
 ];
 
 const projects = [
@@ -152,6 +160,7 @@ export default function Home() {
   return (
     <>
       <ScrollProgress />
+      <CursorTrail />
       <SiteHeader />
       <main id="main">
         <section className="hero-section" id="home">
@@ -213,6 +222,14 @@ export default function Home() {
               </HoverLift>
             </Reveal>
           </div>
+          <Reveal delay={0.18} className="page-shell hero-stats">
+            {heroStats.map((stat) => (
+              <div className="hero-stat" key={stat.label}>
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </Reveal>
         </section>
 
         <section className="section page-shell about-section" id="about">
@@ -312,19 +329,21 @@ export default function Home() {
             {projects.map((item, index) => {
               const Icon = item.icon;
               return (
-                <Reveal delay={index * 0.05} key={item.title}>
-                  <HoverLift className="project-card">
-                  <div className="project-card-meta">
-                    <Icon size={28} weight="duotone" />
-                    <span>{item.status}</span>
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                  <div className="stack-tags compact-tags">
-                    {item.stack.map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
-                  </div>
+                <Reveal className="project-item" delay={index * 0.05} key={item.title}>
+                  <HoverLift className="project-card" tabIndex={0}>
+                    <div className="project-card-meta">
+                      <Icon size={28} weight="duotone" />
+                      <span>{item.status}</span>
+                    </div>
+                    <div className="project-card-body">
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                    </div>
+                    <div className="stack-tags compact-tags">
+                      {item.stack.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
                   </HoverLift>
                 </Reveal>
               );
