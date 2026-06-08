@@ -127,7 +127,7 @@ const projects = [
     text: "Computer Vision-проект для определения состояния продуктов с фокусом на датасет, class imbalance, precision/recall/mAP и error analysis.",
     stack: ["YOLO", "Object Detection", "Dataset Quality", "mAP"],
   },
-];
+] as const;
 
 const techGroups = [
   ["Core", "Python", "NumPy", "Pandas", "SQL", "Git", "Linux"],

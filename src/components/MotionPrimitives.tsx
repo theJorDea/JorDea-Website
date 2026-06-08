@@ -218,7 +218,7 @@ type ProjectData = {
   title: string;
   status: string;
   text: string;
-  stack: string[];
+  stack: readonly string[];
   icon: ProjectIconName;
 };
 
@@ -230,7 +230,7 @@ const projectIcons = {
   chartLine: ChartLine,
 };
 
-export function VilmarShowcase({ items }: { items: ProjectData[] }) {
+export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
