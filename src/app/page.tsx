@@ -22,7 +22,6 @@ import {
   ScrollProgress,
   SmoothScroll,
   PolyHero,
-  VelocityMarquee,
   VilmarShowcase,
   WordReveal,
 } from "@/components/MotionPrimitives";
@@ -75,10 +74,10 @@ const scrollStatements = [
 ];
 
 const heroStats = [
-  { value: "4", label: "focus areas" },
-  { value: "5", label: "project directions" },
-  { value: "ITMO", label: "education" },
-  { value: "ML", label: "internship target" },
+  { value: "ИТМО", label: "образование" },
+  { value: "PyTorch", label: "основной стек" },
+  { value: "5+", label: "ML-проектов" },
+  { value: "Junior ML", label: "ищу стажировку" },
 ];
 
 const projects = [
@@ -165,14 +164,14 @@ export default function Home() {
             </HeroEntrance>
             <div className="hero-title-motion">
               <h1>
-                <WordReveal text="JorDea — Junior ML/NLP Engineer." delay={0.22} />
+                <WordReveal text="Я JorDea — ML-инженер." delay={0.22} />
               </h1>
             </div>
             <div className="hero-support-motion">
               <HeroEntrance delay={0.55}>
               <p className="hero-lead">
-                Собираю ML-прототипы для задач с текстом, последовательностями и аудиоданными.
-                Фокусируюсь на PyTorch, Deep Learning, NLP, Transformers, RAG-системах и Audio ML.
+                Студент ИТМО. Собираю ML-прототипы для текста, аудио и компьютерного зрения:
+                от данных и обучения модели в PyTorch — до метрик, API и деплоя.
               </p>
               </HeroEntrance>
               <HeroEntrance delay={0.72}>
@@ -204,14 +203,10 @@ export default function Home() {
           ))}
         </Reveal>
 
-        <VelocityMarquee
-          items={["PyTorch", "Transformers", "RAG", "NLP", "Audio ML", "Deep Learning", "Embeddings", "FastAPI"]}
-        />
-
         <section className="section page-shell about-section" id="about">
           <Reveal className="section-intro about-heading">
             <p className="plain-kicker">Обо мне</p>
-            <h2>Студент ИТМО, начинающий ML-разработчик с фокусом на Deep Learning и NLP.</h2>
+            <h2>Я учусь в ИТМО и делаю ML руками: Deep Learning, NLP и аудио — с метриками, разбором ошибок и работающим кодом.</h2>
           </Reveal>
           <div className="about-layout">
             <Reveal className="about-copy">
@@ -255,7 +250,7 @@ export default function Home() {
           <div className="page-shell">
             <Reveal className="section-intro compact">
               <p className="plain-kicker">Focus areas</p>
-              <h2>Направления, где я сейчас расту и собираю практику.</h2>
+              <h2>Что я умею и где набираю практику.</h2>
             </Reveal>
             <div className="capability-list">
               {focusAreas.map((item, index) => {
@@ -328,7 +323,7 @@ export default function Home() {
         <section className="section contact-section page-shell" id="contact">
           <Reveal className="contact-copy">
             <p className="plain-kicker">Контакты</p>
-            <h2>Ищу стажировку или junior-позицию в ML/DL-команде.</h2>
+            <h2>Открыт к стажировке или junior-позиции в ML/DL-команде.</h2>
             <p>
               Особенно интересны NLP, LLM/RAG-системы, Audio ML, sequence modeling, прикладные DL-прототипы и
               ML-инструменты, которые можно довести до сервиса.
