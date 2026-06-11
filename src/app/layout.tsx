@@ -24,13 +24,13 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "JorDea - Junior ML/NLP Engineer",
+  title: "JorDea — Data Scientist · Quant Risk",
   description:
-    "Портфолио JorDea: начинающий ML/NLP Engineer с фокусом на PyTorch, Deep Learning, RAG-системы и Audio ML.",
+    "Портфолио JorDea: Data Scientist с фокусом на квантовые риск-модели — VaR/ES, GARCH, кредитный скоринг и ML на Python/PyTorch.",
   openGraph: {
-    title: "JorDea - Junior ML/NLP Engineer",
+    title: "JorDea — Data Scientist · Quant Risk",
     description:
-      "Минималистичное портфолио про ML-прототипы для текста, последовательностей и аудиоданных.",
+      "Минималистичное портфолио про риск-модели и Data Science: VaR/ES, GARCH, кредитный скоринг, ML-инженерия.",
     type: "website",
   },
 };

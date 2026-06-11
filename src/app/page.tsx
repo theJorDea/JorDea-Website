@@ -1,16 +1,9 @@
 import {
   ArrowUpRight,
   At,
-  Brain,
-  Cpu,
   GithubLogo,
-  GraduationCap,
-  MagnifyingGlass,
   SpotifyLogo,
-  Student,
-  Target,
   TelegramLogo,
-  Waveform,
 } from "@phosphor-icons/react/ssr";
 import {
   CustomCursor,
@@ -18,113 +11,81 @@ import {
   HeroEntrance,
   MagneticLink,
   PinnedFocus,
+  ProjectShowcase,
   Reveal,
   ScrollProgress,
   SmoothScroll,
   PolyHero,
-  VelocityMarquee,
-  VilmarShowcase,
   WordReveal,
 } from "@/components/MotionPrimitives";
 import { SiteHeader } from "@/components/SiteHeader";
 
 const focusAreas = [
   {
-    icon: MagnifyingGlass,
-    title: "NLP & LLM Systems",
-    text: "Embeddings, semantic search, RAG, classification, summarization and LLM agents.",
-    detail:
-      "Практический интерес - пайплайны, где можно проверить retrieval quality, увидеть ошибки поиска и объяснить, почему ответ привязан к контексту.",
-    stack: ["NLP", "BERT", "SBERT", "RAG", "Vector Search"],
+    title: "Market Risk",
+    text: "VaR и Expected Shortfall, оценка волатильности через EWMA и GARCH, Monte Carlo на тяжёлых хвостах.",
+    stack: ["VaR / ES", "EWMA", "GARCH", "Monte Carlo"],
   },
   {
-    icon: Brain,
-    title: "Deep Learning",
-    text: "PyTorch training loops, tensor shapes, CNN, RNN/LSTM, attention and Transformer blocks.",
-    detail:
-      "Разбираю обучение не как черный ящик: loss, optimizer, regularization, gradients, формы тензоров и то, как архитектура влияет на ошибку.",
-    stack: ["PyTorch", "Backprop", "RNN", "LSTM", "Transformers"],
+    title: "Credit Risk & Scoring",
+    text: "PD-модели, WoE/IV-биннинг, калибровка вероятностей, скоркарты и интерпретация через SHAP.",
+    stack: ["PD-модели", "WoE / IV", "Scorecard", "SHAP"],
   },
   {
-    icon: Waveform,
-    title: "Audio ML",
-    text: "Spectrograms, MFCC, signal processing basics, audio classification and sequence modeling.",
-    detail:
-      "Смотрю на аудио как на сигнал и последовательность: признаки, окна, спектрограммы, короткие фрагменты и ограничения датасета.",
-    stack: ["Audio ML", "MFCC", "Spectrograms", "Speech", "Sequences"],
+    title: "Backtesting & Validation",
+    text: "Проверка моделей на истории: тесты Купика и Кристофферсена, out-of-sample валидация, анализ ошибок.",
+    stack: ["Kupiec", "Christoffersen", "Cross-validation", "Metrics"],
   },
   {
-    icon: Cpu,
     title: "ML Engineering",
-    text: "FastAPI, Docker, Git, Linux, PostgreSQL and deployment of ML prototypes as usable services.",
-    detail:
-      "Цель - не только notebook, а понятная структура проекта: API, конфигурация, воспроизводимый запуск, базовый деплой и место для метрик.",
-    stack: ["FastAPI", "Docker", "Linux", "SQL", "API"],
+    text: "Воспроизводимые пайплайны: Python, SQL, Docker, тесты и доведение модели от ноутбука до сервиса.",
+    stack: ["Python", "SQL", "Docker", "FastAPI", "CI"],
   },
 ];
 
 const scrollStatements = [
   {
-    label: "01 / models",
-    title: "Модель должна быть понятной, а не просто запускаться.",
+    label: "01 / risk",
+    title: "Риск-модель должна пройти бэктест, а не просто посчитаться.",
   },
   {
-    label: "02 / models",
-    title: "Сильный результат начинается с данных, метрик и ошибок.",
+    label: "02 / data",
+    title: "Сильный результат начинается с данных, метрик и честных ошибок.",
   },
-];
-
-const heroStats = [
-  { value: "4", label: "focus areas" },
-  { value: "5", label: "project directions" },
-  { value: "ITMO", label: "education" },
-  { value: "ML", label: "internship target" },
 ];
 
 const projects = [
   {
-    icon: "fileText",
-    status: "prototype",
-    title: "RAG Assistant Prototype",
-    text: "Ассистент по документам с retrieval pipeline, chunking, embeddings, semantic search и генерацией ответа на основе найденного контекста.",
-    stack: ["Python", "Embeddings", "Vector Search", "LLM API", "RAG"],
+    status: "core project",
+    title: "Riskforge",
+    text: "Библиотека рыночного риска на Python: исторический и Monte Carlo VaR, Expected Shortfall, волатильность через EWMA и GARCH(1,1), бэктесты Купика и Кристофферсена, сравнение LSTM с GARCH на реальных данных SPY/QQQ/TLT/GLD.",
+    stack: ["Python", "VaR / ES", "GARCH", "Backtesting", "LSTM"],
   },
   {
-    icon: "rows",
-    status: "study",
-    title: "NLP Classification Pipeline",
-    text: "Пайплайн классификации текстов: preprocessing, baseline на TF-IDF, сравнение с нейросетевым подходом, метрики и анализ ошибок.",
-    stack: ["scikit-learn", "PyTorch", "NLP", "Metrics"],
+    status: "credit risk",
+    title: "Credit Scoring",
+    text: "PD-модель на датасете Default of Credit Card Clients: логистическая регрессия и LightGBM, WoE/IV-биннинг, изотоническая калибровка, скоркарта в шкале PDO и SHAP-интерпретация. AUC 0.78, KS 0.42.",
+    stack: ["LightGBM", "WoE / IV", "Calibration", "Scorecard", "SHAP"],
   },
   {
-    icon: "treeStructure",
-    status: "study",
-    title: "Transformer From Scratch",
-    text: "Учебная реализация positional encoding, self-attention, multi-head attention, feed-forward block и residual connections.",
-    stack: ["PyTorch", "Attention", "Transformers", "Tensor Shapes"],
+    status: "hackathon",
+    title: "QuantForge",
+    text: "Торговый агент для Московской биржи: пайплайн от рыночных данных до сигналов и оценки стратегии, собран в хакатонном темпе с упором на работающий end-to-end прототип.",
+    stack: ["Python", "MOEX", "Trading", "Strategy"],
   },
   {
-    icon: "waveform",
-    status: "in progress",
-    title: "Audio Classification Prototype",
-    text: "Прототип классификации аудиофрагментов через spectrogram/MFCC-признаки и DL-модель для коротких сигналов.",
-    stack: ["torchaudio", "librosa", "CNN", "Signal Processing"],
-  },
-  {
-    icon: "chartLine",
-    status: "cv",
-    title: "Freshness Detection with YOLO",
-    text: "Computer Vision-проект для определения состояния продуктов с фокусом на датасет, class imbalance, precision/recall/mAP и error analysis.",
+    status: "computer vision",
+    title: "Freshness Detection",
+    text: "CV-проект по определению свежести продуктов на YOLO: сбор и качество датасета, борьба с class imbalance, precision/recall/mAP и разбор ошибок модели.",
     stack: ["YOLO", "Object Detection", "Dataset Quality", "mAP"],
   },
 ] as const;
 
 const techGroups = [
   ["Core", "Python", "NumPy", "Pandas", "SQL", "Git", "Linux"],
-  ["ML", "scikit-learn", "EDA", "Validation", "Metrics", "Feature Engineering"],
-  ["DL", "PyTorch", "CNN", "RNN/LSTM", "Attention", "Transformers"],
-  ["NLP", "Tokenization", "Embeddings", "BERT/SBERT", "RAG", "LLM Agents"],
-  ["Audio", "Spectrograms", "MFCC", "Signal Processing", "Audio Classification"],
+  ["ML", "scikit-learn", "LightGBM", "Validation", "Metrics", "Feature Engineering"],
+  ["DL", "PyTorch", "LSTM", "Attention", "Transformers"],
+  ["Risk", "VaR / ES", "EWMA / GARCH", "Backtesting", "Calibration", "Scorecards"],
   ["Engineering", "FastAPI", "PostgreSQL", "Docker", "REST API", "Vercel"],
 ];
 
@@ -132,7 +93,7 @@ const socialLinks = [
   {
     href: "https://github.com/theJorDea",
     label: "GitHub",
-    note: "код и ML-прототипы",
+    note: "код и проекты",
     icon: GithubLogo,
   },
   {
@@ -161,18 +122,18 @@ export default function Home() {
         <PolyHero>
           <div className="hero-copy">
             <HeroEntrance delay={0.1}>
-              <p className="plain-kicker hero-kicker-motion">ML / NLP / Deep Learning / Audio</p>
+              <p className="plain-kicker hero-kicker-motion">Data Science / Quant Risk / ML</p>
             </HeroEntrance>
             <div className="hero-title-motion">
               <h1>
-                <WordReveal text="JorDea — Junior ML/NLP Engineer." delay={0.22} />
+                <WordReveal text="JorDea — Data Scientist. Quant Risk." delay={0.22} />
               </h1>
             </div>
             <div className="hero-support-motion">
               <HeroEntrance delay={0.55}>
               <p className="hero-lead">
-                Собираю ML-прототипы для задач с текстом, последовательностями и аудиоданными.
-                Фокусируюсь на PyTorch, Deep Learning, NLP, Transformers, RAG-системах и Audio ML.
+                Строю модели рыночного и кредитного риска: VaR и Expected Shortfall, EWMA/GARCH,
+                кредитный скоринг и бэктестинг — на Python, с ML там, где он реально помогает.
               </p>
               </HeroEntrance>
               <HeroEntrance delay={0.72}>
@@ -195,56 +156,51 @@ export default function Home() {
           </div>
         </PolyHero>
 
-        <Reveal delay={0.18} className="page-shell hero-stats">
-          {heroStats.map((stat) => (
-            <div className="hero-stat" key={stat.label}>
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
-            </div>
-          ))}
-        </Reveal>
-
-        <VelocityMarquee
-          items={["PyTorch", "Transformers", "RAG", "NLP", "Audio ML", "Deep Learning", "Embeddings", "FastAPI"]}
-        />
-
         <section className="section page-shell about-section" id="about">
           <Reveal className="section-intro about-heading">
             <p className="plain-kicker">Обо мне</p>
-            <h2>Студент ИТМО, начинающий ML-разработчик с фокусом на Deep Learning и NLP.</h2>
+            <h2>Студент ИТМО, Data Scientist с фокусом на квантовых риск-моделях.</h2>
           </Reveal>
           <div className="about-layout">
             <Reveal className="about-copy">
               <p>
-                Основной фокус - Deep Learning, NLP и модели для последовательностей: тексты, временные ряды,
-                аудио и мультимодальные данные.
+                Основной фокус - количественные методы в финансах: рыночный риск, кредитный скоринг,
+                временные ряды и модели волатильности.
               </p>
               <p>
-                Сейчас углубляюсь в PyTorch, RNN/LSTM, attention, Transformers, BERT/SBERT и практические
-                NLP-пайплайны. Мне важно понимать модели не только на уровне API, но и на уровне математики,
-                тензорных форм, обучения и анализа ошибок.
+                Работаю с VaR/ES, EWMA и GARCH, бэктестингом по Купику и Кристофферсену, PD-моделями и
+                калибровкой вероятностей. Мне важно понимать модели на уровне математики и статистики,
+                а не только на уровне готовых библиотек.
               </p>
               <p>
-                В проектах стараюсь соединять исследовательский подход и инженерную реализацию: строить понятные
-                пайплайны, проверять метрики, контролировать качество данных и доводить прототип до работающего
-                сервиса.
+                В проектах соединяю исследовательский подход и инженерную реализацию: воспроизводимые
+                пайплайны, тесты, честные метрики и доведение прототипа до работающего инструмента.
               </p>
             </Reveal>
             <Reveal delay={0.08}>
-              <div className="profile-facts">
-                <div className="profile-fact">
-                  <Student size={24} weight="duotone" />
-                  <span>education</span>
-                  <strong>ИТМО</strong>
-                  <p>Фокус обучения - Machine Learning, Deep Learning, NLP, PyTorch и математическая база ML.</p>
+              <dl className="about-facts">
+                <div className="about-fact">
+                  <dt>Образование</dt>
+                  <dd>
+                    <strong>ИТМО</strong>
+                    Математическая статистика, машинное обучение и количественные методы.
+                  </dd>
                 </div>
-                <div className="profile-fact">
-                  <Target size={24} weight="duotone" />
-                  <span>goal</span>
-                  <strong>ML / NLP / Audio ML</strong>
-                  <p>Ищу стажировку или junior-позицию в команде, которая работает с прикладными DL-продуктами.</p>
+                <div className="about-fact">
+                  <dt>Цель</dt>
+                  <dd>
+                    <strong>Quant Risk / Data Science</strong>
+                    Стажировка в команде риск-аналитики или Data Science в финансах.
+                  </dd>
                 </div>
-              </div>
+                <div className="about-fact">
+                  <dt>Сейчас</dt>
+                  <dd>
+                    <strong>VaR / GARCH / Scoring</strong>
+                    Модели волатильности, бэктестинг риск-метрик и кредитный скоринг на реальных данных.
+                  </dd>
+                </div>
+              </dl>
             </Reveal>
           </div>
         </section>
@@ -255,30 +211,25 @@ export default function Home() {
           <div className="page-shell">
             <Reveal className="section-intro compact">
               <p className="plain-kicker">Focus areas</p>
-              <h2>Направления, где я сейчас расту и собираю практику.</h2>
+              <h2>Направления, в которых я работаю и собираю практику.</h2>
             </Reveal>
             <div className="capability-list">
-              {focusAreas.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <Reveal delay={index * 0.08} key={item.title}>
-                    <div className="capability-row" tabIndex={0}>
-                      <div className="capability-icon">
-                        <Icon size={24} weight="duotone" />
-                      </div>
-                      <div>
-                        <h3>{item.title}</h3>
-                        <p>{item.text}</p>
-                      </div>
-                      <div className="stack-tags">
-                        {item.stack.map((tag) => (
-                          <span key={tag}>{tag}</span>
-                        ))}
-                      </div>
+              {focusAreas.map((item, index) => (
+                <Reveal delay={index * 0.06} key={item.title}>
+                  <div className="capability-row" tabIndex={0}>
+                    <span className="capability-index">{String(index + 1).padStart(2, "0")}</span>
+                    <div className="capability-copy">
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
                     </div>
-                  </Reveal>
-                );
-              })}
+                    <div className="stack-tags">
+                      {item.stack.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>
@@ -289,7 +240,7 @@ export default function Home() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", flexWrap: "wrap", gap: "24px" }}>
               <div>
                 <p className="plain-kicker">Проекты</p>
-                <h2 className="project-section-title">ML-разработки</h2>
+                <h2 className="project-section-title">Quant & Data Science</h2>
               </div>
               <a className="inline-github" href="https://github.com/theJorDea" target="_blank" rel="noreferrer">
                 <GithubLogo size={20} weight="duotone" />
@@ -299,19 +250,18 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <VilmarShowcase items={projects} />
+          <ProjectShowcase items={projects} />
         </section>
 
         <section className="section education-section">
           <div className="page-shell education-grid">
             <Reveal className="education-card">
-              <GraduationCap size={32} weight="duotone" />
               <p className="plain-kicker">Образование</p>
-              <h2>ИТМО и самостоятельная ML-база.</h2>
+              <h2>ИТМО и самостоятельная квант-база.</h2>
               <p>
-                Изучаю машинное обучение, Deep Learning, NLP и математическую базу: линейную алгебру,
-                математический анализ, вероятность, статистику и оптимизацию. Параллельно развиваю инженерные
-                навыки: Python, Git, Linux, Docker, backend/API и деплой ML-прототипов.
+                Изучаю теорию вероятностей, математическую статистику, стохастические процессы, оптимизацию
+                и машинное обучение. Параллельно развиваю инженерные навыки: Python, SQL, Git, Linux, Docker
+                и деплой моделей как сервисов.
               </p>
             </Reveal>
             <Reveal delay={0.08} className="tech-matrix">
@@ -328,10 +278,10 @@ export default function Home() {
         <section className="section contact-section page-shell" id="contact">
           <Reveal className="contact-copy">
             <p className="plain-kicker">Контакты</p>
-            <h2>Ищу стажировку или junior-позицию в ML/DL-команде.</h2>
+            <h2>Ищу стажировку в Quant Risk или Data Science.</h2>
             <p>
-              Особенно интересны NLP, LLM/RAG-системы, Audio ML, sequence modeling, прикладные DL-прототипы и
-              ML-инструменты, которые можно довести до сервиса.
+              Особенно интересны рыночный и кредитный риск, риск-метрики и стресс-тесты, временные ряды
+              и ML-инструменты для финансов, которые можно довести до продакшена.
             </p>
             <MagneticLink className="primary-link" href="mailto:klevin3701@gmail.com">
               Написать на почту
@@ -363,14 +313,8 @@ export default function Home() {
         <FooterName />
         <div className="page-shell footer-inner">
           <span>© 2026 JorDea</span>
-          <span>
-            <Brain size={14} weight="duotone" />
-            Junior ML/NLP Engineer
-          </span>
-          <span>
-            <Cpu size={14} weight="duotone" />
-            PyTorch / NLP / Audio ML
-          </span>
+          <span>Data Scientist · Quant Risk</span>
+          <span>Python / ML / Risk Models</span>
         </div>
       </footer>
     </>
