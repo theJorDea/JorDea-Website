@@ -1448,4 +1448,7 @@ h1, h2, h3 {
   .social-list a:hover > svg:last-child,
   .primary-link:hover svg,
   .quiet-link:hover svg,
-  .inline-gi
+  .inline-github:hover svg {
+    transform: none;
+  }
+}
