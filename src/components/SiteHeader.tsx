@@ -26,42 +26,6 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (!menuOpen) return;
-
-    const menu = document.getElementById("mobile-nav");
-    if (!menu) return;
-
-    const focusable = menu.querySelectorAll<HTMLElement>(
-      'a[href], button, [tabindex]:not([tabindex="-1"])'
-    );
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key !== "Tab") return;
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last?.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first?.focus();
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown);
-    first?.focus();
-
-    // Lock body scroll when menu is open
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = originalOverflow;
-    };
-  }, [menuOpen]);
-
   function closeMenu() {
     setMenuOpen(false);
   }
@@ -77,11 +41,7 @@ export function SiteHeader() {
           <span className="brand-text-mini">JorDea</span>
         </a>
 
-        <div
-          id="mobile-nav"
-          className={menuOpen ? "nav-links is-open" : "nav-links"}
-          aria-hidden={!menuOpen}
-        >
+        <div className={menuOpen ? "nav-links is-open" : "nav-links"}>
           {navItems.map((item) => (
             <a key={item.href} href={item.href} onClick={closeMenu}>
               {item.label}
@@ -97,9 +57,8 @@ export function SiteHeader() {
           <button
             className="menu-button"
             type="button"
-            aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
+            aria-label="Открыть меню"
             aria-expanded={menuOpen}
-            aria-controls="mobile-nav"
             onClick={() => setMenuOpen((current) => !current)}
           >
             {menuOpen ? <X size={20} weight="bold" /> : <List size={20} weight="bold" />}
