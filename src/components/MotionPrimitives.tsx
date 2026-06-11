@@ -45,21 +45,176 @@ export function SmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
       lerp: 0.08,
+      anchors: {
+        offset: -72,
+      },
     });
+
+    let frame = 0;
 
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      frame = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    frame = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(frame);
       lenis.destroy();
     };
   }, []);
 
   return null;
+}
+
+/* --- STAGGERED WORD REVEAL (masked lines) --- */
+export function WordReveal({
+  text,
+  className = "",
+  delay = 0,
+  as: Tag = "span",
+}: {
+  text: string;
+  className?: string;
+  delay?: number;
+  as?: "span" | "h1" | "h2";
+}) {
+  const reduceMotion = useReducedMotion();
+  const words = text.split(" ");
+
+  if (reduceMotion) {
+    return <Tag className={className}>{text}</Tag>;
+  }
+
+  return (
+    <Tag className={`word-reveal ${className}`} aria-label={text}>
+      {words.map((word, index) => (
+        <span className="word-mask" key={`${word}-${index}`} aria-hidden="true">
+          <motion.span
+            className="word-inner"
+            initial={{ y: "112%", rotate: 5 }}
+            animate={{ y: "0%", rotate: 0 }}
+            transition={{
+              duration: 0.92,
+              delay: delay + index * 0.085,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            {word}
+          </motion.span>
+        </span>
+      ))}
+    </Tag>
+  );
+}
+
+/* --- HERO ENTRANCE (staggered fade for kicker / lead / actions) --- */
+export function HeroEntrance({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      className={className}
+      initial={reduceMotion ? false : { opacity: 0, y: 28, filter: "blur(8px)" }}
+      animate={reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.96, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/* --- VELOCITY MARQUEE (scroll-reactive ticker) --- */
+export function VelocityMarquee({ items }: { items: readonly string[] }) {
+  const reduceMotion = useReducedMotion();
+  const baseX = useMotionValue(0);
+  const { scrollY } = useScroll();
+  const lastScroll = useRef(0);
+  const velocityBoost = useRef(0);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    let frame = 0;
+    let lastTime = performance.now();
+
+    const unsubscribe = scrollY.on("change", (latest) => {
+      const delta = latest - lastScroll.current;
+      lastScroll.current = latest;
+      velocityBoost.current = Math.max(-1, Math.min(1, delta / 18));
+    });
+
+    function tick(now: number) {
+      const dt = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now;
+
+      const speed = 4.2 * (1 + Math.abs(velocityBoost.current) * 5);
+      const direction = velocityBoost.current < 0 ? 1 : -1;
+      let next = baseX.get() + direction * speed * dt;
+
+      if (next <= -50) next += 50;
+      if (next > 0) next -= 50;
+      baseX.set(next);
+
+      velocityBoost.current *= 0.94;
+      frame = requestAnimationFrame(tick);
+    }
+
+    frame = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      unsubscribe();
+    };
+  }, [baseX, reduceMotion, scrollY]);
+
+  const x = useMotionTemplate`${baseX}%`;
+  const row = [...items, ...items];
+
+  return (
+    <div className="marquee-band" aria-hidden="true">
+      <motion.div className="marquee-track" style={reduceMotion ? undefined : { x }}>
+        {[0, 1].map((copy) => (
+          <div className="marquee-chunk" key={copy}>
+            {row.map((item, index) => (
+              <span className="marquee-item" key={`${copy}-${index}`}>
+                {item}
+                <span className="marquee-dot" />
+              </span>
+            ))}
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+/* --- BIG FOOTER NAME (scroll-linked outline type) --- */
+export function FooterName() {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <div className="footer-name-wrap" aria-hidden="true">
+      <motion.span
+        className="footer-name"
+        initial={reduceMotion ? false : { y: "42%", opacity: 0 }}
+        whileInView={reduceMotion ? undefined : { y: "0%", opacity: 1 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+      >
+        JorDea
+      </motion.span>
+    </div>
+  );
 }
 
 export function CustomCursor() {
@@ -635,3 +790,4 @@ function PinnedFrame({
     </motion.article>
   );
 }
+                                                                                             

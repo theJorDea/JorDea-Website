@@ -14,13 +14,17 @@ import {
 } from "@phosphor-icons/react/ssr";
 import {
   CustomCursor,
+  FooterName,
+  HeroEntrance,
   MagneticLink,
   PinnedFocus,
   Reveal,
   ScrollProgress,
   SmoothScroll,
   PolyHero,
+  VelocityMarquee,
   VilmarShowcase,
+  WordReveal,
 } from "@/components/MotionPrimitives";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -156,15 +160,22 @@ export default function Home() {
         {/* Использование PolyHero для анимации при скролле (Poly-block стиль) */}
         <PolyHero>
           <div className="hero-copy">
-            <p className="plain-kicker hero-kicker-motion">ML / NLP / Deep Learning / Audio</p>
+            <HeroEntrance delay={0.1}>
+              <p className="plain-kicker hero-kicker-motion">ML / NLP / Deep Learning / Audio</p>
+            </HeroEntrance>
             <div className="hero-title-motion">
-              <h1>JorDea — Junior ML/NLP Engineer.</h1>
+              <h1>
+                <WordReveal text="JorDea — Junior ML/NLP Engineer." delay={0.22} />
+              </h1>
             </div>
             <div className="hero-support-motion">
+              <HeroEntrance delay={0.55}>
               <p className="hero-lead">
                 Собираю ML-прототипы для задач с текстом, последовательностями и аудиоданными.
                 Фокусируюсь на PyTorch, Deep Learning, NLP, Transformers, RAG-системах и Audio ML.
               </p>
+              </HeroEntrance>
+              <HeroEntrance delay={0.72}>
               <div className="hero-actions">
               <a className="primary-link" href="#projects">
                 Смотреть проекты
@@ -179,6 +190,7 @@ export default function Home() {
                 GitHub
               </a>
               </div>
+              </HeroEntrance>
             </div>
           </div>
         </PolyHero>
@@ -191,6 +203,10 @@ export default function Home() {
             </div>
           ))}
         </Reveal>
+
+        <VelocityMarquee
+          items={["PyTorch", "Transformers", "RAG", "NLP", "Audio ML", "Deep Learning", "Embeddings", "FastAPI"]}
+        />
 
         <section className="section page-shell about-section" id="about">
           <Reveal className="section-intro about-heading">
@@ -344,6 +360,7 @@ export default function Home() {
       </main>
 
       <footer className="site-footer">
+        <FooterName />
         <div className="page-shell footer-inner">
           <span>© 2026 JorDea</span>
           <span>
