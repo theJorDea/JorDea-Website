@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  AnimatePresence,
   motion,
   useMotionValue,
   useSpring,
@@ -9,17 +10,14 @@ import {
   useTransform,
   useMotionTemplate,
 } from "motion/react";
-import {
-  ChartLine,
-  FileText,
-  Rows,
-  TreeStructure,
-  Waveform,
-} from "@phosphor-icons/react";
 import type { MotionValue } from "motion/react";
 import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
+import Snap from "lenis/snap";
+
+/* Shared Lenis instance so sections (e.g. project snap) can hook into it. */
+const lenisRef: { current: Lenis | null } = { current: null };
 
 type RevealProps = {
   children: ReactNode;
@@ -50,6 +48,8 @@ export function SmoothScroll() {
       },
     });
 
+    lenisRef.current = lenis;
+
     let frame = 0;
 
     function raf(time: number) {
@@ -62,6 +62,7 @@ export function SmoothScroll() {
     return () => {
       cancelAnimationFrame(frame);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
 
@@ -133,71 +134,6 @@ export function HeroEntrance({
   );
 }
 
-/* --- VELOCITY MARQUEE (scroll-reactive ticker) --- */
-export function VelocityMarquee({ items }: { items: readonly string[] }) {
-  const reduceMotion = useReducedMotion();
-  const baseX = useMotionValue(0);
-  const { scrollY } = useScroll();
-  const lastScroll = useRef(0);
-  const velocityBoost = useRef(0);
-
-  useEffect(() => {
-    if (reduceMotion) return;
-
-    let frame = 0;
-    let lastTime = performance.now();
-
-    const unsubscribe = scrollY.on("change", (latest) => {
-      const delta = latest - lastScroll.current;
-      lastScroll.current = latest;
-      velocityBoost.current = Math.max(-1, Math.min(1, delta / 18));
-    });
-
-    function tick(now: number) {
-      const dt = Math.min((now - lastTime) / 1000, 0.05);
-      lastTime = now;
-
-      const speed = 4.2 * (1 + Math.abs(velocityBoost.current) * 5);
-      const direction = velocityBoost.current < 0 ? 1 : -1;
-      let next = baseX.get() + direction * speed * dt;
-
-      if (next <= -50) next += 50;
-      if (next > 0) next -= 50;
-      baseX.set(next);
-
-      velocityBoost.current *= 0.94;
-      frame = requestAnimationFrame(tick);
-    }
-
-    frame = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      unsubscribe();
-    };
-  }, [baseX, reduceMotion, scrollY]);
-
-  const x = useMotionTemplate`${baseX}%`;
-  const row = [...items, ...items];
-
-  return (
-    <div className="marquee-band" aria-hidden="true">
-      <motion.div className="marquee-track" style={reduceMotion ? undefined : { x }}>
-        {[0, 1].map((copy) => (
-          <div className="marquee-chunk" key={copy}>
-            {row.map((item, index) => (
-              <span className="marquee-item" key={`${copy}-${index}`}>
-                {item}
-                <span className="marquee-dot" />
-              </span>
-            ))}
-          </div>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
 /* --- BIG FOOTER NAME (scroll-linked outline type) --- */
 export function FooterName() {
   const reduceMotion = useReducedMotion();
@@ -237,8 +173,7 @@ export function CustomCursor() {
       const isClickable =
         target.closest("a") !== null ||
         target.closest("button") !== null ||
-        target.closest(".hover-lift-container") !== null ||
-        target.closest(".project-detail-panel") !== null;
+        target.closest(".hover-lift-container") !== null;
 
       if (isClickable !== isHovering.current) {
         isHovering.current = isClickable;
@@ -416,13 +351,13 @@ export function PolyHero({ children }: { children: ReactNode }) {
             filter: rightFilter,
           }}
         >
-          <span className="hero-side-kicker">ML workflow</span>
-          <h2>От данных до работающего демо</h2>
+          <span className="hero-side-kicker">Risk workflow</span>
+          <h2>От рыночных данных до проверенной риск-метрики</h2>
           <p>
-            Учусь собирать ML-прототипы полностью: подготовка данных, обучение модели,
-            проверка метрик, разбор ошибок и аккуратный API для тестирования.
+            Собираю модели полностью: данные, оценка волатильности, расчёт VaR/ES,
+            бэктестинг и честный разбор того, где модель ошибается.
           </p>
-          <p>Фокус: NLP, PyTorch, Deep Learning, RAG и Audio ML.</p>
+          <p>Фокус: Quant Risk, кредитный скоринг, Python и ML.</p>
         </motion.aside>
 
         <motion.div className="scroll-hint" style={{ opacity: introHeaderOpacity }}>
@@ -434,34 +369,20 @@ export function PolyHero({ children }: { children: ReactNode }) {
 }
 
 
-/* --- VILMAR FERNANDES STYLE PROJECT SHOWCASE --- */
-type ProjectIconName =
-  | "fileText"
-  | "rows"
-  | "treeStructure"
-  | "waveform"
-  | "chartLine";
 
+/* --- PROJECT SHOWCASE (title left / description right, one scroll = one project) --- */
 type ProjectData = {
   title: string;
   status: string;
   text: string;
   stack: readonly string[];
-  icon: ProjectIconName;
 };
 
-const projectIcons = {
-  fileText: FileText,
-  rows: Rows,
-  treeStructure: TreeStructure,
-  waveform: Waveform,
-  chartLine: ChartLine,
-};
-
+const panelEase = [0.22, 1, 0.36, 1] as const;
 const smoothScrollSpring = { stiffness: 150, damping: 34, mass: 0.42 };
 const softOpacitySpring = { stiffness: 180, damping: 36, mass: 0.36 };
 
-export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
+export function ProjectShowcase({ items }: { items: readonly ProjectData[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -470,20 +391,60 @@ export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
     offset: ["start start", "end end"],
   });
 
+  // Discrete active index: each project owns an equal slice of the scroll range.
   useEffect(() => {
-    const handleScrollUpdate = (latest: number) => {
-      const maxIndex = items.length - 1;
-      const segment = 1 / items.length;
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
       const index = Math.min(
-        Math.max(Math.floor((latest + segment * 0.18) / segment), 0),
-        maxIndex
+        Math.max(Math.round(latest * (items.length - 1)), 0),
+        items.length - 1
       );
       setActiveIndex(index);
-    };
-
-    const unsubscribe = scrollYProgress.on("change", handleScrollUpdate);
+    });
     return () => unsubscribe();
   }, [scrollYProgress, items.length]);
+
+  // Lenis snap points: one viewport step per project, so a single scroll
+  // settles on the next/previous project (poly-block style).
+  useEffect(() => {
+    const container = containerRef.current;
+    const lenis = lenisRef.current;
+    if (!container || !lenis) return;
+    if (window.matchMedia("(max-width: 1024px)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const snap = new Snap(lenis, {
+      type: "proximity",
+      distanceThreshold: "62%",
+      duration: 0.78,
+      easing: (t: number) => 1 - Math.pow(1 - t, 4),
+      debounce: 160,
+    });
+
+    let removers: (() => void)[] = [];
+
+    function setPoints() {
+      removers.forEach((remove) => remove());
+      removers = [];
+      if (!container) return;
+      const top = container.getBoundingClientRect().top + window.scrollY;
+      const step =
+        (container.offsetHeight - window.innerHeight) / (items.length - 1);
+      for (let i = 0; i < items.length; i += 1) {
+        removers.push(snap.add(top + i * step));
+      }
+    }
+
+    setPoints();
+    window.addEventListener("resize", setPoints);
+
+    return () => {
+      window.removeEventListener("resize", setPoints);
+      removers.forEach((remove) => remove());
+      snap.destroy();
+    };
+  }, [items.length]);
+
+  const active = items[activeIndex];
 
   return (
     <div
@@ -492,200 +453,73 @@ export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
       style={{ "--project-count": items.length } as CSSProperties}
     >
       <div className="project-showcase-sticky">
-        <div className="project-left-sticky">
-          {items.map((item, idx) => {
-            const isActive = idx === activeIndex;
-            return (
-              <ProjectTitleItem
-                index={idx}
-                isActive={isActive}
-                item={item}
+        <div className="project-stage-left">
+          <span className="project-counter">
+            {String(activeIndex + 1).padStart(2, "0")}
+            <em>/ {String(items.length).padStart(2, "0")}</em>
+          </span>
+
+          <AnimatePresence mode="wait">
+            <motion.h3
+              animate={{ y: "0%", opacity: 1 }}
+              className="project-stage-title"
+              exit={{ y: "-46%", opacity: 0 }}
+              initial={{ y: "52%", opacity: 0 }}
+              key={active.title}
+              transition={{ duration: 0.52, ease: panelEase }}
+            >
+              {active.title}
+            </motion.h3>
+          </AnimatePresence>
+
+          <div className="project-progress" aria-hidden="true">
+            {items.map((item, index) => (
+              <span
+                className={index === activeIndex ? "is-active" : undefined}
                 key={item.title}
-                progress={scrollYProgress}
-                total={items.length}
               />
-            );
-          })}
+            ))}
+          </div>
         </div>
 
-        <div className="project-right-stage">
-          {items.map((item, index) => (
-            <ProjectDetailPanel
-              index={index}
-              item={item}
-              key={item.title}
-              progress={scrollYProgress}
-              total={items.length}
-            />
-          ))}
+        <div className="project-stage-right">
+          <AnimatePresence mode="wait">
+            <motion.div
+              animate={{ y: 0, opacity: 1 }}
+              className="project-stage-detail"
+              exit={{ y: -34, opacity: 0 }}
+              initial={{ y: 44, opacity: 0 }}
+              key={active.title}
+              transition={{ duration: 0.52, ease: panelEase, delay: 0.05 }}
+            >
+              <span className="project-stage-status">{active.status}</span>
+              <p>{active.text}</p>
+              <div className="stack-tags">
+                {active.stack.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
+      </div>
+
+      {/* Static fallback list for mobile / stacked layout */}
+      <div className="project-static-list">
+        {items.map((item) => (
+          <article className="project-static-item" key={item.title}>
+            <span className="project-stage-status">{item.status}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+            <div className="stack-tags">
+              {item.stack.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
+          </article>
+        ))}
       </div>
     </div>
-  );
-}
-
-function ProjectTitleItem({
-  index,
-  isActive,
-  item,
-  progress,
-  total,
-}: {
-  index: number;
-  isActive: boolean;
-  item: ProjectData;
-  progress: MotionValue<number>;
-  total: number;
-}) {
-  const step = 1 / total;
-  const titleGap = 168;
-  const inputRange: number[] = [];
-  const yRange: number[] = [];
-  const opacityRange: number[] = [];
-  const scaleRange: number[] = [];
-  const blurRange: number[] = [];
-
-  function addPoint(point: number, activeProjectIndex: number) {
-    const clampedPoint = Math.min(Math.max(point, 0), 1);
-    const distance = Math.abs(index - activeProjectIndex);
-
-    if (inputRange.length && clampedPoint <= inputRange[inputRange.length - 1]) {
-      return;
-    }
-
-    inputRange.push(clampedPoint);
-    yRange.push((index - activeProjectIndex) * titleGap);
-    opacityRange.push(distance === 0 ? 1 : distance === 1 ? 0.34 : 0.16);
-    scaleRange.push(distance === 0 ? 1 : 0.96);
-    blurRange.push(distance === 0 ? 0 : distance === 1 ? 5 : 8);
-  }
-
-  for (let projectIndex = 0; projectIndex < total; projectIndex += 1) {
-    const start = projectIndex * step;
-    const holdStart = projectIndex === 0 ? 0 : start + step * 0.08;
-    const holdEnd = start + step * 0.72;
-    const transitionEnd = start + step * 0.96;
-
-    addPoint(holdStart, projectIndex);
-    addPoint(holdEnd, projectIndex);
-
-    if (projectIndex < total - 1) {
-      addPoint(transitionEnd, projectIndex + 1);
-    }
-  }
-
-  const y = useTransform(progress, inputRange, yRange);
-  const opacity = useTransform(progress, inputRange, opacityRange);
-  const scale = useTransform(progress, inputRange, scaleRange);
-  const blurValue = useTransform(progress, inputRange, blurRange);
-  const smoothY = useSpring(y, smoothScrollSpring);
-  const smoothOpacity = useSpring(opacity, softOpacitySpring);
-  const smoothScale = useSpring(scale, smoothScrollSpring);
-  const smoothBlur = useSpring(blurValue, smoothScrollSpring);
-  const filter = useMotionTemplate`blur(${smoothBlur}px)`;
-
-  return (
-    <div className={isActive ? "project-title-slot is-active" : "project-title-slot"}>
-      <motion.button
-        className={isActive ? "project-title-item is-active" : "project-title-item"}
-        style={{ y: smoothY, opacity: smoothOpacity, scale: smoothScale, filter }}
-        type="button"
-      >
-        <span>{item.status}</span>
-        <strong>{item.title}</strong>
-      </motion.button>
-    </div>
-  );
-}
-
-function ProjectDetailPanel({
-  index,
-  item,
-  progress,
-  total,
-}: {
-  index: number;
-  item: ProjectData;
-  progress: MotionValue<number>;
-  total: number;
-}) {
-  const Icon = projectIcons[item.icon];
-  const reduceMotion = useReducedMotion();
-
-  const step = 1 / total;
-  const start = index * step;
-  const enterStart = start + step * 0.2;
-  const enterEnd = start + step * 0.38;
-  const holdEnd = start + step * 0.68;
-  const exitEnd = start + step * 0.86;
-
-  const isFirst = index === 0;
-  const isLast = index === total - 1;
-
-  let inputRange: number[];
-  let opacityRange: number[];
-  let yRange: number[];
-  let scaleRange: number[];
-  let blurRange: number[];
-
-  if (isFirst) {
-    inputRange = [0, enterStart, enterEnd, holdEnd, exitEnd];
-    opacityRange = [0, 0, 1, 1, 0];
-    yRange = [260, 260, 0, 0, -260];
-    scaleRange = [0.985, 0.985, 1, 1, 0.985];
-    blurRange = [14, 14, 0, 0, 14];
-  } else if (isLast) {
-    inputRange = [enterStart, enterEnd, 1];
-    opacityRange = [0, 1, 1];
-    yRange = [260, 0, 0];
-    scaleRange = [0.985, 1, 1];
-    blurRange = [14, 0, 0];
-  } else {
-    inputRange = [enterStart, enterEnd, holdEnd, exitEnd];
-    opacityRange = [0, 1, 1, 0];
-    yRange = [260, 0, 0, -260];
-    scaleRange = [0.985, 1, 1, 0.985];
-    blurRange = [14, 0, 0, 14];
-  }
-
-  const opacity = useTransform(progress, inputRange, opacityRange);
-  const y = useTransform(progress, inputRange, yRange);
-  const scale = useTransform(progress, inputRange, scaleRange);
-  const blurValue = useTransform(progress, inputRange, blurRange);
-  const smoothOpacity = useSpring(opacity, softOpacitySpring);
-  const smoothY = useSpring(y, smoothScrollSpring);
-  const smoothScale = useSpring(scale, smoothScrollSpring);
-  const smoothBlur = useSpring(blurValue, smoothScrollSpring);
-  const filter = useMotionTemplate`blur(${smoothBlur}px)`;
-
-  return (
-    <motion.article
-      className="project-detail-panel"
-      style={{ opacity: smoothOpacity, y: smoothY, scale: smoothScale, filter }}
-    >
-      <div className="project-row-top">
-        <motion.div
-          className="project-icon-motion"
-          initial={false}
-          animate={reduceMotion ? undefined : { rotate: [0, -5, 0], y: [0, -3, 0] }}
-          transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <Icon size={30} weight="duotone" />
-        </motion.div>
-        <span className="project-row-status">{item.status}</span>
-      </div>
-
-      <div className="project-row-body">
-        <h3>{item.title}</h3>
-        <p>{item.text}</p>
-
-        <div className="stack-tags">
-          {item.stack.map((tag) => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </div>
-      </div>
-    </motion.article>
   );
 }
 
