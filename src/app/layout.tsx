@@ -1,9 +1,9 @@
 ﻿import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Unbounded } from "next/font/google";
+import { Geist_Mono, Geologica, Golos_Text } from "next/font/google";
 import { Analytics } from '@vercel/analytics/next';
 import "./globals.css";
 
-const geistSans = Geist({
+const golosText = Golos_Text({
   variable: "--font-geist-sans",
   subsets: ["latin", "cyrillic"],
 });
@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin", "cyrillic"],
 });
 
-const unbounded = Unbounded({
+const geologica = Geologica({
   variable: "--font-display",
   subsets: ["latin", "cyrillic"],
 });
@@ -24,13 +24,13 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "JorDea - Junior ML/NLP Engineer",
+  title: "JorDea — ML Engineer",
   description:
-    "Портфолио JorDea: начинающий ML/NLP Engineer с фокусом на PyTorch, Deep Learning, RAG-системы и Audio ML.",
+    "Я JorDea — ML-инженер. Собираю прототипы с PyTorch, NLP, RAG и Audio ML и довожу их до работающих сервисов.",
   openGraph: {
-    title: "JorDea - Junior ML/NLP Engineer",
+    title: "JorDea — ML Engineer",
     description:
-      "Минималистичное портфолио про ML-прототипы для текста, последовательностей и аудиоданных.",
+      "ML-инженер: PyTorch, NLP, Transformers, RAG, Audio ML. От данных и обучения — до API и деплоя.",
     type: "website",
   },
 };
@@ -46,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${geistSans.variable} ${geistMono.variable} ${unbounded.variable}`} style={{ backgroundColor: "#000000" }}>
+    <html lang="ru" className={`${golosText.variable} ${geistMono.variable} ${geologica.variable}`} style={{ backgroundColor: "#000000" }}>
       <body>
         {children}
         <Analytics />

@@ -59,8 +59,84 @@ export function SmoothScroll() {
 
     frame = requestAnimationFrame(raf);
 
+    /* --- SCROLL SNAP: auto-complete pinned scene transitions --- */
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let idleTimer: ReturnType<typeof setTimeout> | undefined;
+    let snapping = false;
+
+    function findSnapTarget(scroll: number): number | null {
+      const vh = window.innerHeight;
+      const containers = document.querySelectorAll<HTMLElement>("[data-snap]");
+
+      for (const el of containers) {
+        const top = el.getBoundingClientRect().top + scroll;
+        const range = el.offsetHeight - vh;
+        if (range <= 0) continue;
+
+        const progress = (scroll - top) / range;
+        if (progress <= 0.005 || progress >= 0.995) continue;
+
+        const segments = Number(el.dataset.snap) || 1;
+        const candidates: number[] = [0, 1];
+        if (segments > 1) {
+          for (let i = 0; i < segments; i += 1) {
+            candidates.push((i + 0.5) / segments);
+          }
+        }
+
+        let best = candidates[0];
+        for (const point of candidates) {
+          if (Math.abs(point - progress) < Math.abs(best - progress)) {
+            best = point;
+          }
+        }
+
+        const target = top + best * range;
+        if (Math.abs(target - scroll) < 4) return null;
+        return target;
+      }
+
+      return null;
+    }
+
+    function scheduleSnap() {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        if (snapping || Math.abs(lenis.velocity) > 0.12) return;
+        const target = findSnapTarget(lenis.scroll);
+        if (target === null) return;
+
+        snapping = true;
+        lenis.scrollTo(target, {
+          duration: 0.9,
+          easing: (t: number) => 1 - Math.pow(1 - t, 3),
+          onComplete: () => {
+            snapping = false;
+          },
+        });
+      }, 220);
+    }
+
+    function cancelSnap() {
+      snapping = false;
+      if (idleTimer) clearTimeout(idleTimer);
+    }
+
+    function handleLenisScroll() {
+      if (!snapping) scheduleSnap();
+    }
+
+    if (!reduceMotion) {
+      lenis.on("scroll", handleLenisScroll);
+      window.addEventListener("wheel", cancelSnap, { passive: true });
+      window.addEventListener("touchstart", cancelSnap, { passive: true });
+    }
+
     return () => {
       cancelAnimationFrame(frame);
+      if (idleTimer) clearTimeout(idleTimer);
+      window.removeEventListener("wheel", cancelSnap);
+      window.removeEventListener("touchstart", cancelSnap);
       lenis.destroy();
     };
   }, []);
@@ -130,71 +206,6 @@ export function HeroEntrance({
     >
       {children}
     </motion.div>
-  );
-}
-
-/* --- VELOCITY MARQUEE (scroll-reactive ticker) --- */
-export function VelocityMarquee({ items }: { items: readonly string[] }) {
-  const reduceMotion = useReducedMotion();
-  const baseX = useMotionValue(0);
-  const { scrollY } = useScroll();
-  const lastScroll = useRef(0);
-  const velocityBoost = useRef(0);
-
-  useEffect(() => {
-    if (reduceMotion) return;
-
-    let frame = 0;
-    let lastTime = performance.now();
-
-    const unsubscribe = scrollY.on("change", (latest) => {
-      const delta = latest - lastScroll.current;
-      lastScroll.current = latest;
-      velocityBoost.current = Math.max(-1, Math.min(1, delta / 18));
-    });
-
-    function tick(now: number) {
-      const dt = Math.min((now - lastTime) / 1000, 0.05);
-      lastTime = now;
-
-      const speed = 4.2 * (1 + Math.abs(velocityBoost.current) * 5);
-      const direction = velocityBoost.current < 0 ? 1 : -1;
-      let next = baseX.get() + direction * speed * dt;
-
-      if (next <= -50) next += 50;
-      if (next > 0) next -= 50;
-      baseX.set(next);
-
-      velocityBoost.current *= 0.94;
-      frame = requestAnimationFrame(tick);
-    }
-
-    frame = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      unsubscribe();
-    };
-  }, [baseX, reduceMotion, scrollY]);
-
-  const x = useMotionTemplate`${baseX}%`;
-  const row = [...items, ...items];
-
-  return (
-    <div className="marquee-band" aria-hidden="true">
-      <motion.div className="marquee-track" style={reduceMotion ? undefined : { x }}>
-        {[0, 1].map((copy) => (
-          <div className="marquee-chunk" key={copy}>
-            {row.map((item, index) => (
-              <span className="marquee-item" key={`${copy}-${index}`}>
-                {item}
-                <span className="marquee-dot" />
-              </span>
-            ))}
-          </div>
-        ))}
-      </motion.div>
-    </div>
   );
 }
 
@@ -371,7 +382,7 @@ export function PolyHero({ children }: { children: ReactNode }) {
   const introHeaderOpacity = useTransform(scrollYProgress, [0, 0.32], [1, 0]);
   const introHeaderY = useTransform(scrollYProgress, [0, 0.34], [0, -132]);
   return (
-    <section ref={containerRef} className="hero-scroll-scene" id="home">
+    <section ref={containerRef} className="hero-scroll-scene" id="home" data-snap="1">
       <div className="hero-sticky-stage">
         <motion.header
           className="intro-header"
@@ -489,6 +500,7 @@ export function VilmarShowcase({ items }: { items: readonly ProjectData[] }) {
     <div
       ref={containerRef}
       className="project-showcase-container"
+      data-snap={items.length}
       style={{ "--project-count": items.length } as CSSProperties}
     >
       <div className="project-showcase-sticky">
@@ -717,7 +729,7 @@ export function PinnedFocus({ items }: { items: PinnedStatement[] }) {
   }
 
   return (
-    <section className="pinned-focus" ref={ref}>
+    <section className="pinned-focus" ref={ref} data-snap={items.length}>
       <div className="pinned-stage page-shell">
         {items.map((item, index) => (
           <PinnedFrame

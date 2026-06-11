@@ -106,8 +106,8 @@ p, h1, h2, h3 {
 
 h1, h2, h3 {
   font-family: var(--font-heading);
-  letter-spacing: -0.035em;
-  font-weight: 460;
+  letter-spacing: -0.025em;
+  font-weight: 560;
 }
 
 .page-shell {
@@ -1189,52 +1189,6 @@ h1, h2, h3 {
   display: inline-block;
   transform-origin: left bottom;
   will-change: transform;
-}
-
-/* --- VELOCITY MARQUEE --- */
-.marquee-band {
-  overflow: hidden;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: clamp(18px, 2.4vw, 30px) 0;
-  background: var(--bg-strong);
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-}
-
-.marquee-chunk {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(20px, 2.6vw, 40px);
-  padding-right: clamp(20px, 2.6vw, 40px);
-  font-family: var(--font-heading);
-  font-size: clamp(1.3rem, 2.4vw, 2.2rem);
-  font-weight: 380;
-  letter-spacing: -0.04em;
-  color: rgba(255, 255, 255, 0.34);
-  white-space: nowrap;
-  transition: color 260ms ease;
-}
-
-.marquee-band:hover .marquee-item {
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.marquee-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.22);
 }
 
 /* --- FOOTER NAME --- */
